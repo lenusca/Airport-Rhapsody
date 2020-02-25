@@ -4,24 +4,31 @@ public class Passenger{
     //atributos
     boolean isFinalDst = false;
     boolean success = false;
-    int numberofBags = 0;
+    int numberOfBags = 0;
 
     //construtor
-    public Passenger(int numberofBags){
-        this.numberofBags = numberofBags;
+    public Passenger(int numberOfBags){
+        this.numberOfBags = numberOfBags;
     }
 
     private void goHome() {
     }
 
-    private boolean whatShouldIDO() {
+    /* false-passageiros não terminam a viagem neste aeroporto, seguem para o cais de transferencias */
+    /* true-passageiros terminam a viagem neste aeroporto, vao buscar a bagagem se tiverem*/
+    private boolean whatShouldIDo() {
         return false;
     }
-
-    private boolean goCollectionBag() {
+    /*true-tem a mala*/
+    /*false-nao tem mala, seguem para o gabinete de reclamaçao*/
+    //vao pegar na mala
+    //baggage collection point
+    private boolean goCollectABag() {
         return false;
     }
-
+    
+    //ir para o gabinete de reclamaçao de bagagens
+    //baggage reclaim office
     private void reportMissingBags() {
     }
 
@@ -37,28 +44,25 @@ public class Passenger{
     private void takeABus() {
     }
 
-    public void LifeCycle(){
-        isFinalDst = whatShouldIDO();
+    public void lifeCycle(){
+        
+        isFinalDst = whatShouldIDo();
         //destino
         if(isFinalDst){
-            if(numberofBags == 0){
+            if(numberOfBags == 0){
                 goHome();
             }
             else{
-                for(int i = 0; i < numberofBags; i++ ){
-                    success = goCollectionBag();
-                    
+                for(int i = 0; i < numberOfBags; i++ ){
+                    success = goCollectABag();
                     if(!success){
                         break;
                     }
                 }
-
                 if(!success){
                     reportMissingBags();
                 }
-
                 goHome();
-
                
             }
         }
