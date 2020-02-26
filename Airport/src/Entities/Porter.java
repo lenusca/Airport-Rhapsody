@@ -1,9 +1,25 @@
-package app;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Entities;
 
-public class Porter{
-    
+import Monitors.BaggageCollection;
+import Monitors.TemporaryStorageArea;
+
+/**
+ *
+ * @author lenin
+ */
+public class Porter {
+    //Atributos
+    private TemporaryStorageArea tsa;
+    private int threadID;
     //construtor
-    public Porter(){
+    public Porter(int threadID, BaggageCollection bc, TemporaryStorageArea tsa){
+        this.tsa = tsa;
+        this.threadID = threadID;
 
     }
 
@@ -27,5 +43,4 @@ public class Porter{
             arrivalLounge.noMoreBagstoCollect();
         }
     }
-   
 }
