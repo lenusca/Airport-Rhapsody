@@ -94,7 +94,7 @@ public class Passenger {
             }
             else{
                 for(int i = 0; i < numberOfBags; i++ ){
-                    success = goCollectABag();
+                    success = bc.goCollectABag();
                     if(!success){
                         break;
                     }

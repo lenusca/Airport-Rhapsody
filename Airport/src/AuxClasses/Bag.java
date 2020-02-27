@@ -3,17 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Monitors;
+package AuxClasses;
 
-import AuxClasses.Bag;
+import Entities.Passenger;
 
 /**
  *
  * @author lenin
  */
-public class TemporaryStorageArea {
-
-    public void curryItToAppropriateStore(Bag bag) {
+public class Bag {
+    private Passenger p;
+    
+    public Bag(Passenger p){
+        this.p = p;
+    }
+    
+    public char getStatus() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

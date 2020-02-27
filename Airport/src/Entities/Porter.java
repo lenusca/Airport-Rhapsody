@@ -5,6 +5,8 @@
  */
 package Entities;
 
+import AuxClasses.Bag;
+import Monitors.ArrivalLounge;
 import Monitors.BaggageCollection;
 import Monitors.TemporaryStorageArea;
 
@@ -15,32 +17,36 @@ import Monitors.TemporaryStorageArea;
 public class Porter {
     //Atributos
     private TemporaryStorageArea tsa;
+    private BaggageCollection bc;
+    private ArrivalLounge al;
     private int threadID;
     //construtor
-    public Porter(int threadID, BaggageCollection bc, TemporaryStorageArea tsa){
+    public Porter(int threadID, BaggageCollection bc, TemporaryStorageArea tsa, ArrivalLounge al){
         this.tsa = tsa;
         this.threadID = threadID;
-
+        this.bc = bc;
+        this.al = al;
     }
-
+    // ArrivalLounge e TemporaryStorageArea são regiões onde são efetuadas as operações
     public void lifeCycle(){
         Bag bag;
         boolean planeOldEmpty;
-        //espera por um aviao
-        while(arrivalLounge.takeARest != 'E'){
-            boolean planeOldEmpty = false;
+        //espera por um aviao, enquanto não é para sair
+        while(al.takeARest != 'E'){
+            planeOldEmpty = false;
             
-            while(!arrivalLounge.planeOldEmpty){
-                bag = tryToCollectABag();
+            while(!planeOldEmpty){
+                bag = al.tryToCollectABag();
                 if(bag == null){
                     planeOldEmpty = true;
+                // Decidir em qual dos sitios se armazena a mala, T = transito    
                 }else if(bag.getStatus() == 'T'){
-                    TMPS.curryItToAppropriateStore(bag);
+                    tsa.curryItToAppropriateStore(bag);
                 }else{
-                    BCP.curryItToAppropriateStore(bag);
+                    bc.curryItToAppropriateStore(bag);
                 }
             }
-            arrivalLounge.noMoreBagstoCollect();
+            al.noMoreBagstoCollect();
         }
     }
 }

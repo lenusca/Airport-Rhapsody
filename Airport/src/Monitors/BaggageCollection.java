@@ -5,10 +5,20 @@
  */
 package Monitors;
 
+import AuxClasses.Bag;
+
 /**
  *
  * @author lenin
  */
 public class BaggageCollection {
+
+    public void curryItToAppropriateStore(Bag bag) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public boolean goCollectABag() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
