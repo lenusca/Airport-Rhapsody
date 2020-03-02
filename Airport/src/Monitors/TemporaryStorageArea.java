@@ -13,8 +13,8 @@ import AuxClasses.Bag;
  */
 public class TemporaryStorageArea {
 
-    public void curryItToAppropriateStore(Bag bag) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public synchronized void curryItToAppropriateStore(Bag bag) {
+        notifyAll();
     }
     
 }

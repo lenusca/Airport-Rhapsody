@@ -5,6 +5,7 @@
  */
 package Entities;
 
+import AuxClasses.Bag;
 import Monitors.ArrivalLounge;
 import Monitors.ArrivalTerminalExit;
 import Monitors.ArrivalTerminalTransfer;
@@ -16,12 +17,14 @@ import Monitors.GeneralRepository;
 import Monitors.TemporaryStorageArea;
 
 /**
- *
+ * Que terminam a sua viagem no aeroporto ou ainda continuam 
+ * em transito (seguir para outra viagemm)
  * @author lenin
  */
-public class Passenger {
+public class Passenger implements Runnable{
      //atributos
     private int id;
+    private Bag[] bag; //CONJUNTO DE MALAS?
     private boolean isFinalDst = false;
     private boolean success = false;
     private int numberOfBags = 0;
@@ -51,69 +54,38 @@ public class Passenger {
         
     }
 
-    private void goHome() {
-    }
-
-    /* false-passageiros não terminam a viagem neste aeroporto, seguem para o cais de transferencias */
-    /* true-passageiros terminam a viagem neste aeroporto, vao buscar a bagagem se tiverem*/
-    private boolean whatShouldIDo() {
-        return false;
-    }
-    /*true-tem a mala*/
-    /*false-nao tem mala, seguem para o gabinete de reclamaçao*/
-    //vao pegar na mala
-    //baggage collection point
-    private boolean goCollectABag() {
-        return false;
-    }
-    
-    //ir para o gabinete de reclamaçao de bagagens
-    //baggage reclaim office
-    private void reportMissingBags() {
-    }
-
-    private void prepareNextLeg() {
-    }
-
-    private void leaveTheBus() {
-    }
-
-    private void enterTheBus() {
-    }
-
-    private void takeABus() {
-    }
-
-    public void lifeCycle(){
-        
-        isFinalDst = whatShouldIDo();
-        //destino
+    /*LifeCycle*/
+    @Override
+    public void run() {
+        isFinalDst = al.whatShouldIDo();
+        /*DESTINO*/
         if(isFinalDst){
             if(numberOfBags == 0){
-                goHome();
+                ate.goHome();
             }
             else{
                 for(int i = 0; i < numberOfBags; i++ ){
+                   
                     success = bc.goCollectABag();
                     if(!success){
                         break;
                     }
                 }
+                /* Se perderem alguma mala, vão fazer queixa da mesma RECLAIM OFFICE
+                e só depois é que vão para ARRIVAL TERMINA EXIT*/
                 if(!success){
-                    reportMissingBags();
+                    bro.reportMissingBags();
                 }
-                goHome();
-               
+                /* Se tiverem as malas todas é que vão para ARRIVAL TERMINA EXIT*/
+                ate.goHome();
             }
         }
-        //em transito
+        /*TRANSITO*/
         else{
-            takeABus();
-            enterTheBus();
-            leaveTheBus();
-            prepareNextLeg();
+            att.takeABus();
+            att.enterTheBus();
+            dtt.leaveTheBus();
+            dte.prepareNextLeg();
         }
-
-        
     }
 }

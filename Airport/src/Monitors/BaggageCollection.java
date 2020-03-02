@@ -16,7 +16,9 @@ public class BaggageCollection {
     public void curryItToAppropriateStore(Bag bag) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    /*true- tem a mala*/
+    /*false- nao tem mala, seguem para o gabinete de reclamaçao*/
     public boolean goCollectABag() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

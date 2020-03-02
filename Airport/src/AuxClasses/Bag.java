@@ -17,6 +17,10 @@ public class Bag {
     public Bag(Passenger p){
         this.p = p;
     }
+
+    public Bag() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public char getStatus() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -10,5 +10,18 @@ package Monitors;
  * @author lenin
  */
 public class DepartureTerminalTransfer {
+
+    public synchronized void parkTheBusAndLetPassOff() {
+        notifyAll();
+    }
+
+
+    public void goToDepartureTerminal() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public synchronized void leaveTheBus() {
+        notifyAll();
+    }
     
 }

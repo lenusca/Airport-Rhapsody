@@ -10,5 +10,9 @@ package Monitors;
  * @author lenin
  */
 public class ArrivalTerminalExit {
+
+    public synchronized void goHome() {
+       notifyAll();
+    }
     
 }

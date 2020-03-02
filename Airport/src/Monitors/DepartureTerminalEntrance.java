@@ -10,5 +10,9 @@ package Monitors;
  * @author lenin
  */
 public class DepartureTerminalEntrance {
+
+    public synchronized void prepareNextLeg() {
+        notifyAll();
+    }
     
 }

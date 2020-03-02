@@ -10,5 +10,9 @@ package Monitors;
  * @author lenin
  */
 public class BaggageReclaimOffice {
+
+    public void reportMissingBags() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

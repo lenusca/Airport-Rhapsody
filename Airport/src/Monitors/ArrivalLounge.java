@@ -18,9 +18,19 @@ public class ArrivalLounge {
     public void noMoreBagstoCollect() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public Bag tryToCollectABag() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /*Carrega 1 mala de cada vez */
+    /*Adormecer os passageiros*/
+    public synchronized Bag tryToCollectABag() {
+        Bag x = new Bag();
+        notifyAll();
+        return x; 
+    }
+    
+    /* false-passageiros não terminam a viagem neste aeroporto, seguem para o cais de transferencias */
+    /* true-passageiros terminam a viagem neste aeroporto, vao buscar a bagagem se tiverem*/
+    public synchronized boolean whatShouldIDo() {
+        notifyAll();
+        return false;
     }
     
 }

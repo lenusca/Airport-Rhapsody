@@ -6,7 +6,13 @@
 package airport;
 
 /**
- *
+ * K aviões e N passageiros, em que cada passageiro tem 0 a M malas de bagagem
+ * no porão do avião. O autocarro, que leva os passageiros entre os terminais,
+ * tem capacidade T lugares
+ * K = 5 aviões
+ * N = 6 passageiros
+ * M = 2 malas
+ * T = 3 lugares no autocarro
  * @author lenin
  */
 public class Airport {

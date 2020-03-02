@@ -9,12 +9,13 @@ import Monitors.ArrivalTerminalTransfer;
 import Monitors.DepartureTerminalTransfer;
 
 /**
- *
+ * Quem leva os passageiros em trânsito entre a chegada e
+ * os terminais de partida
  * @author lenin
  */
-public class BusDriver {
+public class BusDriver implements Runnable{
     //atributos
-    private int capacity = 3;
+    private int capacity = 3, schedule = 5;
     private boolean hasDaysWorkEnded = false;
     private ArrivalTerminalTransfer att;
     private DepartureTerminalTransfer dtt;
@@ -25,10 +26,22 @@ public class BusDriver {
         this.threadID = threadID;
     }
     
-    
-    public void lifeCycle(){
-        while(!hasDaysWorkEnded){
-            
+    // vai acontecer no Terminal Transfer QUAY
+      @Override
+    public void run() {
+        int passengers = 0;
+        int schedule = 0;
+        while(!hasDaysWorkEnded || !announcingBusBoarding){
+            schedule++;
+            /*Se o autocarro estiver cheio ou for a hora de ir embora*/
+            /*Vai para Departure Terminal*/
+            if(passengers == capacity || this.schedule == schedule ){
+                dtt.goToDepartureTerminal();
+                dtt.parkTheBusAndLetPassOff();
+                att.goToArrivalTerminal();
+                att.parkTheBus();
+                
+            }
         }
     }
 }
