@@ -10,7 +10,8 @@ package Monitors;
  * @author lenin
  */
 public class DepartureTerminalTransfer {
-
+    
+    /*o busDriver acorda os passageiros, chegaram ao destino do autocarro*/
     public synchronized void parkTheBusAndLetPassOff() {
         notifyAll();
     }
@@ -20,6 +21,7 @@ public class DepartureTerminalTransfer {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /*os passageiros saem e o ultimo acorda o busDriver*/
     public synchronized void leaveTheBus() {
         notifyAll();
     }

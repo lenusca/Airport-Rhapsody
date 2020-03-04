@@ -4,12 +4,22 @@
  * and open the template in the editor.
  */
 package Monitors;
-
+import Entities.Passenger;
+import java.util.*;
 /**
  *
  * @author lenin
  */
 public class ArrivalTerminalTransfer {
+
+    private Queue<Integer> passengersBus = new LinkedList<>();
+    private int id=0;
+    private int n; //capaciadade do bus
+    
+    public ArrivalTerminalTransfer(int n) {
+        this.n=n;
+    }
+    
     /*O busdriver adormece*/
     public synchronized void parkTheBus() {
         try{
@@ -28,8 +38,14 @@ public class ArrivalTerminalTransfer {
         notifyAll();
     }
     /*No enunciado diz que o driver é acordado com o takeABus */
+    /**/
     public synchronized void takeABus() {
-        notifyAll();
+        id=id+1;
+        passengersBus.add(id);
+        if(id==this.n){
+           notifyAll(); 
+        } 
+        
     }
     
 }
