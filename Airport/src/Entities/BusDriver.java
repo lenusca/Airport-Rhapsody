@@ -15,33 +15,37 @@ import Monitors.DepartureTerminalTransfer;
  */
 public class BusDriver implements Runnable{
     //atributos
-    private int capacity = 3, schedule = 5;
-    private boolean hasDaysWorkEnded = false;
     private ArrivalTerminalTransfer att;
     private DepartureTerminalTransfer dtt;
     private int threadID;
     //construtor
     public BusDriver(boolean endWork, int threadID, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt){
-        this.hasDaysWorkEnded = endWork;
         this.threadID = threadID;
+    }
+    
+    private boolean hasDaysWorkEnded() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private boolean announcingBusBoarding() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     // vai acontecer no Terminal Transfer QUAY
       @Override
     public void run() {
-        int passengers = 0;
-        int schedule = 0;
-        while(!hasDaysWorkEnded || !announcingBusBoarding){
-            schedule++;
+        while(!hasDaysWorkEnded() || !announcingBusBoarding()){
             /*Se o autocarro estiver cheio ou for a hora de ir embora*/
             /*Vai para Departure Terminal*/
-            if(passengers == capacity || this.schedule == schedule ){
-                dtt.goToDepartureTerminal();
-                dtt.parkTheBusAndLetPassOff();
-                att.goToArrivalTerminal();
-                att.parkTheBus();
-                
-            }
+           
+            dtt.goToDepartureTerminal();
+            dtt.parkTheBusAndLetPassOff();
+            att.goToArrivalTerminal();
+            att.parkTheBus();
+
+            
         }
     }
+
+    
 }

@@ -37,17 +37,16 @@ public class Porter implements Runnable{
         /* a espera que um avião chegue */
         while(al.takeARest != 'E'){
             planeOldEmpty = false;
-            
-            while(!planeOldEmpty){
-                bag = al.tryToCollectABag();
-                if(bag == null){
-                    planeOldEmpty = true;
+            bag = al.tryToCollectABag();
+            while( bag != null){
+
                 /* Decidir em qual dos sitios se armazena a mala*/
                 /* Se for um passageiro em transito(T)deixa TEMPORARY STORAGE AREA */
                 /* Se for um passageiro já no destino deixa BAGGAGE COLLECTION POINT*/
-                }else if(bag.getStatus() == 'T'){
+                if(bag.getStatus() == 'T'){
                     tsa.curryItToAppropriateStore(bag);
-                }else{
+                }
+                else{
                     bc.curryItToAppropriateStore(bag);
                 }
             }

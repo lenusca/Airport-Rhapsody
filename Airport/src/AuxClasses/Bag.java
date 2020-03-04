@@ -23,7 +23,12 @@ public class Bag {
     }
     
     public char getStatus() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(p.status == 'T'){
+            return 'T';
+        }
+        else{
+            return 'E';
+        }
     }
     
 }

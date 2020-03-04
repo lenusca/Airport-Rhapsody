@@ -6,13 +6,14 @@
 package Monitors;
 
 import AuxClasses.Bag;
+import java.util.*;
 
 /**
  *
  * @author lenin
  */
 public class TemporaryStorageArea {
-
+    private LinkedList<Bag> bags = new LinkedList();
     public synchronized void curryItToAppropriateStore(Bag bag) {
         notifyAll();
     }

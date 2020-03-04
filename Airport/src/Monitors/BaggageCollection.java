@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Monitors;
-
+import java.util.*;
 import AuxClasses.Bag;
 
 /**
@@ -12,7 +12,8 @@ import AuxClasses.Bag;
  * @author lenin
  */
 public class BaggageCollection {
-
+    private LinkedList<Bag> bags = new LinkedList();
+    
     public void curryItToAppropriateStore(Bag bag) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
