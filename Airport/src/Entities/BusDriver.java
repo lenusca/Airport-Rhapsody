@@ -19,16 +19,19 @@ public class BusDriver implements Runnable{
     private DepartureTerminalTransfer dtt;
     private int threadID;
     //construtor
-    public BusDriver(boolean endWork, int threadID, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt){
+    public BusDriver(int threadID, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt){
         this.threadID = threadID;
     }
     
     private boolean hasDaysWorkEnded() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true; //To change body of generated methods, choose Tools | Templates.
     }
 
     private boolean announcingBusBoarding() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(int time=0; time<10; time++ ){
+            return false; 
+        }
+        return true;
     }
     
     // vai acontecer no Terminal Transfer QUAY

@@ -21,11 +21,11 @@ public class Porter implements Runnable{
     private TemporaryStorageArea tsa;
     private BaggageCollection bc;
     private ArrivalLounge al;
-    private int threadID;
+    private int id;
     //construtor
     public Porter(int threadID, BaggageCollection bc, TemporaryStorageArea tsa, ArrivalLounge al){
         this.tsa = tsa;
-        this.threadID = threadID;
+        this.id = threadID;
         this.bc = bc;
         this.al = al;
     }
@@ -35,7 +35,7 @@ public class Porter implements Runnable{
         Bag bag;
         boolean planeOldEmpty;
         /* a espera que um avião chegue */
-        while(al.takeARest != 'E'){
+        while(al.takeARest()){
             planeOldEmpty = false;
             bag = al.tryToCollectABag();
             while( bag != null){

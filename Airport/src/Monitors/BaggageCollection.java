@@ -15,13 +15,20 @@ public class BaggageCollection {
     private LinkedList<Bag> bags = new LinkedList();
     
     public void curryItToAppropriateStore(Bag bag) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        bags.add(bag);
+        notifyAll();
     }
     
     /*true- tem a mala*/
     /*false- nao tem mala, seguem para o gabinete de reclamaçao*/
-    public boolean goCollectABag() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean goCollectABag(int threadID) {
+        for(int i=0; i<bags.size(); i++){
+            if(bags.get(i).passenger.getId() == threadID){
+                bags.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
     
 }

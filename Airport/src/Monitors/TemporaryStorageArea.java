@@ -14,8 +14,9 @@ import java.util.*;
  */
 public class TemporaryStorageArea {
     private LinkedList<Bag> bags = new LinkedList();
-    public synchronized void curryItToAppropriateStore(Bag bag) {
-        notifyAll();
+    
+    public void curryItToAppropriateStore(Bag bag) {
+        bags.add(bag);
     }
     
 }

@@ -10,9 +10,12 @@ package Monitors;
  * @author lenin
  */
 public class ArrivalTerminalExit {
-
-    public synchronized void goHome() {
-       notifyAll();
+    
+    public synchronized void goHome(int threadID) {
+        if(threadID == 6){
+            notifyAll();
+        }
+       
     }
     
 }

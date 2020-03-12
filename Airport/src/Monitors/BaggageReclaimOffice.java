@@ -11,8 +11,8 @@ package Monitors;
  */
 public class BaggageReclaimOffice {
 
-    public void reportMissingBags() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void reportMissingBags(int id) {
+        System.out.println("Passenger "+id+" lost a bag");
     }
     
 }

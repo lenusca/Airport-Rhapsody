@@ -42,10 +42,8 @@ public class Passenger implements Runnable{
     public char status;
     
     //construtor
-    public Passenger(int threadID, int numberOfBags, ArrivalLounge al, BaggageCollection bc, GeneralRepository gr, TemporaryStorageArea tsa, BaggageReclaimOffice bro, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt, ArrivalTerminalExit ate, DepartureTerminalEntrance dte  ){
+    public Passenger(int threadID, ArrivalLounge al, BaggageCollection bc, GeneralRepository gr, TemporaryStorageArea tsa, BaggageReclaimOffice bro, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt, ArrivalTerminalExit ate, DepartureTerminalEntrance dte  ){
         this.id = threadID;
-        this.numberOfBags = numberOfBags;
-        
         this.al = al;
         this.bc = bc;
         this.gr = gr;
@@ -104,11 +102,8 @@ public class Passenger implements Runnable{
                   false - não perdeu
         
     */
-    public void setupPassanger(){
+    public boolean probLostBag(){
         Random rand = new Random();
-        String status = "TE";
-        this.numberOfBags = rand.nextInt(3);
-        this.status = status.charAt(rand.nextInt(2));
         int prob = rand.nextInt(100);
         if(prob > 10){
             this.lostBag = true;
@@ -116,22 +111,56 @@ public class Passenger implements Runnable{
         else{
             this.lostBag = false;
         }
+        return this.lostBag;
+    }
+    
+    public Passenger getPassenger(){
+       return new Passenger(this.id, this.al, this.bc, this.gr, this.tsa, this.bro, this.att, this.dtt, this.ate, this.dte);
+    }
+    
+    public void setupPassanger(){
+        Random rand = new Random();
+        String status = "TE";
+        this.numberOfBags = rand.nextInt(3);
+        this.status = status.charAt(rand.nextInt(2));
+        switch(numberOfBags){
+            case 0:
+                al.bags = al.bags;
+                break;
+            case 1:
+                /*Caso não se perca a mala, adiciona-se a nossa mala ao arrival lounge*/
+                if(!lostBag){
+                    Bag b = new Bag(this.getPassenger());
+                    al.bags.add(b);    
+                }
+                break;
+            case 2:
+               for(int i=0; i<2; i++){ 
+                if(!lostBag){
+                  Bag b = new Bag(this.getPassenger());
+                  al.bags.add(b);     
+                }
+               }
+               break;
+        }
+        
+        
     }
     /*LifeCycle*/
     @Override
     public void run() {
-        for(int i=0; i<5; i++){
+        for(int flight=0; flight<5; flight++){
             setupPassanger();
-            isFinalDst = al.whatShouldIDo();
+            isFinalDst = al.whatShouldIDo(this.status);
             /*DESTINO*/
             if(isFinalDst){
                 if(this.numberOfBags == 0){
-                    ate.goHome();
+                    ate.goHome(id);
                 }
                 else{
                     for(int j = 0; j < this.numberOfBags; j++ ){
 
-                        success = bc.goCollectABag();
+                        success = bc.goCollectABag(id);
 
                         if(!success){
                             break;
@@ -140,10 +169,10 @@ public class Passenger implements Runnable{
                     /* Se perderem alguma mala, vão fazer queixa da mesma RECLAIM OFFICE
                     e só depois é que vão para ARRIVAL TERMINA EXIT*/
                     if(!success){
-                        bro.reportMissingBags();
+                        bro.reportMissingBags(id);
                     }
                     /* Se tiverem as malas todas é que vão para ARRIVAL TERMINA EXIT*/
-                    ate.goHome();
+                    ate.goHome(id);
                 }
             }
             /*TRANSITO*/
@@ -151,13 +180,13 @@ public class Passenger implements Runnable{
                 att.takeABus();
                 att.enterTheBus();
                 dtt.leaveTheBus();
-                dte.prepareNextLeg();
+                dte.prepareNextLeg(id);
             }
         }
     }
 
-    private int Random(int i, int i0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
+
+   
         
 }

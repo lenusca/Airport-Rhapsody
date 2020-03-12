@@ -12,18 +12,14 @@ import Entities.Passenger;
  * @author lenin
  */
 public class Bag {
-    private Passenger p;
+    public Passenger passenger;
     
-    public Bag(Passenger p){
-        this.p = p;
-    }
-
-    public Bag() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Bag(Passenger passenger){
+        this.passenger = passenger;
     }
     
     public char getStatus() {
-        if(p.status == 'T'){
+        if(passenger.status == 'T'){
             return 'T';
         }
         else{

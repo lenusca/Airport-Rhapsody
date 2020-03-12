@@ -5,11 +5,21 @@
  */
 package Monitors;
 
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  *
  * @author lenin
  */
-public class DepartureTerminalTransfer {
+public class DepartureTerminalTransfer extends Thread{
+    /*Fila de passageiros dentro do autocarro*/
+    public Queue<Integer> passengersBus = new LinkedList<>();
+    
+    public DepartureTerminalTransfer(){
+        
+    }
     
     /*o busDriver acorda os passageiros, chegaram ao destino do autocarro*/
     public synchronized void parkTheBusAndLetPassOff() {
@@ -18,12 +28,19 @@ public class DepartureTerminalTransfer {
 
 
     public void goToDepartureTerminal() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Start the trip");
+        try{
+            sleep((long) (1+100*Math.random()));
+        }catch(InterruptedException e){};
+        
     }
 
     /*os passageiros saem e o ultimo acorda o busDriver*/
     public synchronized void leaveTheBus() {
-        notifyAll();
+        passengersBus.remove();
+        if(passengersBus.isEmpty()){
+            notifyAll();
+        }  
     }
     
 }

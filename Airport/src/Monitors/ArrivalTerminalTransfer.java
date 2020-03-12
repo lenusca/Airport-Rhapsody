@@ -13,11 +13,16 @@ import java.util.*;
 public class ArrivalTerminalTransfer {
 
     private Queue<Integer> passengersBus = new LinkedList<>();
-    private int id=0;
-    private int n; //capaciadade do bus
+    private int idPassenger=0;
+    private int busCapacity; //capaciadade do bus
+    public DepartureTerminalTransfer dtt = new DepartureTerminalTransfer();
     
     public ArrivalTerminalTransfer(int n) {
-        this.n=n;
+        this.busCapacity=n;
+    }
+
+    public ArrivalTerminalTransfer() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     /*O busdriver adormece*/
@@ -31,18 +36,23 @@ public class ArrivalTerminalTransfer {
     }
 
     public void goToArrivalTerminal() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("END TRIP");
     }
-
+    /**/
     public synchronized void enterTheBus() {
-        notifyAll();
+        
+        dtt.passengersBus.add(passengersBus.poll());
+        
+        if(passengersBus.size() == 0){
+            notifyAll();
+        }
     }
     /*No enunciado diz que o driver é acordado com o takeABus */
     /**/
     public synchronized void takeABus() {
-        id=id+1;
-        passengersBus.add(id);
-        if(id==this.n){
+        idPassenger=idPassenger+1;
+        passengersBus.add(idPassenger);
+        if(idPassenger == busCapacity){
            notifyAll(); 
         } 
         
