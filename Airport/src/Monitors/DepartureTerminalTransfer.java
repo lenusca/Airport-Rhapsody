@@ -15,7 +15,7 @@ import java.util.Queue;
  */
 public class DepartureTerminalTransfer extends Thread{
     /*Fila de passageiros dentro do autocarro*/
-    public Queue<Integer> passengersBus = new LinkedList<>();
+    public static Queue<Integer> passengersBus = new LinkedList();
     
     public DepartureTerminalTransfer(){
         
@@ -29,14 +29,16 @@ public class DepartureTerminalTransfer extends Thread{
 
     public void goToDepartureTerminal() {
         System.out.println("Start the trip");
-        try{
+        /*Com isto dá resultado diferente*/
+        /*try{
             sleep((long) (1+100*Math.random()));
-        }catch(InterruptedException e){};
+        }catch(InterruptedException e){};*/
         
     }
 
     /*os passageiros saem e o ultimo acorda o busDriver*/
     public synchronized void leaveTheBus() {
+        System.out.println("DTT:"+passengersBus);
         passengersBus.remove();
         if(passengersBus.isEmpty()){
             notifyAll();

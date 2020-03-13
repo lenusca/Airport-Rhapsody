@@ -47,7 +47,7 @@ public class Airport {
         BaggageCollection bc = new BaggageCollection();
         TemporaryStorageArea tsa = new TemporaryStorageArea();
         BaggageReclaimOffice bro = new BaggageReclaimOffice();
-        ArrivalTerminalTransfer att = new ArrivalTerminalTransfer();
+        ArrivalTerminalTransfer att = new ArrivalTerminalTransfer(nSeatingPlaces);
         DepartureTerminalTransfer dtt = new DepartureTerminalTransfer();
         ArrivalTerminalExit ate = new ArrivalTerminalExit();
         DepartureTerminalEntrance dte = new DepartureTerminalEntrance();
@@ -56,23 +56,26 @@ public class Airport {
         /*Arranque da simulação*/
         Thread []threads = new Thread[nPassengers + 1 + 1];
         for(int threadcount = 0; threadcount < nPassengers + 1 + 1; threadcount++){
+            
             if(threadcount < nPassengers){
                 Runnable passenger_runnable = new Passenger(threadcount, al, bc, gr, tsa, bro, att, dtt, ate, dte);
                 threads[threadcount] = new Thread(passenger_runnable);
                 threads[threadcount].start();
             }
+            /*Porter threadID = 6 */
             else if (threadcount < nPassengers + 1){
                 Runnable porter_runnable = new Porter(threadcount, bc, tsa, al);
                 threads[threadcount] = new Thread(porter_runnable);
                 threads[threadcount].start();
             }
+            /*BusDriver threadID = 7*/
             else{
                 Runnable busdriver_runnable = new BusDriver(threadcount, att, dtt);
                 threads[threadcount] = new Thread(busdriver_runnable);
                 threads[threadcount].start();
             }
         }
-        
+        System.out.println("AQUIIIIIII"+threads.length);
         /*Aguardar o fim da simulação*/
         for(int i = 0; i < threads.length; i++){
             try{

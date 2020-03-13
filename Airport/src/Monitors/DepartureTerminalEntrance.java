@@ -12,7 +12,7 @@ package Monitors;
 public class DepartureTerminalEntrance {
 
     public synchronized void prepareNextLeg(int threadID) {
-        if(threadID == 6){
+        if(threadID == 5){
             notifyAll();
         }
     }

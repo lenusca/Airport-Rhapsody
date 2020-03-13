@@ -30,6 +30,7 @@ public class ArrivalLounge {
         if(bags.isEmpty()){
            notifyAll();
         }
+        System.out.print("BAG:"+b);
         return b;
         
     }
@@ -56,6 +57,7 @@ public class ArrivalLounge {
 
     public synchronized boolean takeARest() {
         flight++;
+        System.out.println("VOO"+flight);
         if(flight == 5){
             try{
                 wait();

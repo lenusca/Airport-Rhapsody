@@ -12,7 +12,7 @@ package Monitors;
 public class ArrivalTerminalExit {
     
     public synchronized void goHome(int threadID) {
-        if(threadID == 6){
+        if(threadID == 5){
             notifyAll();
         }
        

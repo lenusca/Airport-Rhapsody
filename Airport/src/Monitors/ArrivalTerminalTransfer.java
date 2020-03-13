@@ -21,8 +21,8 @@ public class ArrivalTerminalTransfer {
         this.busCapacity=n;
     }
 
-    public ArrivalTerminalTransfer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Queue<Integer> getPassengersBus() {
+        return passengersBus;
     }
     
     /*O busdriver adormece*/
@@ -40,9 +40,9 @@ public class ArrivalTerminalTransfer {
     }
     /**/
     public synchronized void enterTheBus() {
-        
-        dtt.passengersBus.add(passengersBus.poll());
-        
+        System.out.println("ATT:" + passengersBus);
+        dtt.passengersBus.add(passengersBus.remove());
+                
         if(passengersBus.size() == 0){
             notifyAll();
         }
@@ -52,7 +52,9 @@ public class ArrivalTerminalTransfer {
     public synchronized void takeABus() {
         idPassenger=idPassenger+1;
         passengersBus.add(idPassenger);
+        System.out.println("PASSAGEIROS:"+passengersBus);
         if(idPassenger == busCapacity){
+           System.out.println("AQUI");
            notifyAll(); 
         } 
         
