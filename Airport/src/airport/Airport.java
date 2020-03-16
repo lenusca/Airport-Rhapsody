@@ -43,7 +43,7 @@ public class Airport {
         
         /*Monitors/Locals*/
         GeneralRepository gr = new GeneralRepository();
-        ArrivalLounge al = new ArrivalLounge();
+        ArrivalLounge al = new ArrivalLounge(nFlight, nPassengers);
         BaggageCollection bc = new BaggageCollection();
         TemporaryStorageArea tsa = new TemporaryStorageArea();
         BaggageReclaimOffice bro = new BaggageReclaimOffice();
@@ -58,24 +58,27 @@ public class Airport {
         for(int threadcount = 0; threadcount < nPassengers + 1 + 1; threadcount++){
             
             if(threadcount < nPassengers){
+                //System.out.println("Airport->ThreaID Passenger:"+threadcount);
                 Runnable passenger_runnable = new Passenger(threadcount, al, bc, gr, tsa, bro, att, dtt, ate, dte);
                 threads[threadcount] = new Thread(passenger_runnable);
                 threads[threadcount].start();
             }
             /*Porter threadID = 6 */
             else if (threadcount < nPassengers + 1){
+                System.out.println("Airport->ThreaID Porter:"+threadcount);
                 Runnable porter_runnable = new Porter(threadcount, bc, tsa, al);
                 threads[threadcount] = new Thread(porter_runnable);
                 threads[threadcount].start();
             }
             /*BusDriver threadID = 7*/
             else{
+                System.out.println("Airport->ThreaID BusDriver:"+threadcount);
                 Runnable busdriver_runnable = new BusDriver(threadcount, att, dtt);
                 threads[threadcount] = new Thread(busdriver_runnable);
                 threads[threadcount].start();
             }
         }
-        System.out.println("AQUIIIIIII"+threads.length);
+        System.out.println("Antes do join...Airport"+threads.length);
         /*Aguardar o fim da simulação*/
         for(int i = 0; i < threads.length; i++){
             try{

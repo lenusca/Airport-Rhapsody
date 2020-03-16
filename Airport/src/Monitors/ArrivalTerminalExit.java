@@ -12,8 +12,13 @@ package Monitors;
 public class ArrivalTerminalExit {
     
     public synchronized void goHome(int threadID) {
-        if(threadID == 5){
-            notifyAll();
+        while(threadID!=5){
+            try{
+                wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
+            }catch(InterruptedException e){}
+        }
+        if(threadID == 5){          //ultimo passageiro
+            notifyAll();            //acorda os outros passageiros
         }
        
     }

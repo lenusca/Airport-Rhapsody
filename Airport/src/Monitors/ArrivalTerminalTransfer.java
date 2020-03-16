@@ -17,8 +17,8 @@ public class ArrivalTerminalTransfer {
     private int busCapacity; //capaciadade do bus
     public DepartureTerminalTransfer dtt = new DepartureTerminalTransfer();
     
-    public ArrivalTerminalTransfer(int n) {
-        this.busCapacity=n;
+    public ArrivalTerminalTransfer(int busCapacity) {
+        this.busCapacity=busCapacity;
     }
 
     public Queue<Integer> getPassengersBus() {
@@ -40,7 +40,7 @@ public class ArrivalTerminalTransfer {
     }
     /**/
     public synchronized void enterTheBus() {
-        System.out.println("ATT:" + passengersBus);
+        System.out.println("ATT-enterTheBus() --> :" + passengersBus);
         dtt.passengersBus.add(passengersBus.remove());
                 
         if(passengersBus.size() == 0){
@@ -52,9 +52,9 @@ public class ArrivalTerminalTransfer {
     public synchronized void takeABus() {
         idPassenger=idPassenger+1;
         passengersBus.add(idPassenger);
-        System.out.println("PASSAGEIROS:"+passengersBus);
-        if(idPassenger == busCapacity){
-           System.out.println("AQUI");
+        System.out.println("ATT-takeABus() --> PASSAGEIROS:"+passengersBus);
+        if(idPassenger == this.busCapacity){
+           System.out.println("takeABus() --> passageiros suficientes para encher o bus");
            notifyAll(); 
         } 
         

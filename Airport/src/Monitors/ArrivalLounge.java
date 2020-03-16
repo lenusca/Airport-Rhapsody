@@ -16,21 +16,36 @@ import java.util.LinkedList;
 public class ArrivalLounge {
     private int countPassenger = 0;
     private int flight = 0;
-    public LinkedList<Bag> bags = new LinkedList();
-
+    private int numPassenger;
+    private int numFlight;
+    public LinkedList<Bag> bags = new LinkedList<>();
+    
+    public ArrivalLounge(int numFlight, int numPassenger){
+        this.numFlight = numFlight;
+        this.numPassenger = numPassenger;
+    }
+    /* Operação não há mais malas para retirar do avião (originada pelo PORTER )*/
     public synchronized void noMoreBagstoCollect() {
+        System.out.println("AL -> noMoreBagsToCollect");
+        while(bags.isEmpty()){
+            try{
+                wait();             //O porter fica aguardar pelo proximo avião
+            }catch(InterruptedException e){}
+        }
+        
         if(bags.isEmpty()){
-            notifyAll();
+            notifyAll();            //acorda os passageiros que não têm mala
         }
     }
     /*Carrega 1 mala de cada vez */
     /*Adormecer os passageiros*/
+    /*  @return a mala        */
     public synchronized Bag tryToCollectABag() { 
         Bag b = bags.pollFirst();
         if(bags.isEmpty()){
-           notifyAll();
+           notifyAll();            //acorda os passageiros que não têm mala
         }
-        System.out.print("BAG:"+b);
+        System.out.print("AL-tryToCollectABAG:"+b);
         return b;
         
     }
@@ -40,13 +55,12 @@ public class ArrivalLounge {
     /* Ultimo passageiro acorda o porter */
     public synchronized boolean whatShouldIDo(char status) {
         countPassenger++;
-        
-        if(countPassenger == 6){
-            notifyAll();
+        if(countPassenger == this.numPassenger){
+            System.out.println("WhatShouldIDo() --> WAKEN UP THE PORTER");
+            notifyAll();      //Acorda o Porter
         }
-        
         if(status == 'E' ){
-            return true;
+            return true;            
         }
         else{
             return false;
@@ -54,23 +68,23 @@ public class ArrivalLounge {
        
         
     }
-
+    /*espera por um aviao*/
+    /* dencansar - originada pelo porter
+    *    @return <li> true, descansa, o seu ciclo de vida chegou ao fim
+    *            <li> false, o seu ciclo ainda não chegou ao fim
+    */
     public synchronized boolean takeARest() {
-        flight++;
+        flight += 1;
         System.out.println("VOO"+flight);
-        if(flight == 5){
+        while(flight==this.numFlight){ //aguarda enquanto nao terminaram os voos
             try{
                 wait();
-            }catch(InterruptedException ex){
-                Thread.currentThread().interrupt();
+            }catch(InterruptedException e){
+                return true;
+                //Thread.currentThread().interrupt();
             }
-            return true;
         }
-        else{
-            return true;
-        }
-        
-        
+        return false;        
     }
     
 }

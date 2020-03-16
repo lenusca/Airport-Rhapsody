@@ -33,10 +33,14 @@ public class Porter implements Runnable{
     @Override
     public void run() {
         Bag bag;
-        boolean planeOldEmpty;
+        boolean planeOldEmpty; //??????????????''
         /* a espera que um avião chegue */
-        while(al.takeARest()){
-            planeOldEmpty = false;
+        boolean waitFlight = al.takeARest();
+        /*true-descansa
+        false-vai buscar as malas*/
+        while(!waitFlight){
+             System.out.println("PORTER COMEÇOU ATIVIDADE");
+            //planeOldEmpty = false;
             bag = al.tryToCollectABag();
             while( bag != null){
 
@@ -53,5 +57,6 @@ public class Porter implements Runnable{
             /*Já não há mais malas*/
             al.noMoreBagstoCollect();
         }
+        System.out.println("O porter "+this.id+" terminou o serviço");
     }
 }

@@ -129,14 +129,14 @@ public class Passenger implements Runnable{
                 break;
             case 1:
                 /*Caso não se perca a mala, adiciona-se a nossa mala ao arrival lounge*/
-                if(!lostBag){
+                if(!probLostBag()){
                     Bag b = new Bag(this.getPassenger());
                     al.bags.add(b);    
                 }
                 break;
             case 2:
                for(int i=0; i<2; i++){ 
-                if(!lostBag){
+                if(!probLostBag()){
                   Bag b = new Bag(this.getPassenger());
                   al.bags.add(b);     
                 }
@@ -151,6 +151,7 @@ public class Passenger implements Runnable{
     public void run() {
         for(int flight=0; flight<5; flight++){
             setupPassanger();
+            System.out.println(getStatus()+" passageiroID: "+getId()+" Bags: "+getNumberOfBags());
             isFinalDst = al.whatShouldIDo(this.status);
             /*DESTINO*/
             if(isFinalDst){

@@ -38,7 +38,7 @@ public class DepartureTerminalTransfer extends Thread{
 
     /*os passageiros saem e o ultimo acorda o busDriver*/
     public synchronized void leaveTheBus() {
-        System.out.println("DTT:"+passengersBus);
+        System.out.println("DTT--leaveTheBus():"+passengersBus);
         passengersBus.remove();
         if(passengersBus.isEmpty()){
             notifyAll();
