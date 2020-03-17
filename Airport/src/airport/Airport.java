@@ -17,6 +17,7 @@ import Monitors.DepartureTerminalEntrance;
 import Monitors.DepartureTerminalTransfer;
 import Monitors.GeneralRepository;
 import Monitors.TemporaryStorageArea;
+import genclass.GenericIO;
 
 /**
  * K aviões e N passageiros, em que cada passageiro tem 0 a M malas de bagagem
@@ -58,7 +59,6 @@ public class Airport {
         for(int threadcount = 0; threadcount < nPassengers + 1 + 1; threadcount++){
             
             if(threadcount < nPassengers){
-                //System.out.println("Airport->ThreaID Passenger:"+threadcount);
                 Runnable passenger_runnable = new Passenger(threadcount, al, bc, gr, tsa, bro, att, dtt, ate, dte);
                 threads[threadcount] = new Thread(passenger_runnable);
                 threads[threadcount].start();
@@ -78,6 +78,7 @@ public class Airport {
                 threads[threadcount].start();
             }
         }
+ 
         System.out.println("Antes do join...Airport"+threads.length);
         /*Aguardar o fim da simulação*/
         for(int i = 0; i < threads.length; i++){

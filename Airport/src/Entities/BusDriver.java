@@ -17,19 +17,21 @@ public class BusDriver implements Runnable{
     //atributos
     private ArrivalTerminalTransfer att;
     private DepartureTerminalTransfer dtt;
-    private int threadID;
+    private int id;
+    private int numFlight=5;
+    private int flight=0;
     //construtor
     public BusDriver(int threadID, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt){
-        this.threadID = threadID;
+        this.id = threadID;
     }
     
+    /*o dia de trabalho do motorista terminou
+        @return <li> true, o seu dia terminou
+                <li> false, o seu dia ainda não terminou
+    */
     private boolean hasDaysWorkEnded() {
-        return true; //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private boolean announcingBusBoarding() {
-        for(int time=0; time<10; time++ ){
-            return false; 
+        if(flight++!=this.numFlight){
+            return false;
         }
         return true;
     }
@@ -37,17 +39,18 @@ public class BusDriver implements Runnable{
     // vai acontecer no Terminal Transfer QUAY
       @Override
     public void run() {
-        while(!hasDaysWorkEnded() || !announcingBusBoarding()){
-            /*Se o autocarro estiver cheio ou for a hora de ir embora*/
-            /*Vai para Departure Terminal*/
-           
-            dtt.goToDepartureTerminal();
-            dtt.parkTheBusAndLetPassOff();
-            att.goToArrivalTerminal();
-            att.parkTheBus();
+        while(!hasDaysWorkEnded() || !att.announcingBusBoarding()){
+        /*Se o autocarro estiver cheio ou for a hora de ir embora*/
 
-            
+        /*Vai para Departure Terminal*/
+        att.goToDepartureTerminal();
+        dtt.parkTheBusAndLetPassOff();
+        dtt.goToArrivalTerminal();
+        att.parkTheBus();
         }
+        
+        System.out.println("O busDrive "+this.id+" terminou o serviço");
+        
     }
 
     

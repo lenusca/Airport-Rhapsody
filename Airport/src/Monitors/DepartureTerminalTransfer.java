@@ -27,15 +27,6 @@ public class DepartureTerminalTransfer extends Thread{
     }
 
 
-    public void goToDepartureTerminal() {
-        System.out.println("Start the trip");
-        /*Com isto dá resultado diferente*/
-        /*try{
-            sleep((long) (1+100*Math.random()));
-        }catch(InterruptedException e){};*/
-        
-    }
-
     /*os passageiros saem e o ultimo acorda o busDriver*/
     public synchronized void leaveTheBus() {
         System.out.println("DTT--leaveTheBus():"+passengersBus);
@@ -43,6 +34,14 @@ public class DepartureTerminalTransfer extends Thread{
         if(passengersBus.isEmpty()){
             notifyAll();
         }  
+    }
+    
+    /*volta do Departure Terminal Transfer para Arrival Terminal Transfer*/
+    public void goToArrivalTerminal() {
+        System.out.println("END TRIP");
+        try{
+            sleep((long) (1+100*Math.random()));
+        }catch(InterruptedException e){}
     }
     
 }
