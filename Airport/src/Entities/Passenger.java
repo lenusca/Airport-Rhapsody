@@ -122,8 +122,17 @@ public class Passenger implements Runnable{
         Random rand = new Random();
         String status = "TE";
         this.numberOfBags = rand.nextInt(3);
+        gr.nr[id] = numberOfBags;
         gr.numOfBags = gr.numOfBags + numberOfBags;
         this.status = status.charAt(rand.nextInt(2));
+        if(this.status == 'T'){
+            gr.si[this.id] = "TRT";
+        }
+        
+        else{
+            gr.si[this.id] = "FDT";
+        }
+        
         if(numberOfBags == 0){
             al.bags = al.bags;
         }
@@ -142,8 +151,9 @@ public class Passenger implements Runnable{
             }
         }
         
-        
+   
     }
+    
     /*LifeCycle*/
     @Override
     public void run() {

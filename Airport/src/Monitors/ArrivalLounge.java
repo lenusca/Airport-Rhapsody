@@ -6,6 +6,7 @@
 package Monitors;
 
 import AuxClasses.Bag;
+import Entities.Passenger;
 import java.util.LinkedList;
 
 
@@ -21,6 +22,7 @@ public class ArrivalLounge {
     public static LinkedList<Bag> bags = new LinkedList<>();
     // Repository
     GeneralRepository gr;
+    Passenger p;
     
     public ArrivalLounge(GeneralRepository gr, int numFlight, int numPassenger){
         this.gr = gr;
@@ -45,7 +47,6 @@ public class ArrivalLounge {
     /*  @return a mala        */
     public synchronized Bag tryToCollectABag() {
         gr.setPorterState("APLH");
-        gr.generateLog();
         gr.numOfBags = gr.numOfBags - 1; 
         Bag b = bags.pollFirst();
         if(bags.isEmpty()){

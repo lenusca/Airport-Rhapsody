@@ -39,6 +39,7 @@ public class BaggageCollection {
         }
         for(int i=0; i<bags.size(); i++){
             if(bags.get(i).passenger.getId() == threadID){
+                gr.na[threadID] = gr.na[threadID] + 1;
                 bags.remove(i);
                 gr.numOfBagsConveyor = gr.numOfBagsConveyor - 1;
                 return true;
