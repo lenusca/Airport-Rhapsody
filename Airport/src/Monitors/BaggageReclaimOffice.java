@@ -10,9 +10,15 @@ package Monitors;
  * @author lenin
  */
 public class BaggageReclaimOffice {
-
-    public void reportMissingBags(int id) {
-        System.out.println("Passenger "+id+" lost a bag");
+    public GeneralRepository gr;
+    
+    public BaggageReclaimOffice(GeneralRepository gr){
+        this.gr = gr;
+    }
+    
+    public void reportMissingBags(int threadID) {
+        //System.out.println("Passenger "+id+" lost a bag");
+        gr.setPassengerState("BRO", threadID);
     }
     
 }

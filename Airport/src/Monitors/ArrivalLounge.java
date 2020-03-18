@@ -15,12 +15,15 @@ import java.util.LinkedList;
  */
 public class ArrivalLounge {
     private int countPassenger = 0;
-    private int flight = 0;
+    private int flight = 1;
     private int numPassenger;
     private int numFlight;
-    public LinkedList<Bag> bags = new LinkedList<>();
+    public static LinkedList<Bag> bags = new LinkedList<>();
+    // Repository
+    GeneralRepository gr;
     
-    public ArrivalLounge(int numFlight, int numPassenger){
+    public ArrivalLounge(GeneralRepository gr, int numFlight, int numPassenger){
+        this.gr = gr;
         this.numFlight = numFlight;
         this.numPassenger = numPassenger;
     }
@@ -40,20 +43,24 @@ public class ArrivalLounge {
     /*Carrega 1 mala de cada vez */
     /*Adormecer os passageiros*/
     /*  @return a mala        */
-    public synchronized Bag tryToCollectABag() { 
+    public synchronized Bag tryToCollectABag() {
+        gr.setPorterState("APLH");
+        gr.generateLog();
+        gr.numOfBags = gr.numOfBags - 1; 
         Bag b = bags.pollFirst();
         if(bags.isEmpty()){
            notifyAll();            //acorda os passageiros que não têm mala
         }
         System.out.print("AL-tryToCollectABAG:"+b);
         return b;
-        
     }
     
     /* false-passageiros não terminam a viagem neste aeroporto, seguem para o cais de transferencias */
     /* true-passageiros terminam a viagem neste aeroporto, vao buscar a bagagem se tiverem*/
     /* Ultimo passageiro acorda o porter */
-    public synchronized boolean whatShouldIDo(char status) {
+    public synchronized boolean whatShouldIDo(char status, int threadID) {
+        //System.out.println(countPassenger);
+        gr.setPassengerState("WSD", threadID);
         countPassenger++;
         if(countPassenger == this.numPassenger){
             System.out.println("WhatShouldIDo() --> WAKEN UP THE PORTER");
@@ -74,8 +81,9 @@ public class ArrivalLounge {
     *            <li> false, o seu ciclo ainda não chegou ao fim
     */
     public synchronized boolean takeARest() {
-        flight += 1;
-        System.out.println("VOO"+flight);
+        System.out.println(flight);
+        gr.numFlight = flight;
+        
         while(flight==this.numFlight){ //aguarda enquanto nao terminaram os voos
             try{
                 wait();
@@ -84,7 +92,13 @@ public class ArrivalLounge {
                 //Thread.currentThread().interrupt();
             }
         }
-        return false;        
+        flight += 1;
+        return false;   
+        
+        
+        
     }
+    
+    
     
 }

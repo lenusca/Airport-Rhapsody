@@ -16,9 +16,10 @@ import java.util.Queue;
 public class DepartureTerminalTransfer extends Thread{
     /*Fila de passageiros dentro do autocarro*/
     public static Queue<Integer> passengersBus = new LinkedList();
+    public GeneralRepository gr;
     
-    public DepartureTerminalTransfer(){
-        
+    public DepartureTerminalTransfer(GeneralRepository gr){
+        this.gr = gr;
     }
     
     /*o busDriver acorda os passageiros, chegaram ao destino do autocarro*/
@@ -28,8 +29,8 @@ public class DepartureTerminalTransfer extends Thread{
 
 
     /*os passageiros saem e o ultimo acorda o busDriver*/
-    public synchronized void leaveTheBus() {
-        System.out.println("DTT--leaveTheBus():"+passengersBus);
+    public synchronized void leaveTheBus(int threadID) {
+        gr.setPassengerState("DTT", threadID);
         passengersBus.remove();
         if(passengersBus.isEmpty()){
             notifyAll();
@@ -38,10 +39,10 @@ public class DepartureTerminalTransfer extends Thread{
     
     /*volta do Departure Terminal Transfer para Arrival Terminal Transfer*/
     public void goToArrivalTerminal() {
-        System.out.println("END TRIP");
         try{
             sleep((long) (1+100*Math.random()));
         }catch(InterruptedException e){}
+        System.out.println("END TRIP");
     }
     
 }

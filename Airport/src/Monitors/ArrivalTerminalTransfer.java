@@ -15,10 +15,13 @@ public class ArrivalTerminalTransfer extends Thread{
     private Queue<Integer> passengersBus = new LinkedList<>();
     private int idPassenger=0;
     private int busCapacity; //capaciadade do bus
-    public DepartureTerminalTransfer dtt = new DepartureTerminalTransfer();
+    public GeneralRepository gr;
+    public DepartureTerminalTransfer dtt = new DepartureTerminalTransfer(gr);
     
-    public ArrivalTerminalTransfer(int busCapacity) {
+    
+    public ArrivalTerminalTransfer(int busCapacity, GeneralRepository gr) {
         this.busCapacity=busCapacity;
+        this.gr = gr;
     }
 
     public Queue<Integer> getPassengersBus() {
@@ -36,8 +39,8 @@ public class ArrivalTerminalTransfer extends Thread{
     }
     
     /*passageiros entram no autocarro*/
-    public synchronized void enterTheBus() {
-        System.out.println("ATT-enterTheBus() --> :" + passengersBus);
+    public synchronized void enterTheBus(int threadID) {
+        gr.setPassengerState("TRT", threadID);
         dtt.passengersBus.add(passengersBus.remove());       
         if(passengersBus.size() == 0){
             notifyAll();
@@ -45,27 +48,33 @@ public class ArrivalTerminalTransfer extends Thread{
     }
     /*No enunciado diz que o driver é acordado com o takeABus */
     /**/
-    public synchronized void takeABus() {
+    public synchronized void takeABus(int threadID) {
+        gr.setPassengerState("ATT", threadID);
         idPassenger=idPassenger+1;
         passengersBus.add(idPassenger);
-        System.out.println("ATT-takeABus() --> PASSAGEIROS:"+passengersBus);
-        try{
-            wait();                     //fica a espera de novos passageiros
-        }catch(InterruptedException e){
-            //Thread.currentThread().interrupt();
-        }
+       
         if(idPassenger == this.busCapacity){
            System.out.println("takeABus() --> passageiros suficientes para encher o bus");
            notifyAll(); 
-        }    
+        }
+        else{
+            try{
+                wait();                     //fica a espera de novos passageiros
+            }catch(InterruptedException e){
+                //Thread.currentThread().interrupt();
+            }
+        }
+        
+            
     }
     
     /*anucia que os passageiros podem entrar no autocarro (invocada pelo busDriver)
         @return <li> true, chegou a hora de partir ou o numero de passageiros é suficiente para encher o autocarro
                 <li> false, ainda nao chegou a hora ainda não há passageiros suficientes
     */
+    //ACHO QUE ESTA ESTA MAL
     public synchronized boolean announcingBusBoarding() {
-        for(int time=0; time<10; time++ ){
+        for(int time=0; time<2; time++ ){
             System.out.println("ATT-AnnouncingBusBoarding()--->>>CountUp do time para o bus sair!! -> "+time);
             if(this.busCapacity==passengersBus.size()){
                 break;
@@ -81,6 +90,7 @@ public class ArrivalTerminalTransfer extends Thread{
     
     /*vai para o departure terminal transfer*/
     public synchronized void goToDepartureTerminal() {
+        System.out.println("NUMERO DE PASSAGEIROS: " + passengersBus.size());
         while(passengersBus.size() != 0){
             try{
                 wait();                     //aguarda que os passageitos entrem no autocarro antes de partir

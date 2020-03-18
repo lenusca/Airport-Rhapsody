@@ -10,8 +10,13 @@ package Monitors;
  * @author lenin
  */
 public class DepartureTerminalEntrance {
-
+    public GeneralRepository gr;
+    public DepartureTerminalEntrance(GeneralRepository gr){
+        this.gr = gr;
+    }
+    
     public synchronized void prepareNextLeg(int threadID) {
+        gr.setPassengerState("EDT", threadID);
         while(threadID!=5){
             try{
                 wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro

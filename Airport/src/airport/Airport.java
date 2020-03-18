@@ -44,14 +44,14 @@ public class Airport {
         
         /*Monitors/Locals*/
         GeneralRepository gr = new GeneralRepository();
-        ArrivalLounge al = new ArrivalLounge(nFlight, nPassengers);
-        BaggageCollection bc = new BaggageCollection();
-        TemporaryStorageArea tsa = new TemporaryStorageArea();
-        BaggageReclaimOffice bro = new BaggageReclaimOffice();
-        ArrivalTerminalTransfer att = new ArrivalTerminalTransfer(nSeatingPlaces);
-        DepartureTerminalTransfer dtt = new DepartureTerminalTransfer();
-        ArrivalTerminalExit ate = new ArrivalTerminalExit();
-        DepartureTerminalEntrance dte = new DepartureTerminalEntrance();
+        ArrivalLounge al = new ArrivalLounge(gr, nFlight, nPassengers);
+        BaggageCollection bc = new BaggageCollection(gr);
+        TemporaryStorageArea tsa = new TemporaryStorageArea(gr);
+        BaggageReclaimOffice bro = new BaggageReclaimOffice(gr);
+        ArrivalTerminalTransfer att = new ArrivalTerminalTransfer(nSeatingPlaces, gr);
+        DepartureTerminalTransfer dtt = new DepartureTerminalTransfer(gr);
+        ArrivalTerminalExit ate = new ArrivalTerminalExit(gr);
+        DepartureTerminalEntrance dte = new DepartureTerminalEntrance(gr);
         
         /*tamanho do array = numero de passageiros + numero de porters + numero de bus driver*/
         /*Arranque da simulação*/
@@ -66,7 +66,7 @@ public class Airport {
             /*Porter threadID = 6 */
             else if (threadcount < nPassengers + 1){
                 System.out.println("Airport->ThreaID Porter:"+threadcount);
-                Runnable porter_runnable = new Porter(threadcount, bc, tsa, al);
+                Runnable porter_runnable = new Porter(threadcount, bc, tsa, al, gr);
                 threads[threadcount] = new Thread(porter_runnable);
                 threads[threadcount].start();
             }

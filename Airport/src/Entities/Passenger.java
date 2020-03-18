@@ -122,26 +122,24 @@ public class Passenger implements Runnable{
         Random rand = new Random();
         String status = "TE";
         this.numberOfBags = rand.nextInt(3);
+        gr.numOfBags = gr.numOfBags + numberOfBags;
         this.status = status.charAt(rand.nextInt(2));
-        switch(numberOfBags){
-            case 0:
-                al.bags = al.bags;
-                break;
-            case 1:
-                /*Caso não se perca a mala, adiciona-se a nossa mala ao arrival lounge*/
-                if(!probLostBag()){
-                    Bag b = new Bag(this.getPassenger());
-                    al.bags.add(b);    
-                }
-                break;
-            case 2:
-               for(int i=0; i<2; i++){ 
-                if(!probLostBag()){
+        if(numberOfBags == 0){
+            al.bags = al.bags;
+        }
+        else if(numberOfBags == 1){
+            if(probLostBag() == true){
+                Bag b = new Bag(this.getPassenger());
+                al.bags.add(b);    
+            }
+        }
+        else{
+            for(int i=0; i<2; i++){
+                if(probLostBag() == true){
                   Bag b = new Bag(this.getPassenger());
                   al.bags.add(b);     
                 }
-               }
-               break;
+            }
         }
         
         
@@ -150,9 +148,11 @@ public class Passenger implements Runnable{
     @Override
     public void run() {
         for(int flight=0; flight<5; flight++){
+            // AQUI DEU 3 viagens 
+            //System.out.println(flight);
             setupPassanger();
-            System.out.println(getStatus()+" passageiroID: "+getId()+" Bags: "+getNumberOfBags());
-            isFinalDst = al.whatShouldIDo(this.status);
+            //System.out.println(getStatus()+" passageiroID: "+getId()+" Bags: "+getNumberOfBags());
+            isFinalDst = al.whatShouldIDo(this.status, this.id);
             /*DESTINO*/
             if(isFinalDst){
                 if(this.numberOfBags == 0){
@@ -178,11 +178,12 @@ public class Passenger implements Runnable{
             }
             /*TRANSITO*/
             else{
-                att.takeABus();
-                att.enterTheBus();
-                dtt.leaveTheBus();
+                att.takeABus(id);
+                att.enterTheBus(id);
+                dtt.leaveTheBus(id);
                 dte.prepareNextLeg(id);
             }
+            gr.numOfBags = 0;
         }
     }
 

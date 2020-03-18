@@ -14,8 +14,15 @@ import java.util.*;
  */
 public class TemporaryStorageArea {
     private LinkedList<Bag> bags = new LinkedList();
+    private GeneralRepository gr;
+    
+    public TemporaryStorageArea(GeneralRepository gr){
+        this.gr = gr;
+    }
     
     public void curryItToAppropriateStore(Bag bag) {
+        gr.numOfBagsStoreroom = gr.numOfBagsStoreroom + 1;
+        gr.setPorterState("ASTR");
         bags.add(bag);
     }
     

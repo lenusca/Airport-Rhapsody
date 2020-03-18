@@ -8,6 +8,7 @@ import java.util.*;
 import AuxClasses.Bag;
 import Monitors.ArrivalLounge;
 import Monitors.BaggageCollection;
+import Monitors.GeneralRepository;
 import Monitors.TemporaryStorageArea;
 
 /**
@@ -21,26 +22,27 @@ public class Porter implements Runnable{
     private TemporaryStorageArea tsa;
     private BaggageCollection bc;
     private ArrivalLounge al;
+    private GeneralRepository gr;
     private int id;
     //construtor
-    public Porter(int threadID, BaggageCollection bc, TemporaryStorageArea tsa, ArrivalLounge al){
+    public Porter(int threadID, BaggageCollection bc, TemporaryStorageArea tsa, ArrivalLounge al, GeneralRepository gr){
         this.tsa = tsa;
         this.id = threadID;
         this.bc = bc;
         this.al = al;
+        this.gr = gr;
     }
     /*Lifecycle*/
     @Override
     public void run() {
         Bag bag;
-        boolean planeOldEmpty; //??????????????''
         /* a espera que um avião chegue */
         boolean waitFlight = al.takeARest();
         /*true-descansa
         false-vai buscar as malas*/
         while(!waitFlight){
-             System.out.println("PORTER COMEÇOU ATIVIDADE");
-            //planeOldEmpty = false;
+            System.out.println("PORTER COMEÇOU ATIVIDADE");
+            
             bag = al.tryToCollectABag();
             while( bag != null){
 
@@ -56,6 +58,8 @@ public class Porter implements Runnable{
             }
             /*Já não há mais malas*/
             al.noMoreBagstoCollect();
+            gr.numOfBagsStoreroom = 0;
+            gr.numOfBagsConveyor = 0;
         }
         System.out.println("O porter "+this.id+" terminou o serviço");
     }

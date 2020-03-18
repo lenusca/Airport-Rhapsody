@@ -10,8 +10,14 @@ package Monitors;
  * @author lenin
  */
 public class ArrivalTerminalExit {
+    public GeneralRepository gr;
+    
+    public ArrivalTerminalExit(GeneralRepository gr){
+        this.gr = gr;
+    }
     
     public synchronized void goHome(int threadID) {
+        gr.setPassengerState("EAT", threadID);
         while(threadID!=5){
             try{
                 wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
