@@ -20,11 +20,10 @@ public class BaggageCollection {
         this.gr = gr;
     }
     public synchronized void curryItToAppropriateStore(Bag bag) {
-        
         bags.add(bag);
         gr.numOfBagsConveyor = gr.numOfBagsConveyor + 1;
         gr.setPorterState("ALCB");
-        notifyAll();            //chegou malas ao tapete de recolha
+        notify();            //chegou malas ao tapete de recolha
     }
     
     /*true- tem a mala*/
@@ -39,7 +38,7 @@ public class BaggageCollection {
         }
         for(int i=0; i<bags.size(); i++){
             if(bags.get(i).passenger.getId() == threadID){
-                gr.na[threadID] = gr.na[threadID] + 1;
+                gr.na[threadID] = String.valueOf(Integer.parseInt(gr.na[threadID]) + 1);
                 bags.remove(i);
                 gr.numOfBagsConveyor = gr.numOfBagsConveyor - 1;
                 return true;

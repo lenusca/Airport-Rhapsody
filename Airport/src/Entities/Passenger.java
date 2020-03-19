@@ -39,7 +39,7 @@ public class Passenger implements Runnable{
     private DepartureTerminalTransfer dtt;
     private ArrivalTerminalExit ate;
     private DepartureTerminalEntrance dte;
-    public char status;
+    public static String status;
     
     //construtor
     public Passenger(int threadID, ArrivalLounge al, BaggageCollection bc, GeneralRepository gr, TemporaryStorageArea tsa, BaggageReclaimOffice bro, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt, ArrivalTerminalExit ate, DepartureTerminalEntrance dte  ){
@@ -72,7 +72,7 @@ public class Passenger implements Runnable{
         return numberOfBags;
     }
 
-    public char getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -92,7 +92,7 @@ public class Passenger implements Runnable{
         this.numberOfBags = numberOfBags;
     }
 
-    public void setStatus(char status) {
+    public void setStatus(String status) {
         this.status = status;
     }
     /*  numberOfBags : 0 a 2
@@ -105,7 +105,7 @@ public class Passenger implements Runnable{
     public boolean probLostBag(){
         Random rand = new Random();
         int prob = rand.nextInt(100);
-        if(prob > 10){
+        if(prob < 10){
             this.lostBag = true;
         }
         else{
@@ -120,33 +120,28 @@ public class Passenger implements Runnable{
     
     public void setupPassanger(){
         Random rand = new Random();
-        String status = "TE";
+        String[] status = {"TRF", "FDT"};
         this.numberOfBags = rand.nextInt(3);
-        gr.nr[id] = numberOfBags;
-        gr.numOfBags = gr.numOfBags + numberOfBags;
-        this.status = status.charAt(rand.nextInt(2));
-        if(this.status == 'T'){
-            gr.si[this.id] = "TRT";
-        }
         
-        else{
-            gr.si[this.id] = "FDT";
-        }
+        
+        this.status = status[rand.nextInt(2)];
         
         if(numberOfBags == 0){
             al.bags = al.bags;
         }
         else if(numberOfBags == 1){
-            if(probLostBag() == true){
+            if(probLostBag() != true){
                 Bag b = new Bag(this.getPassenger());
-                al.bags.add(b);    
+                al.bags.add(b);
+                gr.numOfBags = gr.numOfBags + 1;
             }
         }
         else{
             for(int i=0; i<2; i++){
-                if(probLostBag() == true){
+                if(probLostBag() != true){
                   Bag b = new Bag(this.getPassenger());
-                  al.bags.add(b);     
+                  al.bags.add(b);
+                  gr.numOfBags = gr.numOfBags + 1;
                 }
             }
         }
@@ -157,12 +152,12 @@ public class Passenger implements Runnable{
     /*LifeCycle*/
     @Override
     public void run() {
-        for(int flight=0; flight<5; flight++){
-            // AQUI DEU 3 viagens 
-            //System.out.println(flight);
+        
+        for(int flight = 0; flight<5; flight++){
+         
             setupPassanger();
             //System.out.println(getStatus()+" passageiroID: "+getId()+" Bags: "+getNumberOfBags());
-            isFinalDst = al.whatShouldIDo(this.status, this.id);
+            isFinalDst = al.whatShouldIDo(this.status, this.id, numberOfBags, flight+1);
             /*DESTINO*/
             if(isFinalDst){
                 if(this.numberOfBags == 0){

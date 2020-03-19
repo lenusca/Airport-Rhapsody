@@ -24,6 +24,7 @@ public class DepartureTerminalTransfer extends Thread{
     
     /*o busDriver acorda os passageiros, chegaram ao destino do autocarro*/
     public synchronized void parkTheBusAndLetPassOff() {
+        gr.setBusDriverState("PKDT");
         notifyAll();
     }
 
@@ -39,6 +40,7 @@ public class DepartureTerminalTransfer extends Thread{
     
     /*volta do Departure Terminal Transfer para Arrival Terminal Transfer*/
     public void goToArrivalTerminal() {
+        gr.setBusDriverState("DRBW");
         try{
             sleep((long) (1+100*Math.random()));
         }catch(InterruptedException e){}

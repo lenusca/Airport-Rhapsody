@@ -42,7 +42,7 @@ public class BusDriver implements Runnable{
       @Override
     public void run() {
       
-        while(!hasDaysWorkEnded() && !(att.announcingBusBoarding())){
+        while(!hasDaysWorkEnded() && (att.announcingBusBoarding())){
             /*Se o autocarro estiver cheio ou for a hora de ir embora*/
             /*Vai para Departure Terminal*/
             att.goToDepartureTerminal();

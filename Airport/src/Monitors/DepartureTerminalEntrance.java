@@ -11,19 +11,25 @@ package Monitors;
  */
 public class DepartureTerminalEntrance {
     public GeneralRepository gr;
+    public ArrivalLounge al = new ArrivalLounge(gr, 5, 6);
+    
     public DepartureTerminalEntrance(GeneralRepository gr){
         this.gr = gr;
     }
     
     public synchronized void prepareNextLeg(int threadID) {
         gr.setPassengerState("EDT", threadID);
-        while(threadID!=5){
-            try{
+        System.out.println("LEG "+al.passengersHome +  al.passengersLeg);
+        al.passengersLeg.poll();
+        System.out.println("LEG "+al.passengersHome +  al.passengersLeg);
+        if(al.passengersHome.isEmpty() && al.passengersLeg.isEmpty()){          //ultimo passageiro
+            notifyAll();            //acorda os outros passageiros
+        }
+        
+        else{         //ultimo passageiro
+             try{
                 wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
             }catch(InterruptedException e){}
-        }
-        if(threadID == 5){         //ultimo passageiro
-            notifyAll();           //acorda os outros passageiros
         }
     }
     

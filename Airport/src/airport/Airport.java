@@ -60,19 +60,18 @@ public class Airport {
             
             if(threadcount < nPassengers){
                 Runnable passenger_runnable = new Passenger(threadcount, al, bc, gr, tsa, bro, att, dtt, ate, dte);
+                
                 threads[threadcount] = new Thread(passenger_runnable);
                 threads[threadcount].start();
             }
             /*Porter threadID = 6 */
             else if (threadcount < nPassengers + 1){
-                System.out.println("Airport->ThreaID Porter:"+threadcount);
                 Runnable porter_runnable = new Porter(threadcount, bc, tsa, al, gr);
                 threads[threadcount] = new Thread(porter_runnable);
                 threads[threadcount].start();
             }
             /*BusDriver threadID = 7*/
             else{
-                System.out.println("Airport->ThreaID BusDriver:"+threadcount);
                 Runnable busdriver_runnable = new BusDriver(threadcount, att, dtt);
                 threads[threadcount] = new Thread(busdriver_runnable);
                 threads[threadcount].start();

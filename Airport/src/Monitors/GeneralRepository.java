@@ -47,9 +47,11 @@ public class GeneralRepository {
     // Passenger info
     private String[] st = new String[6]; // state of passenger # (# - 0 .. 5)
     public static String[] si = new String[6]; // situation of passenger # (# - 0 .. 5) – TRT (in transit) / FDT (has this airport as her final destination)
-    public static Integer[] nr = new Integer[6]; // number of pieces of luggage the passenger # (# - 0 .. 5) carried at the start of her journey
-    public static Integer[] na = new Integer[6]; // number of pieces of luggage the passenger # (# - 0 .. 5) she has presently collected
-    
+    public static String[] nr = new String[6]; // number of pieces of luggage the passenger # (# - 0 .. 5) carried at the start of her journey
+    public static String[] na = new String[6]; // number of pieces of luggage the passenger # (# - 0 .. 5) she has presently collected
+    // BusDriver info
+    public static String[] idPassengers = new String[6];
+    public static String[] s = new String[3]; 
     // Monitors Tates
     // ArrivalLounge
     public static int numFlight = 1;
@@ -86,7 +88,11 @@ public class GeneralRepository {
         }  
         // Initialization
         Arrays.fill(passenger_state, "---");
-        Arrays.fill(na, 0);
+        Arrays.fill(na, "-");
+        Arrays.fill(si, "---");
+        Arrays.fill(nr, "-");
+        Arrays.fill(idPassengers, "-");
+        Arrays.fill(s, "-");
    }
    
    public void generateLog(){
@@ -94,8 +100,9 @@ public class GeneralRepository {
          GenericIO.writelnString("Failed to create the file!");
          System.exit(1);
       } 
-     msg = String.format("%2d  %2d  "+porter_state+"\n"+passenger_state[0]+ " "+si[0]+" "+nr[0]+" "+na[0]+"\n               "+passenger_state[1]+ " "+si[1]+" "+nr[1]+" "+na[1]+"\n"+passenger_state[2]+ " "+si[2]+" "+nr[2]+" "+na[2]+"\n" 
-             +passenger_state[3]+ " "+si[3]+" "+nr[3]+" "+na[3]+"\n" +passenger_state[4]+ " "+si[4]+" "+nr[4]+" "+na[4]+"\n" +passenger_state[5]+ " "+si[5]+" "+nr[5]+" "+na[5]+"\n", numFlight, numOfBags);
+     msg = String.format("%2d  %2d  "+porter_state+ "%2d  %2d  "+busdriver_state+"   "+idPassengers[0]+"  "+idPassengers[1]+"  "+idPassengers[2]+"  "+idPassengers[3]+"  "+idPassengers[4]+"  "+idPassengers[5]+"   "+ s[0] 
+             +"  "+ s[1] +"  "+ s[2] +"\n"+passenger_state[0]+ " "+si[0]+"  "+nr[0]+"   "+na[0]+"  "+passenger_state[1]+ " "+si[1]+"  "+nr[1]+"   "+na[1]+"  "+passenger_state[2]+ " "+si[2]+"  "+nr[2]+"   "+na[2]+"  " 
+             +passenger_state[3]+ " "+si[3]+"  "+nr[3]+"   "+na[3]+"  "+passenger_state[4]+ " "+si[4]+"  "+nr[4]+"   "+na[4]+"  "+passenger_state[5]+ " "+si[5]+"  "+nr[5]+"   "+na[5]+" ", numFlight, numOfBags, numOfBagsConveyor, numOfBagsStoreroom);
      log.writelnString(msg);
      if(!log.close()){
          GenericIO.writelnString("I can't close the file");
@@ -104,7 +111,13 @@ public class GeneralRepository {
    }
    
     // Setters for states
-  
+   public synchronized void setPassengerSetup(String state, int threadID, String s_si, int s_nr){
+       si[threadID] = s_si;
+       nr[threadID] = String.valueOf(s_nr);
+       na[threadID] = "0";
+       passenger_state[threadID] = state;
+       generateLog();
+   }
    public synchronized void setPorterState(String state){
         porter_state = state;
         generateLog();
@@ -115,7 +128,7 @@ public class GeneralRepository {
         generateLog();
     }
     
-    public synchronized void setBusDriverState(String state, int threadID){
+    public synchronized void setBusDriverState(String state){
         busdriver_state = state;
         generateLog();
     }

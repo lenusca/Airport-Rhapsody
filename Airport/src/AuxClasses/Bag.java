@@ -18,12 +18,12 @@ public class Bag {
         this.passenger = passenger;
     }
     
-    public char getStatus() {
-        if(passenger.status == 'T'){
-            return 'T';
+    public String getStatus() {
+        if(passenger.status == "TRF"){
+            return "TRF";
         }
         else{
-            return 'E';
+            return "FDT";
         }
     }
     

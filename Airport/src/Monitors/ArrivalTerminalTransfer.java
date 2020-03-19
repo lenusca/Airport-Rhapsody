@@ -14,6 +14,7 @@ public class ArrivalTerminalTransfer extends Thread{
 
     private Queue<Integer> passengersBus = new LinkedList<>();
     private int idPassenger=0;
+    private static int count = 0;
     private int busCapacity; //capaciadade do bus
     public GeneralRepository gr;
     public DepartureTerminalTransfer dtt = new DepartureTerminalTransfer(gr);
@@ -30,6 +31,7 @@ public class ArrivalTerminalTransfer extends Thread{
     
     /*O busdriver adormece*/
     public synchronized void parkTheBus() {
+        gr.setBusDriverState("PKAT");
         try{
             wait();                     //fica a espera de novos passageiros
         }catch(InterruptedException e){
@@ -40,9 +42,13 @@ public class ArrivalTerminalTransfer extends Thread{
     
     /*passageiros entram no autocarro*/
     public synchronized void enterTheBus(int threadID) {
+        int passengerID = passengersBus.remove();
+        System.out.println(count);
+        gr.s[count] = String.valueOf(passengerID);
+        count = count + 1;
         gr.setPassengerState("TRT", threadID);
-        dtt.passengersBus.add(passengersBus.remove());       
-        System.out.println(passengersBus);
+        dtt.passengersBus.add(passengerID);       
+   
         if(passengersBus.size() == 0){
             notifyAll();
         }
@@ -53,14 +59,15 @@ public class ArrivalTerminalTransfer extends Thread{
                 //Thread.currentThread().interrupt();
             }
         }
+        
     }
     /*No enunciado diz que o driver é acordado com o takeABus */
     /**/
     public synchronized void takeABus(int threadID) {
+        gr.idPassengers[idPassenger] = String.valueOf(threadID);
         gr.setPassengerState("ATT", threadID);
         idPassenger=idPassenger+1;
-        passengersBus.add(idPassenger);
-       
+        passengersBus.add(threadID);
         if(idPassenger == this.busCapacity){
            System.out.println("takeABus() --> passageiros suficientes para encher o bus");
            notifyAll(); 
@@ -90,7 +97,7 @@ public class ArrivalTerminalTransfer extends Thread{
             try{
                 wait();             //O bus driver aguarda pela hora ou que chegue numero suficiente de
             }catch(InterruptedException e){}
-            return false;
+            
         }
         notifyAll();                    //avisa os passageiros para entrar
         return true;
@@ -99,12 +106,13 @@ public class ArrivalTerminalTransfer extends Thread{
     /*vai para o departure terminal transfer*/
     public synchronized void goToDepartureTerminal() {
         System.out.println("NUMERO DE PASSAGEIROS: " + passengersBus.size());
+        gr.setBusDriverState("DRFW");
         while(passengersBus.size() != 0){
             try{
                 wait();                     //aguarda que os passageitos entrem no autocarro antes de partir
             }catch(InterruptedException e){}
         }
-        System.out.println("Start the trip");
+        //System.out.println("Start the trip");
     }
 
 }
