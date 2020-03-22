@@ -14,37 +14,66 @@ import AuxClasses.Bag;
 public class BaggageCollection {
     private GeneralRepository gr;
     private LinkedList<Bag> bags = new LinkedList();
+    // FLAGS
+    //flag para avisar quando já não ha mais malas para recolher
+    private boolean allBagsAtColletionPoint = false;
+
      /*coloca a bagagem no tapete
        adiciona na linkedlist a bag*/
     public BaggageCollection(GeneralRepository gr){
         this.gr = gr;
     }
-    public synchronized void curryItToAppropriateStore(Bag bag) {
+    
+    public synchronized void curryItToAppropriateStore(Bag bag, boolean finish) {
+        this.allBagsAtColletionPoint = finish;
         bags.add(bag);
         gr.numOfBagsConveyor = gr.numOfBagsConveyor + 1;
         gr.setPorterState("ALCB");
-        notify();            //chegou malas ao tapete de recolha
+        notifyAll();            //chegou malas ao tapete de recolha
     }
-    
+   
     /*true- tem a mala*/
     /*false- nao tem mala, seguem para o gabinete de reclamaçao*/
     public synchronized boolean goCollectABag(int threadID) {
         gr.setPassengerState("LCP", threadID);
-        while(bags.isEmpty()){      //passageiro espera enquanto não há malas
+   
+        System.out.println("PORTER RECOLHEU TODAS AS MALAS: "+ allBagsAtColletionPoint);
+        boolean notfindBag = true;
+        System.out.println(bags);
+        while((bags.isEmpty() || (notfindBag = doesNotContainBag(threadID))) && !allBagsAtColletionPoint ){      //passageiro espera enquanto não há malas
             try{ 
                 wait();
             }
-            catch (InterruptedException e) {}
-        }
-        for(int i=0; i<bags.size(); i++){
-            if(bags.get(i).passenger.getId() == threadID){
-                gr.na[threadID] = String.valueOf(Integer.parseInt(gr.na[threadID]) + 1);
-                bags.remove(i);
-                gr.numOfBagsConveyor = gr.numOfBagsConveyor - 1;
-                return true;
+            catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
             }
         }
+        
+        if(!notfindBag){
+            return true;
+        }
+        System.out.print("PERDI A MALA");
         return false;
+        
+          
     }
+    
+    /* Função auxiliar
+    *    @return <li> true, se houver uma mala do passageiro
+    *            <li> false, se não houver nenhuma mala do passageiro
+    */
+    public synchronized boolean doesNotContainBag(int passengerID){
+        for(int i=0; i < bags.size(); i++){
+            if(bags.get(i).passenger.getId() == passengerID){
+                bags.remove(i);
+                gr.numOfBagsConveyor = gr.numOfBagsConveyor - 1;
+                gr.na[passengerID] = String.valueOf(Integer.parseInt(gr.na[passengerID]) + 1);
+               
+                return false;
+            }
+        }
+        return true;
+    }
+    
     
 }

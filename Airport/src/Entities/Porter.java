@@ -50,11 +50,16 @@ public class Porter implements Runnable{
                     tsa.curryItToAppropriateStore(bag);
                 }
                 else{
-                    bc.curryItToAppropriateStore(bag);
-                }
+                    if(al.bags.isEmpty()){
+                        bc.curryItToAppropriateStore(bag, true);
+                    }
+                    else{
+                        bc.curryItToAppropriateStore(bag, false);
+                    }
+                                    }
          
             }
-            System.out.println("PASSEI");
+
             /*Já não há mais malas*/
             al.noMoreBagstoCollect();
             gr.numOfBagsStoreroom = 0;

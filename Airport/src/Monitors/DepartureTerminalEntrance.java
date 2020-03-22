@@ -11,18 +11,15 @@ package Monitors;
  */
 public class DepartureTerminalEntrance {
     public GeneralRepository gr;
-    public ArrivalLounge al = new ArrivalLounge(gr, 5, 6);
     
     public DepartureTerminalEntrance(GeneralRepository gr){
         this.gr = gr;
     }
     
-    public synchronized void prepareNextLeg(int threadID) {
+    public synchronized void prepareNextLeg(int threadID, int count) {
         gr.setPassengerState("EDT", threadID);
-        System.out.println("LEG "+al.passengersHome +  al.passengersLeg);
-        al.passengersLeg.poll();
-        System.out.println("LEG "+al.passengersHome +  al.passengersLeg);
-        if(al.passengersHome.isEmpty() && al.passengersLeg.isEmpty()){          //ultimo passageiro
+        System.out.println("LEG: " + count);
+        if(count == 5){          //ultimo passageiro
             notifyAll();            //acorda os outros passageiros
         }
         

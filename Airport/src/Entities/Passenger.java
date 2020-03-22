@@ -30,6 +30,7 @@ public class Passenger implements Runnable{
     private boolean success = false;
     private boolean lostBag = false;
     private int numberOfBags = 0;
+    private static int count = 0;
     private ArrivalLounge al;
     private BaggageCollection bc;
     private GeneralRepository gr;
@@ -124,7 +125,7 @@ public class Passenger implements Runnable{
         this.numberOfBags = rand.nextInt(3);
         
         
-        this.status = status[rand.nextInt(2)];
+        this.status = status[1];
         
         if(numberOfBags == 0){
             al.bags = al.bags;
@@ -135,6 +136,7 @@ public class Passenger implements Runnable{
                 al.bags.add(b);
                 gr.numOfBags = gr.numOfBags + 1;
             }
+        
         }
         else{
             for(int i=0; i<2; i++){
@@ -143,6 +145,7 @@ public class Passenger implements Runnable{
                   al.bags.add(b);
                   gr.numOfBags = gr.numOfBags + 1;
                 }
+                
             }
         }
         
@@ -153,15 +156,15 @@ public class Passenger implements Runnable{
     @Override
     public void run() {
         
-        for(int flight = 0; flight<5; flight++){
-         
+        for(int flight = 0; flight<1; flight++){
+            count = 0;
             setupPassanger();
             //System.out.println(getStatus()+" passageiroID: "+getId()+" Bags: "+getNumberOfBags());
             isFinalDst = al.whatShouldIDo(this.status, this.id, numberOfBags, flight+1);
             /*DESTINO*/
             if(isFinalDst){
                 if(this.numberOfBags == 0){
-                    ate.goHome(id);
+                    ate.goHome(id, count++);
                 }
                 else{
                     for(int j = 0; j < this.numberOfBags; j++ ){
@@ -175,10 +178,11 @@ public class Passenger implements Runnable{
                     /* Se perderem alguma mala, vão fazer queixa da mesma RECLAIM OFFICE
                     e só depois é que vão para ARRIVAL TERMINA EXIT*/
                     if(!success){
+                        System.out.println("P "+id);
                         bro.reportMissingBags(id);
                     }
                     /* Se tiverem as malas todas é que vão para ARRIVAL TERMINA EXIT*/
-                    ate.goHome(id);
+                    ate.goHome(id, count++);
                 }
             }
             /*TRANSITO*/
@@ -186,7 +190,7 @@ public class Passenger implements Runnable{
                 att.takeABus(id);
                 att.enterTheBus(id);
                 dtt.leaveTheBus(id);
-                dte.prepareNextLeg(id);
+                dte.prepareNextLeg(id, count);
             }
             gr.numOfBags = 0;
         }

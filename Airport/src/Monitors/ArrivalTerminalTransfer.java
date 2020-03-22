@@ -89,7 +89,7 @@ public class ArrivalTerminalTransfer extends Thread{
     */
     //ACHO QUE ESTA ESTA MAL
     public synchronized boolean announcingBusBoarding() {
-        for(int time=0; time<1; time++ ){
+        for(int time=0; time<10; time++ ){
             System.out.println("ATT-AnnouncingBusBoarding()--->>>CountUp do time para o bus sair!! -> "+time);
             if(this.busCapacity==passengersBus.size()){
                 break;
