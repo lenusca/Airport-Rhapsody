@@ -50,7 +50,7 @@ public class Porter implements Runnable{
                     tsa.curryItToAppropriateStore(bag);
                 }
                 else{
-                    if(al.bags.isEmpty()){
+                    if(al.BagsEmpty()){
                         bc.curryItToAppropriateStore(bag, true);
                     }
                     else{

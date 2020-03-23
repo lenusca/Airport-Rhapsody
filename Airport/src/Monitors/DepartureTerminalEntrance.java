@@ -11,23 +11,35 @@ package Monitors;
  */
 public class DepartureTerminalEntrance {
     public GeneralRepository gr;
+    private int []idVoo = new int[5];
+    private int []count = new int[5];
     
     public DepartureTerminalEntrance(GeneralRepository gr){
         this.gr = gr;
     }
     
-    public synchronized void prepareNextLeg(int threadID, int count) {
+    public synchronized void prepareNextLeg(int threadID, int id) {
         gr.setPassengerState("EDT", threadID);
-        System.out.println("LEG: " + count);
-        if(count == 5){          //ultimo passageiro
-            notifyAll();            //acorda os outros passageiros
-        }
-        
-        else{         //ultimo passageiro
-             try{
-                wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
+        this.count[id] += 1; 
+  
+        while(count[id] != this.idVoo[id]){
+            System.out.println("thread: " + threadID + " count: " + count[id]);
+            try{
+               wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
             }catch(InterruptedException e){}
         }
+        System.out.println("thread: " + threadID + " count: " + count[id]);
+        //acorda os outros passageiros
+        if(count[id] == this.idVoo[id] && count[id] != 0){
+             notifyAll();
+            //gr.resetValues();
+        }  
+    }
+    
+    /*FUNCÃO AUXILIAR*/
+    /*PARA SABERMOS QUANTOS PASSAGEIROS TÊM DE VIR PARA ESTA SAIDA*/
+    public synchronized void nPassengers(int idVoo){
+        this.idVoo[idVoo] += 1;
     }
     
 }

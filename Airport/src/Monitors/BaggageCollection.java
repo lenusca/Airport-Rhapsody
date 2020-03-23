@@ -36,10 +36,7 @@ public class BaggageCollection {
     /*false- nao tem mala, seguem para o gabinete de reclamaçao*/
     public synchronized boolean goCollectABag(int threadID) {
         gr.setPassengerState("LCP", threadID);
-   
-        System.out.println("PORTER RECOLHEU TODAS AS MALAS: "+ allBagsAtColletionPoint);
         boolean notfindBag = true;
-        System.out.println(bags);
         while((bags.isEmpty() || (notfindBag = doesNotContainBag(threadID))) && !allBagsAtColletionPoint ){      //passageiro espera enquanto não há malas
             try{ 
                 wait();
@@ -52,7 +49,6 @@ public class BaggageCollection {
         if(!notfindBag){
             return true;
         }
-        System.out.print("PERDI A MALA");
         return false;
         
           
@@ -73,6 +69,11 @@ public class BaggageCollection {
             }
         }
         return true;
+    }
+    
+    /*Função auxiliar*/
+    public synchronized void resetValues(){
+        this.allBagsAtColletionPoint = false;
     }
     
     

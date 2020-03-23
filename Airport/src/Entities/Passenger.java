@@ -30,7 +30,6 @@ public class Passenger implements Runnable{
     private boolean success = false;
     private boolean lostBag = false;
     private int numberOfBags = 0;
-    private static int count = 0;
     private ArrivalLounge al;
     private BaggageCollection bc;
     private GeneralRepository gr;
@@ -106,7 +105,7 @@ public class Passenger implements Runnable{
     public boolean probLostBag(){
         Random rand = new Random();
         int prob = rand.nextInt(100);
-        if(prob < 10){
+        if(prob < 20){
             this.lostBag = true;
         }
         else{
@@ -119,52 +118,55 @@ public class Passenger implements Runnable{
        return new Passenger(this.id, this.al, this.bc, this.gr, this.tsa, this.bro, this.att, this.dtt, this.ate, this.dte);
     }
     
-    public void setupPassanger(){
+    public void setupPassanger(int idflight){
+
         Random rand = new Random();
         String[] status = {"TRF", "FDT"};
         this.numberOfBags = rand.nextInt(3);
         
-        
         this.status = status[1];
-        
-        if(numberOfBags == 0){
-            al.bags = al.bags;
+        if(this.status == "FDT"){
+            ate.nPassengers(idflight);
         }
-        else if(numberOfBags == 1){
-            if(probLostBag() != true){
-                Bag b = new Bag(this.getPassenger());
-                al.bags.add(b);
-                gr.numOfBags = gr.numOfBags + 1;
+        else{
+            dte.nPassengers(idflight);
+        }
+       
+        
+        Bag b = new Bag(this.getPassenger());
+        if(this.numberOfBags == 1){
+            if(!probLostBag()){
+                al.addBag(b);
             }
         
         }
-        else{
+        else if(this.numberOfBags == 2){
             for(int i=0; i<2; i++){
-                if(probLostBag() != true){
-                  Bag b = new Bag(this.getPassenger());
-                  al.bags.add(b);
-                  gr.numOfBags = gr.numOfBags + 1;
+                if(!probLostBag()){
+
+                    al.addBag(b);
                 }
                 
             }
         }
         
-   
+  
+        
     }
     
     /*LifeCycle*/
     @Override
     public void run() {
         
-        for(int flight = 0; flight<1; flight++){
-            count = 0;
-            setupPassanger();
-            //System.out.println(getStatus()+" passageiroID: "+getId()+" Bags: "+getNumberOfBags());
-            isFinalDst = al.whatShouldIDo(this.status, this.id, numberOfBags, flight+1);
+        for(int flight = 0; flight<5; flight++){        
+            bc.resetValues();
+            setupPassanger(flight);
+            isFinalDst = al.whatShouldIDo(this.status, this.id, this.numberOfBags, flight+1);
             /*DESTINO*/
             if(isFinalDst){
+
                 if(this.numberOfBags == 0){
-                    ate.goHome(id, count++);
+                    ate.goHome(id, flight);
                 }
                 else{
                     for(int j = 0; j < this.numberOfBags; j++ ){
@@ -182,7 +184,7 @@ public class Passenger implements Runnable{
                         bro.reportMissingBags(id);
                     }
                     /* Se tiverem as malas todas é que vão para ARRIVAL TERMINA EXIT*/
-                    ate.goHome(id, count++);
+                    ate.goHome(id, flight);
                 }
             }
             /*TRANSITO*/
@@ -190,9 +192,8 @@ public class Passenger implements Runnable{
                 att.takeABus(id);
                 att.enterTheBus(id);
                 dtt.leaveTheBus(id);
-                dte.prepareNextLeg(id, count);
+                dte.prepareNextLeg(id, flight);
             }
-            gr.numOfBags = 0;
         }
     }
 

@@ -133,6 +133,22 @@ public class GeneralRepository {
         generateLog();
     }
     
+    public synchronized void resetValues(){
+        // Initialization
+        Arrays.fill(passenger_state, "---");
+        Arrays.fill(na, "-");
+        Arrays.fill(si, "---");
+        Arrays.fill(nr, "-");
+        Arrays.fill(idPassengers, "-");
+        Arrays.fill(s, "-");
+        numOfBagsConveyor = 0;
+        numOfBags = 0;
+        numOfBagsStoreroom = 0;   
+    }
+    
+    public synchronized void numberBags(int numOfBags){
+        this.numOfBags = numOfBags;
+    }
     
     
 }
