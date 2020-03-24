@@ -27,30 +27,21 @@ public class BusDriver implements Runnable{
         this.dtt = dtt;
     }
     
-    /*o dia de trabalho do motorista terminou
-        @return <li> true, o seu dia terminou
-                <li> false, o seu dia ainda não terminou
-    */
-    private boolean hasDaysWorkEnded() {
-        if(flight++ != this.numFlight){;
-            return false;
-        }
-        return true;
-    }
-    
     // vai acontecer no Terminal Transfer QUAY
       @Override
     public void run() {
       
-        while(!hasDaysWorkEnded() && (att.announcingBusBoarding())){
+        while(!att.hasDaysWorkEnded(++flight)){
+           while(att.announcingBusBoarding()){
             /*Se o autocarro estiver cheio ou for a hora de ir embora*/
             /*Vai para Departure Terminal*/
             att.goToDepartureTerminal();
             dtt.parkTheBusAndLetPassOff();
             dtt.goToArrivalTerminal();
             att.parkTheBus();
-        }
         
+           }
+        }
         System.out.println("O busDrive "+this.id+" terminou o serviço");
         
     }

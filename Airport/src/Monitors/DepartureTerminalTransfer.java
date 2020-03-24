@@ -47,4 +47,29 @@ public class DepartureTerminalTransfer extends Thread{
         System.out.println("END TRIP");
     }
     
+    /*---------------------AUXILIAR METHODS-------------------------*/
+    // method to add a passenger in the linkedList
+    public void addPassenger(int threadID){ 
+        synchronized (passengersBus) {
+        // add an element and notify all that an element exists 
+       passengersBus.add(threadID);
+       System.out.println("Passageiro adicionado: "+threadID);
+       passengersBus.notifyAll();
+        
+      }
+    }
+    
+    // method used to remove a passenger from the queue
+    public void removePassenger(int threadID) {
+        synchronized (passengersBus) {
+            while (passengersBus.isEmpty()) {
+                try{
+                    passengersBus.wait();
+                }
+                catch(InterruptedException e){}
+            }
+            passengersBus.remove();
+        }
+    }
+    
 }
