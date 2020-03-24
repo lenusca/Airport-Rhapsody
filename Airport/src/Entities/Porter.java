@@ -40,7 +40,6 @@ public class Porter implements Runnable{
         /*true-descansa
         false-vai buscar as malas*/
         while(al.takeARest() != true){
-            System.out.println("PORTER COMEÇOU ATIVIDADE");
             
             while( (bag = al.tryToCollectABag()) != null){
                 /* Decidir em qual dos sitios se armazena a mala*/
