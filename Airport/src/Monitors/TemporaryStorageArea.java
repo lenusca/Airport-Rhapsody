@@ -20,10 +20,16 @@ public class TemporaryStorageArea {
         this.gr = gr;
     }
     
+    /**
+    *
+    * <p> Porter traz para Temporary Storage Area as malas dos passageiros que não têm como destino este aeroporto </p>
+    *    @param bag mala que vem do Arrival Lounge
+    *  
+    */
     public synchronized void curryItToAppropriateStore(Bag bag) {
-        gr.numOfBagsStoreroom = gr.numOfBagsStoreroom + 1;
-        gr.setPorterState("ASTR");
         bags.add(bag);
+        gr.numOfBagsStoreroom = gr.numOfBagsStoreroom + 1;
+        gr.setPorterState("ASTR");   
     }
     
 }

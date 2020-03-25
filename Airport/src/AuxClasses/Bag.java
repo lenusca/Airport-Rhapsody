@@ -18,6 +18,13 @@ public class Bag {
         this.passenger = passenger;
     }
     
+    /**
+    *
+    * <p> Retorna o status do dono desta mala, passageiro </p>
+    *    @return <p> TRF, se o destino do passageiro não for este aeroporto </p>
+    *            <p> FDT, se o destino do passageiro for este aeroporto </p>
+    *    
+    */
     public String getStatus() {
         if(passenger.status == "TRF"){
             return "TRF";

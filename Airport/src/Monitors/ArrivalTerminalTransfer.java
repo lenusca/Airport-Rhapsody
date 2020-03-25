@@ -92,15 +92,10 @@ public class ArrivalTerminalTransfer extends Thread{
                 <li> false, ainda nao chegou a hora ainda não há passageiros suficientes
     */
     public synchronized boolean announcingBusBoarding() {
-        for(int time=0; time<2; time++ ){
-            //System.out.println("ATT-AnnouncingBusBoarding()--->>>CountUp do time para o bus sair!! -> "+time);
-            if(this.busCapacity==passengersBus.size()){
-                break;
-            }
+        while(this.busCapacity != passengersBus.size()){
             try{
                 wait(500);             //O bus driver aguarda pela hora ou que chegue numero suficiente de
             }catch(InterruptedException e){}
-            
         }
         notifyAll();                    //avisa os passageiros para entrar
         return true;

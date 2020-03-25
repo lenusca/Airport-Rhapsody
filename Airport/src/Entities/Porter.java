@@ -55,7 +55,7 @@ public class Porter implements Runnable{
                     else{
                         bc.curryItToAppropriateStore(bag, false);
                     }
-                                    }
+                }
          
             }
 

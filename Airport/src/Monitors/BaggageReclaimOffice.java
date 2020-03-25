@@ -16,8 +16,12 @@ public class BaggageReclaimOffice {
         this.gr = gr;
     }
     
+    /**
+    *
+    * <p> É no Baggage Reclaim Office que os que os passageiros que perderam a mala, vão reclamar </p>
+    *    @param threadID threadID do passageiro
+    */
     public void reportMissingBags(int threadID) {
-        //System.out.println("Passenger "+id+" lost a bag");
         gr.setPassengerState("BRO", threadID);
     }
     
