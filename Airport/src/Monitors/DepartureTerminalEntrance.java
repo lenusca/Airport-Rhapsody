@@ -18,6 +18,13 @@ public class DepartureTerminalEntrance {
         this.gr = gr;
     }
     
+    /**
+    *
+    * <p> Passageiro que o destino não é este aeroporto, têm como ponto saida o Departure Terminal Entrance. Quando um passageiro chega ao Departure Terminal Entrance fica a espera que cheguem todos os passageiros às saidas Arrival Terminal Exit e Departure Terminal Entrance. Quando chegam são todos acordados e vão para um novo voo ou terminam </p>
+    *    @param threadID threadID do passageiro
+    *    @param id id do voo
+    *    @see ArrivalTerminalExit
+    */
     public synchronized void prepareNextLeg(int threadID, int id) {
         gr.setPassengerState("EDT", threadID);
         this.count[id] += 1; 
@@ -36,8 +43,11 @@ public class DepartureTerminalEntrance {
         }  
     }
     
-    /*FUNCÃO AUXILIAR*/
-    /*PARA SABERMOS QUANTOS PASSAGEIROS TÊM DE VIR PARA ESTA SAIDA*/
+    /**
+    *
+    * <p> Conta o numero de passageiros que pretendem terminar o voo no Departure Terminal Entrance </p>
+    *    @param idVoo id do voo
+    */
     public synchronized void nPassengers(int idVoo){
         this.idVoo[idVoo] += 1;
     }

@@ -18,12 +18,16 @@ public class BaggageCollection {
     //flag para avisar quando já não ha mais malas para recolher
     private boolean allBagsAtColletionPoint = false;
 
-     /*coloca a bagagem no tapete
-       adiciona na linkedlist a bag*/
     public BaggageCollection(GeneralRepository gr){
         this.gr = gr;
     }
     
+    /**
+    *
+    * <p> Porter traz para Baggage Collection as malas dos passageiros que têm como destino este aeroporto </p>
+    *    @param bag mala que vem do Arrival Lounge
+    *    @param finish já acabou a recolha de todas as malas
+    */
     public synchronized void curryItToAppropriateStore(Bag bag, boolean finish) {
         this.allBagsAtColletionPoint = finish;
         bags.add(bag);
@@ -31,9 +35,14 @@ public class BaggageCollection {
         gr.setPorterState("ALCB");
         notifyAll();            //chegou malas ao tapete de recolha
     }
-   
-    /*true- tem a mala*/
-    /*false- nao tem mala, seguem para o gabinete de reclamaçao*/
+    
+   /**
+    *
+    * <p> Passageiro vai buscar a sua mala </p>
+    *    @param threadID threadID do passageiro
+    *    @return <p> true, se encontrou a sua mala </p>
+    *            <p> false, se não encontrou a sua mala e segue para o gabinete de reclamação </p>
+    */
     public synchronized boolean goCollectABag(int threadID) {
         gr.setPassengerState("LCP", threadID);
         boolean notfindBag = true;
@@ -54,9 +63,12 @@ public class BaggageCollection {
           
     }
     
-    /* Função auxiliar
-    *    @return <li> true, se houver uma mala do passageiro
-    *            <li> false, se não houver nenhuma mala do passageiro
+    /**
+    *
+    * <p> Verifica se a mala do passageiro encontra-se nas malas que chegaram ao Baggage Collection Point </p>
+    *    @param passengerID threadID do passageiro
+    *    @return <p> true, se houver uma mala do passageiro </p>
+    *            <p> false, se não houver a mala do passageiro </p>
     */
     public synchronized boolean doesNotContainBag(int passengerID){
         for(int i=0; i < bags.size(); i++){
@@ -71,10 +83,12 @@ public class BaggageCollection {
         return true;
     }
     
-    /*Função auxiliar*/
+    /**
+    *
+    * <p> Coloca a flag de verificar se todas as malas já foram recolhidas a falso </p>
+    *    
+    */
     public synchronized void resetValues(){
         this.allBagsAtColletionPoint = false;
     }
-    
-    
 }

@@ -25,16 +25,13 @@ public class ArrivalLounge {
     // Repository
     GeneralRepository gr;
     
-    
+
     public ArrivalLounge(GeneralRepository gr, int numFlight, int numPassenger){
         this.gr = gr;
         this.numFlight = numFlight;
         this.numPassenger = numPassenger;
     }
     
-    /* false- */
-    /* true-*/
-    /* Ultimo passageiro acorda o porter */
     /**
     *
     * <p> Ultimo passageiro a chegar ao Arrival Lounge acorda o porter, para este começar na sua recolha de malas. Existem dois tipos de passageiros: o que termina a viagem neste aeroporto e o que segue para o cais de transferência</p>

@@ -19,6 +19,13 @@ public class ArrivalTerminalExit {
         this.gr = gr;
     }
     
+    /**
+    *
+    * <p> Passageiro que o destino é este aeroporto, têm como ponto saida o Arrival Terminal Exit. Quando um passageiro chega ao Arrival Terminal Exit fica a espera que cheguem todos os passageiros às saidas Arrival Terminal Exit e Departure Terminal Entrance. Quando chegam são todos acordados e vão para um novo voo ou terminam</p>
+    *    @param threadID threadID do passageiro
+    *    @param id id do voo
+    *    @see DepartureTerminalEntrance
+    */
     public synchronized void goHome(int threadID, int id) {
         gr.setPassengerState("EAT", threadID);
        
@@ -40,8 +47,11 @@ public class ArrivalTerminalExit {
         
     }
     
-    /*FUNCÃO AUXILIAR*/
-    /*PARA SABERMOS QUANTOS PASSAGEIROS TÊM DE VIR PARA ESTA SAIDA*/
+     /**
+    *
+    * <p> Conta o numero de passageiros que pretendem terminar o voo no Arrivel Terminal Exit </p>
+    *    @param idVoo id do voo
+    */
     public synchronized void nPassengers(int idVoo){
         this.idVoo[idVoo] += 1;
     }
