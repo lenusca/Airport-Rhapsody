@@ -39,12 +39,9 @@ public class ArrivalTerminalExit {
         }
         System.out.println("thread: " + threadID + " count: " + count[id]);
         //acorda os outros passageiros
-        if(count[id] == this.idVoo[id] && count[id] != 0){
+        if(count[id] == this.idVoo[id]){
              notifyAll();
-            //gr.resetValues();
-        }    
-        
-        
+        }     
     }
     
      /**

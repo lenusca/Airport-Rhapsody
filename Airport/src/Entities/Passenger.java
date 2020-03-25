@@ -125,11 +125,14 @@ public class Passenger implements Runnable{
         this.numberOfBags = rand.nextInt(3);
         
         this.status = status[1];
+        
         if(this.status == "FDT"){
             ate.nPassengers(idflight);
+            gr.numFDT();
         }
         else{
             dte.nPassengers(idflight);
+            gr.numTRF();
         }
        
         
@@ -138,20 +141,21 @@ public class Passenger implements Runnable{
             if(!probLostBag()){
                 al.addBag(b);
             }
-        
+            else{
+                gr.lostBagTotal();
+            }    
         }
         else if(this.numberOfBags == 2){
             for(int i=0; i<2; i++){
                 if(!probLostBag()){
-
                     al.addBag(b);
+                }
+                else{
+                    gr.lostBagTotal();
                 }
                 
             }
-        }
-        
-  
-        
+        }      
     }
     
     /*LifeCycle*/

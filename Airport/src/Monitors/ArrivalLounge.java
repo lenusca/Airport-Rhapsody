@@ -75,7 +75,7 @@ public class ArrivalLounge {
     public synchronized Bag tryToCollectABag() {
         gr.setPorterState("APLH");         
         Bag b = bags.pollFirst();
-        gr.numberBags(bags.size());
+        gr.numBags(bags.size());
         return b;
     }
     
@@ -126,7 +126,7 @@ public class ArrivalLounge {
     */
     public synchronized void addBag(Bag bag){
         this.bags.add(bag);
-        gr.numOfBags = gr.numOfBags + 1;
+        gr.bagTotal();
     }
     
     /** 

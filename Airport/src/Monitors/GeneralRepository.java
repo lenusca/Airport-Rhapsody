@@ -49,13 +49,17 @@ public class GeneralRepository {
     public static String[] si = new String[6]; // situation of passenger # (# - 0 .. 5) – TRT (in transit) / FDT (has this airport as her final destination)
     public static String[] nr = new String[6]; // number of pieces of luggage the passenger # (# - 0 .. 5) carried at the start of her journey
     public static String[] na = new String[6]; // number of pieces of luggage the passenger # (# - 0 .. 5) she has presently collected
+    private static int cntFDT = 0;
+    private static int cntTRF = 0;
     // BusDriver info
     public static String[] idPassengers = new String[6];
     public static String[] s = new String[3]; 
     // Monitors Tates
     // ArrivalLounge
     public static int numFlight = 1;
-    public static int numOfBags = 0;
+    private static int numOfBags = 0;
+    private static int totalBags = 0;
+    private static int totalLostBags = 0;
     // ArrivalTerminalExit
     // BaggageColletion
     public static int numOfBagsConveyor = 0;
@@ -68,7 +72,7 @@ public class GeneralRepository {
     //File
     String filename = "logFile.txt";
     TextFile log = new TextFile();
-    private String msg;
+    private String msg, msgFinal;
     
    public GeneralRepository(){
       if(FileOp.exists(".", filename)){
@@ -93,21 +97,44 @@ public class GeneralRepository {
         Arrays.fill(nr, "-");
         Arrays.fill(idPassengers, "-");
         Arrays.fill(s, "-");
-   }
+    }
    
    public void generateLog(){
-    if(!log.openForAppending(".", filename)){
-         GenericIO.writelnString("Failed to create the file!");
-         System.exit(1);
-      } 
-     msg = String.format("%2d  %2d  "+porter_state+ "%2d  %2d  "+busdriver_state+"   "+idPassengers[0]+"  "+idPassengers[1]+"  "+idPassengers[2]+"  "+idPassengers[3]+"  "+idPassengers[4]+"  "+idPassengers[5]+"   "+ s[0] 
-             +"  "+ s[1] +"  "+ s[2] +"\n"+passenger_state[0]+ " "+si[0]+"  "+nr[0]+"   "+na[0]+"  "+passenger_state[1]+ " "+si[1]+"  "+nr[1]+"   "+na[1]+"  "+passenger_state[2]+ " "+si[2]+"  "+nr[2]+"   "+na[2]+"  " 
-             +passenger_state[3]+ " "+si[3]+"  "+nr[3]+"   "+na[3]+"  "+passenger_state[4]+ " "+si[4]+"  "+nr[4]+"   "+na[4]+"  "+passenger_state[5]+ " "+si[5]+"  "+nr[5]+"   "+na[5]+" ", numFlight, numOfBags, numOfBagsConveyor, numOfBagsStoreroom);
-     log.writelnString(msg);
-     if(!log.close()){
-         GenericIO.writelnString("I can't close the file");
-         System.exit(1);
-     } 
+        if(!log.openForAppending(".", filename)){
+             GenericIO.writelnString("Failed to create the file!");
+             System.exit(1);
+        } 
+        msg = String.format("%2d  %2d  "+porter_state+ "%2d  %2d  "+busdriver_state+"   "+idPassengers[0]+"  "+idPassengers[1]+"  "+idPassengers[2]+"  "+idPassengers[3]+"  "+idPassengers[4]+"  "+idPassengers[5]+"   "+ s[0] 
+                +"  "+ s[1] +"  "+ s[2] +"\n"+passenger_state[0]+ " "+si[0]+"  "+nr[0]+"   "+na[0]+"  "+passenger_state[1]+ " "+si[1]+"  "+nr[1]+"   "+na[1]+"  "+passenger_state[2]+ " "+si[2]+"  "+nr[2]+"   "+na[2]+"  " 
+                +passenger_state[3]+ " "+si[3]+"  "+nr[3]+"   "+na[3]+"  "+passenger_state[4]+ " "+si[4]+"  "+nr[4]+"   "+na[4]+"  "+passenger_state[5]+ " "+si[5]+"  "+nr[5]+"   "+na[5]+" ", numFlight, numOfBags, numOfBagsConveyor, numOfBagsStoreroom);
+        log.writelnString(msg);
+        
+        if(!log.close()){
+            GenericIO.writelnString("I can't close the file");
+            System.exit(1);
+        }
+        
+        if(this.numFlight == 5 && passenger_state[0] == "EAT" && passenger_state[1] == "EAT" && passenger_state[2] == "EAT" && passenger_state[3] == "EAT" && passenger_state[4] == "EAT" && passenger_state[5] =="EAT" && porter_state == "WPTL"){
+            finalReport();
+        }
+        
+        else if(passenger_state[0] == "EAT" && passenger_state[1] == "EAT" && passenger_state[2] == "EAT" && passenger_state[3] == "EAT" && passenger_state[4] == "EAT" && passenger_state[5] =="EAT" && porter_state == "WPTL"){
+           resetValues(); 
+        } 
+   }
+   
+   public void finalReport(){
+      
+       if(!log.openForAppending(".", filename)){
+             GenericIO.writelnString("Failed to create the file!");
+             System.exit(1);
+        }
+        msgFinal = String.format("\nFinal report\nN. of passengers which have this airport as their final destination = %2d \nN. of passengers which are in transit = %2d \nN. of bags that should have been transported in the the planes hold = %2d \nN. of bags that were lost = %2d", cntFDT, cntTRF, totalBags, totalLostBags);
+        log.writelnString(msgFinal);
+        if(!log.close()){
+            GenericIO.writelnString("I can't close the file");
+            System.exit(1);
+        }
    }
    
     // Setters for states
@@ -146,8 +173,25 @@ public class GeneralRepository {
         numOfBagsStoreroom = 0;   
     }
     
-    public synchronized void numberBags(int numOfBags){
-        this.numOfBags = numOfBags;
+    public synchronized void bagTotal(){
+        this.numOfBags += 1;
+        this.totalBags +=1;
+    }
+    
+    public synchronized void lostBagTotal(){
+        this.totalLostBags +=1;
+    }
+    
+    public synchronized void numBags(int bagsSize){
+        this.numOfBags = bagsSize;
+    }
+    
+    public synchronized void numFDT(){
+       this.cntFDT += 1;
+    }
+    
+    public synchronized void numTRF(){
+       this.cntTRF += 1;
     }
     
     
