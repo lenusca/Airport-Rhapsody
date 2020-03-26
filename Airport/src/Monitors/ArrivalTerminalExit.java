@@ -39,7 +39,6 @@ public class ArrivalTerminalExit {
             }catch(InterruptedException e){}
         }
         //acorda os outros passageiros
-        System.out.println("AQUI:" + dte.allPassengers(idVoo));
         if(allPassengers(idVoo) && dte.allPassengers(idVoo)){
              notifyAll();
         }     

@@ -17,10 +17,9 @@ import Monitors.GeneralRepository;
 import Monitors.TemporaryStorageArea;
 import java.util.Random;
 
-
 /**
- * Que terminam a sua viagem no aeroporto ou ainda continuam 
- * em transito (seguir para outra viagemm)
+ * Quem faz a viagem neste aeroporto, podendo ser este o destino final ou ir para outra viagem
+ *
  * @author lenin
  */
 public class Passenger implements Runnable{
@@ -55,52 +54,117 @@ public class Passenger implements Runnable{
         this.dte = dte;
         
     }
-
+    
+    /**
+    *
+    * <p> Thread id do passageiro </p>
+    *    @return threadID - threadID do passageiro
+    *   
+    */
     public int getId() {
         return id;
     }
-
+    
+    /**
+    *
+    * <p> Se este aeroporto é o distino final ou não </p>
+    *    @return isFinalDst - true(se for destino final) ou false(se não for destino final)
+    *         
+    */
     public boolean isIsFinalDst() {
         return isFinalDst;
     }
-
+    
+    /**
+    *
+    * <p> Se o passageiro conseguiu recolher a mala </p>
+    *    @return success - true(se conseguiu recolher) ou false(se não conseguiu recolher)  
+    *                      
+    */
     public boolean isSuccess() {
         return success;
     }
-
+    
+    /**
+    *
+    * <p> Número total de malas que o passageiro levou para o aeroporto </p>
+    *    @return numberOfBags - 0, 1 ou 2
+    *                         
+    */
     public int getNumberOfBags() {
         return numberOfBags;
     }
-
+    
+    /**
+    *
+    * <p> Retorna o estado do passageiro, se é um passageiro que chegou ao destino final ou se está em trânsito </p>
+    *    @return status - TRF(passageiro em trânsito) ou FDT(passageiro cujo o destino final é este aeroporto) 
+    *                   
+    *                         
+    */
     public String getStatus() {
         return status;
     }
-
+    
+    /**
+    *
+    * <p> Atribui um thread id ao passageiro </p>
+    *    @param id threadID do passageiro
+    *    
+    */
     public void setId(int id) {
         this.id = id;
     }
-
+    
+    /**
+    *
+    * <p> Atribui ao passageiro se é destino final ou não</p>
+    *    @param isFinalDst  true(se for destino final) ou falso(se não for destino final) 
+    *                      
+    *    
+    */
     public void setIsFinalDst(boolean isFinalDst) {
         this.isFinalDst = isFinalDst;
     }
-
+    
+    /**
+    *
+    * <p> Atribui ao passageiro se conseguiu ou não buscar a mala </p>
+    *    @param success true(conseguiu) ou false(não conseguiu) 
+    *                   
+    *    
+    */
     public void setSuccess(boolean success) {
         this.success = success;
     }
-
+    
+    /**
+    *
+    * <p> Atribui ao passageiro um número de malas </p>
+    *    @param numberOfBags 0, 1 ou 2
+    *    
+    */
     public void setNumberOfBags(int numberOfBags) {
         this.numberOfBags = numberOfBags;
     }
-
+    
+    /**
+    *
+    * <p> Atribui ao passageiro se este aeroporto é o destino final ou não </p>
+    *    @param status TRF(passageiro em trânsito) ou FDT(passageiro cujo o destino final é este aeroporto)
+    *                 
+    *    
+    */
     public void setStatus(String status) {
         this.status = status;
     }
-    /*  numberOfBags : 0 a 2
-        status : T - passageiro em transito
-                 E - passageiro chegou ao destino final
-        lostBag : true - perdeu a mala
-                  false - não perdeu
-        
+    
+    /**
+    *
+    * <p> Houve ou não probabilidade de perder a mala, em que a probabilidade de perder a mala é 20% </p>
+    *    @return lostBag - true(perdeu a mala) ou false(não perdeu a mala)
+    *                    
+    *    
     */
     public boolean probLostBag(){
         Random rand = new Random();
@@ -114,17 +178,34 @@ public class Passenger implements Runnable{
         return this.lostBag;
     }
     
+    /**
+    *
+    * <p> Dados todos de um passageiro </p>
+    *    @return Passenger, retorna um passageiro
+    *    
+    */
     public Passenger getPassenger(){
        return new Passenger(this.id, this.al, this.bc, this.gr, this.tsa, this.bro, this.att, this.dtt, this.ate, this.dte);
     }
     
+    /**
+    *
+    * <p> Setup dos dados iniciais do passageiro, número de malas que vai ter, o status do mesmo se é TRF(transito) ou FDT(final), se perdeu ou não malas </p>
+    * <p> CONDIÇÕES : </p>
+    * <p> numberOfBags : 0 a 2</p>
+    * <p> status : TRF - passageiro em transito ou  FDT - passageiro chegou ao destino final</p>
+    * <p> lostBag: true, perdeu a mala ou false, não perdeu a mala </p> 
+    * @param idflight número de voo
+    *
+    *    
+    */ 
     public void setupPassanger(int idflight){
 
         Random rand = new Random();
         String[] status = {"TRF", "FDT"};
         this.numberOfBags = rand.nextInt(3);
         
-        this.status = status[1];
+        this.status = status[rand.nextInt(2)];
         
         if(this.status == "FDT"){
             ate.nPassengers(idflight);
@@ -158,7 +239,16 @@ public class Passenger implements Runnable{
         }      
     }
     
-    /*LifeCycle*/
+    /**
+    *
+    * <p> Ciclo de vida do passageiro, se o destino final for este aeroporto este vai buscar as suas malas ao Baggage Collection Point, se não tiver malas vai logo para o Arrival Terminal Exit. 
+    * Se o passageiro chegar a perder alguma das suas malas, vai ao Baggage Reclaim Office reclamar e depois segue para o Arrival Terminal Exit.</p>
+    * <p> Caso o destino final não seja este aeroporto, o passageiro vai apanhar o autocarro no Arrival Terminal Transfer para ir para o Departure Terminal Transfer, 
+    * onde seguidamente irá para o Departure Terminal Entrance esperar pelo o seu próximo voo </p> 
+    * 
+    *
+    *    
+    */
     @Override
     public void run() {
         
@@ -181,13 +271,11 @@ public class Passenger implements Runnable{
                             break;
                         }
                     }
-                    /* Se perderem alguma mala, vão fazer queixa da mesma RECLAIM OFFICE
-                    e só depois é que vão para ARRIVAL TERMINA EXIT*/
                     if(!success){
                         System.out.println("P "+id);
                         bro.reportMissingBags(id);
                     }
-                    /* Se tiverem as malas todas é que vão para ARRIVAL TERMINA EXIT*/
+
                     ate.goHome(id, flight);
                 }
             }
