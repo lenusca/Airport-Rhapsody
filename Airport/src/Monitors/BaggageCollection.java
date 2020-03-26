@@ -54,13 +54,10 @@ public class BaggageCollection {
                Thread.currentThread().interrupt();
             }
         }
-        
         if(!notfindBag){
             return true;
         }
-        return false;
-        
-          
+        return false;     
     }
     
     /**

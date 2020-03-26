@@ -56,6 +56,13 @@ public class DepartureTerminalEntrance {
         this.pTRF[idVoo] += 1;
     }
     
+    /**
+    *
+    * <p> Verifica se todos os passageiros que não têm como destino este aeroporto, se chegaram ao Departure Terminal Entrance </p>
+    *    @param idVoo id do voo
+    *    @return <p> true, se chegaram todos os passageiros </p>
+    *            <p> false, se não chegaram todos os passageiros </p>
+    */
     public synchronized boolean allPassengers(int idVoo){
         if(count[idVoo] == pTRF[idVoo]){
             return true;

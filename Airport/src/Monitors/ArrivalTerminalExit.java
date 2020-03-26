@@ -44,7 +44,7 @@ public class ArrivalTerminalExit {
         }     
     }
     
-     /**
+    /**
     *
     * <p> Conta o numero de passageiros que pretendem terminar o voo no Arrivel Terminal Exit </p>
     *    @param idVoo id do voo
@@ -53,7 +53,13 @@ public class ArrivalTerminalExit {
         this.pFDT[idVoo] += 1;
     }
     
-    
+    /**
+    *
+    * <p> Verifica se todos os passageiros que tinham como destino este aeroporto, se chegaram ao Arrival Terminal Exit </p>
+    *    @param idVoo id do voo
+    *    @return <p> true, se chegaram todos os passageiros </p>
+    *            <p> false, se não chegaram todos os passageiros </p>
+    */
     public synchronized boolean allPassengers(int idVoo){
         if(count[idVoo] == pFDT[idVoo]){
             return true;

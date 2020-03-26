@@ -244,7 +244,7 @@ public class Passenger implements Runnable{
     * <p> Ciclo de vida do passageiro, se o destino final for este aeroporto este vai buscar as suas malas ao Baggage Collection Point, se não tiver malas vai logo para o Arrival Terminal Exit. 
     * Se o passageiro chegar a perder alguma das suas malas, vai ao Baggage Reclaim Office reclamar e depois segue para o Arrival Terminal Exit.</p>
     * <p> Caso o destino final não seja este aeroporto, o passageiro vai apanhar o autocarro no Arrival Terminal Transfer para ir para o Departure Terminal Transfer, 
-    * onde seguidamente irá para o Departure Terminal Entrance esperar pelo o seu próximo voo </p> 
+    * onde seguidamente irá para o Departure Terminal Entrance esperar pelo o seu próximo voo. </p> 
     * 
     *
     *    

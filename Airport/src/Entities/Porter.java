@@ -32,7 +32,12 @@ public class Porter implements Runnable{
         this.al = al;
         this.gr = gr;
     }
-    /*Lifecycle*/
+    /**
+    *
+    * <p> Ciclo de vida do Porter, enquanto não chegam os 6 passageiros este encontra-se adormecido. Depois quando é acordado começa na recolha das malas, e vai buscar uma a uma
+    * no Arrival Lounge e leva-a ou para Temporary Storage Area se o dono da mala for TRF(passageiro em trânsito) ou para o Baggage Collection Point se o dono da malar for FDT(destino final este aerorporto).</p>
+    * <p> Quando acabar a recolha das malas, este volta adormecer até o próximo vôo.</p>   
+    */
     @Override
     public void run() {
         Bag bag;
