@@ -9,7 +9,7 @@ import genclass.FileOp;
 import java.util.*;
 
 /**
- *
+ * Local onde o estado interno vísivel do problema é armazenado
  * @author lenin
  */
 public class GeneralRepository {
@@ -49,24 +49,17 @@ public class GeneralRepository {
     public static String[] si = new String[6]; // situation of passenger # (# - 0 .. 5) – TRT (in transit) / FDT (has this airport as her final destination)
     public static String[] nr = new String[6]; // number of pieces of luggage the passenger # (# - 0 .. 5) carried at the start of her journey
     public static String[] na = new String[6]; // number of pieces of luggage the passenger # (# - 0 .. 5) she has presently collected
-    private static int cntFDT = 0;
-    private static int cntTRF = 0;
+    private int cntFDT = 0;
+    private int cntTRF = 0;
     // BusDriver info
     public static String[] idPassengers = new String[6];
     public static String[] s = new String[3]; 
-    // Monitors Tates
-    // ArrivalLounge
+    
     public static int numFlight = 1;
-    private static int numOfBags = 0;
-    private static int totalBags = 0;
-    private static int totalLostBags = 0;
-    // ArrivalTerminalExit
-    // BaggageColletion
+    private int numOfBags = 0;
+    private int totalBags = 0;
+    private int totalLostBags = 0;
     public static int numOfBagsConveyor = 0;
-    // BaggageReclaimOffice
-    // DepartureTerminalTransfer
-    // DepartureTerminalEntrance
-    // TemporaryStorageArea
     public static int numOfBagsStoreroom = 0;
     
     //File
@@ -74,6 +67,10 @@ public class GeneralRepository {
     TextFile log = new TextFile();
     private String msg, msgFinal;
     
+    /**
+    *
+    * <p> Gerado o ficheiro onde vai ser guardado os dados e parte do cabeçalho do logger file </p>
+    */
    public GeneralRepository(){
       if(FileOp.exists(".", filename)){
           FileOp.deleteFile(".", filename);
@@ -99,6 +96,9 @@ public class GeneralRepository {
         Arrays.fill(s, "-");
     }
    
+   /**
+    * <p> Guardar os dados todos num ficheiro durante a ocorrência da simulação </p>
+    */
    public void generateLog(){
         if(!log.openForAppending(".", filename)){
              GenericIO.writelnString("Failed to create the file!");
@@ -123,6 +123,9 @@ public class GeneralRepository {
         } 
    }
    
+   /**
+    * <p> Imprimir a parte final do logger, depois de ocorrer os 5 vôos </p>
+    */
    public void finalReport(){
       
        if(!log.openForAppending(".", filename)){
@@ -137,29 +140,57 @@ public class GeneralRepository {
         }
    }
    
-    // Setters for states
-   public synchronized void setPassengerSetup(String state, int threadID, String s_si, int s_nr){
+    /***********************************************************Setters for states*******************************************************************************/
+   /**
+    * <p> Atualizar o passageiro  </p>
+    * @param state WSD(what shoul i do), ATT(arrival transfer terminal), TRT(terminal transfer), DTT(departure transger terminal), EDT (entering the departure terminal),
+    * LCP(luggage collection point), BRO(baggagge reclaim office) e EAT(exiting the arrival terminal)
+    * @param threadID threadID do passageiro
+    * @param s_si FDT(destino final este aeroporto) ou TRF(este aeroporto não é o destino final)
+    * @param s_nr lugar no autocarro
+    * 
+    */
+    public synchronized void setPassengerSetup(String state, int threadID, String s_si, int s_nr){
        si[threadID] = s_si;
        nr[threadID] = String.valueOf(s_nr);
        na[threadID] = "0";
        passenger_state[threadID] = state;
        generateLog();
-   }
-   public synchronized void setPorterState(String state){
+    }
+
+   /**
+    * <p> Atualiza o estado do porter </p>
+    * @param state WPTL(waiting for a plane to land), APLH(at the plane's hold), ALCB(at the luggage conveyor belt), ASTR(at the storeroom)
+    */
+    public synchronized void setPorterState(String state){
         porter_state = state;
         generateLog();
     }
-    
+   
+    /**
+    * <p> Atualiza o estado do passageiro </p>
+    * @param state WSD(what shoul i do), ATT(arrival transfer terminal), TRT(terminal transfer), DTT(departure transger terminal), EDT (entering the departure terminal),
+    * LCP(luggage collection point), BRO(baggagge reclaim office) e EAT(exiting the arrival terminal)
+    * @param threadID threadID do passageiro
+    */
     public synchronized void setPassengerState(String state, int threadID){
         passenger_state[threadID] = state;
         generateLog();
     }
     
+    /**
+    * <p> Atualiza o estado do bus driver </p>
+    * @param state PKAT(parking at the arrival terminal), DRFW(driving forward), PKDT(parking at the departure terminal), DRBW(driving backward)
+    */
     public synchronized void setBusDriverState(String state){
         busdriver_state = state;
         generateLog();
     }
     
+    /**
+    * <p> Colocar todos os dados com os valores default </p>
+    * 
+    */
     public synchronized void resetValues(){
         // Initialization
         Arrays.fill(passenger_state, "---");
@@ -173,23 +204,44 @@ public class GeneralRepository {
         numOfBagsStoreroom = 0;   
     }
     
+    /**
+    * <p> Calcular o número de malas em cada vôo e o número total de malas nos 5 vôos </p>
+    * 
+    */
     public synchronized void bagTotal(){
         this.numOfBags += 1;
         this.totalBags +=1;
     }
     
+    /**
+    * <p> Calcular número total de malas perdidas nos 5 vôos </p>
+    * 
+    */
     public synchronized void lostBagTotal(){
         this.totalLostBags +=1;
     }
     
+    /**
+    * <p> Calcular o número de malas em cada vôo </p>
+    * @param bagsSize número total de malas no Arrival Lounge
+    * 
+    */
     public synchronized void numBags(int bagsSize){
         this.numOfBags = bagsSize;
     }
     
+    /**
+    * <p> Calcular número total de passageiros que tenham destino este aeroporto nos 5 vôos </p>
+    * 
+    */
     public synchronized void numFDT(){
        this.cntFDT += 1;
     }
     
+    /**
+    * <p> Calcular número total de passageiros que não tenham destino este aeroporto nos 5 vôos </p>
+    * 
+    */
     public synchronized void numTRF(){
        this.cntTRF += 1;
     }
