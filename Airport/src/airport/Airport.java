@@ -50,8 +50,10 @@ public class Airport {
         BaggageReclaimOffice bro = new BaggageReclaimOffice(gr);
         ArrivalTerminalTransfer att = new ArrivalTerminalTransfer(nSeatingPlaces, nFlight, gr);
         DepartureTerminalTransfer dtt = new DepartureTerminalTransfer(gr);
-        ArrivalTerminalExit ate = new ArrivalTerminalExit(gr);
         DepartureTerminalEntrance dte = new DepartureTerminalEntrance(gr);
+        ArrivalTerminalExit ate = new ArrivalTerminalExit(gr, dte);
+        dte.setArrivalTerminalExit(ate);
+        
         
         /*tamanho do array = numero de passageiros + numero de porters + numero de bus driver*/
         /*Arranque da simulação*/

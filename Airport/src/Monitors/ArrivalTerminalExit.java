@@ -11,35 +11,36 @@ package Monitors;
  */
 public class ArrivalTerminalExit {
     private GeneralRepository gr;
-    private int []idVoo = new int[5];
+    private DepartureTerminalEntrance dte;
+    private int []pFDT = new int[5];
     private int []count = new int[5];
     private int sair = 0;
     
-    public ArrivalTerminalExit(GeneralRepository gr){
+    public ArrivalTerminalExit(GeneralRepository gr, DepartureTerminalEntrance dte){
         this.gr = gr;
+        this.dte = dte;
     }
     
     /**
     *
     * <p> Passageiro que o destino é este aeroporto, têm como ponto saida o Arrival Terminal Exit. Quando um passageiro chega ao Arrival Terminal Exit fica a espera que cheguem todos os passageiros às saidas Arrival Terminal Exit e Departure Terminal Entrance. Quando chegam são todos acordados e vão para um novo voo ou terminam</p>
     *    @param threadID threadID do passageiro
-    *    @param id id do voo
+    *    @param idVoo id do voo
     *    @see DepartureTerminalEntrance
     */
-    public synchronized void goHome(int threadID, int id) {
+    public synchronized void goHome(int threadID, int idVoo) {
         gr.setPassengerState("EAT", threadID);
        
-        this.count[id] += 1; 
+        this.count[idVoo] += 1; 
   
-        while(count[id] != this.idVoo[id]){
-            System.out.println("thread: " + threadID + " count: " + count[id]);
+        while(!allPassengers(idVoo)){
             try{
                wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
             }catch(InterruptedException e){}
         }
-        System.out.println("thread: " + threadID + " count: " + count[id]);
         //acorda os outros passageiros
-        if(count[id] == this.idVoo[id]){
+        System.out.println("AQUI:" + dte.allPassengers(idVoo));
+        if(allPassengers(idVoo) && dte.allPassengers(idVoo)){
              notifyAll();
         }     
     }
@@ -50,7 +51,18 @@ public class ArrivalTerminalExit {
     *    @param idVoo id do voo
     */
     public synchronized void nPassengers(int idVoo){
-        this.idVoo[idVoo] += 1;
+        this.pFDT[idVoo] += 1;
+    }
+    
+    
+    public synchronized boolean allPassengers(int idVoo){
+        if(count[idVoo] == pFDT[idVoo]){
+            return true;
+        }
+        
+        else{
+            return false;
+        }
     }
 
 }
