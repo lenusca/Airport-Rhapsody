@@ -71,6 +71,7 @@ public class ArrivalTerminalTransfer extends Thread{
         } 
         System.out.println("numPassengersBus"+numPassengersBus);
         enteringPassengers[threadID] = false;
+        index -= 1; //para o proximo passageiro que entrar aparecer no log atras do ultimo da fila
         
     }
     
@@ -80,7 +81,7 @@ public class ArrivalTerminalTransfer extends Thread{
      * @param threadID threadID do passageiro
      */
     public synchronized void enterTheBus(int threadID) {
-        gr.idPassengers.remove(threadID);
+        gr.s[count] = String.valueOf(gr.idPassengers.pollFirst());
         System.out.println(enteringPassengers[threadID]);
         gr.s[count] = String.valueOf(threadID);
         gr.setPassengerState("TRT", threadID);

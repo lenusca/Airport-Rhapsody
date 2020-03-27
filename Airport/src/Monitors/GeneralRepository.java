@@ -52,7 +52,7 @@ public class GeneralRepository {
     private int cntFDT = 0;
     private int cntTRF = 0;
     // BusDriver info
-    public static List idPassengers = Collections.synchronizedList(new LinkedList<String>());
+    public static LinkedList<String> idPassengers = new LinkedList<String>();
     public static String[] s = new String[3]; 
     
     private int numFlight = 1;
