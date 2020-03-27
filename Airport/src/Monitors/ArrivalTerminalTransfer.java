@@ -32,6 +32,7 @@ public class ArrivalTerminalTransfer extends Thread{
     public ArrivalTerminalTransfer(int busCapacity, int numFlight, GeneralRepository gr) {
         this.busCapacity=busCapacity;
         this.gr = gr;
+        this.numFlight = numFlight;
         Arrays.fill(enteringPassengers, false);
     }
     
@@ -103,33 +104,28 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public boolean hasDaysWorkEnded() {
         System.out.println("FLIGHT: "+nFlight);
+        System.out.println("AQUI:"+numFlight);
         
         if((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1)){ //nflight begin:0 numFLight begin: 1
             return true; //é o ultimo voo e não há mais passageiros, bus work ended your day
         }
         
-        while(nPassengersFlight[nFlight]==0 && (nFlight!=numFlight-1)){
+        System.out.println("BUS PASSENGERS: "+ nPassengersFlight[nFlight]);
+        while(nPassengersFlight[nFlight] == 0){
             try{
-                wait();       //não há passageiros para serem servidos
+               wait();    //passageiros esperam para chegar ao destino
             }catch(InterruptedException e){}
         }
         
-        if(nPassengersFlight[nFlight] != 0){ //há passageiros, verifica para a segunda ronda segunda ronda para o mesmo voo
-            if(nPassengersFlight[nFlight] >= busCapacity){
-                try{
-                    wait();      //espera pelo anuncio do passageiro
-                }catch(InterruptedException e){}
-                return false;    //fila para o bus atingiu a capacidade do bus, retorna false para começar a viagem
-            }
-            if((nPassengersFlight[nFlight] < busCapacity) && (nPassengersFlight[nFlight] > 0)){ //numero passageiros inferior ao bus capacity mas há passageiros
-                try{
-                   wait(500);      //dá um compasso de espera para chegar a hora do bus
-                }catch(InterruptedException e){}
-                return false;
-            }    
+        if(nPassengersFlight[nFlight] >= busCapacity){
+          return false; 
         }
-                
-        return false;       //retorna false para começar a viagem
+        
+        try{
+          wait(10);    //passageiros esperam para chegar ao destino
+        }catch(InterruptedException e){}
+        return false;
+             
     }
     
     /**
@@ -152,9 +148,9 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void goToDepartureTerminal() {
         gr.setBusDriverState("DRFW");
-        try{
-           sleep(300);             //simulação de viagem para o o dtt
-        }catch(InterruptedException e){}
+        //try{
+        //   sleep(300);             //simulação de viagem para o o dtt
+        //}catch(InterruptedException e){}
     }
     
     /**

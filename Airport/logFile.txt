@@ -5,62 +5,60 @@ FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3
                                                         PASSENGERS
 St1 Si1 NR1 NA1 St2 Si2 NR2 NA2 St3 Si3 NR3 NA3 St4 Si4 NR4 NA4 St5 Si5 NR5 NA5 St6 Si6 NR6 NA6
  1   0  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
---- ---  -   -  --- ---  -   -  --- ---  -   -  WSD TRF  0   0  --- ---  -   -  --- ---  -   - 
- 1   0  WPTL 0   0  PKAT   3  -  -  -  -  -   -  -  -
---- ---  -   -  --- ---  -   -  --- ---  -   -  WSD TRF  0   0  WSD TRF  1   0  --- ---  -   - 
- 1   0  WPTL 0   0  PKAT   3  -  -  -  -  -   -  -  -
---- ---  -   -  --- ---  -   -  --- ---  -   -  ATT TRF  0   0  WSD TRF  1   0  --- ---  -   - 
- 1   0  WPTL 0   0  PKAT   3  4  -  -  -  -   -  -  -
---- ---  -   -  --- ---  -   -  --- ---  -   -  ATT TRF  0   0  WSD TRF  1   0  --- ---  -   - 
- 1   0  WPTL 0   0  PKAT   3  4  -  -  -  -   -  -  -
---- ---  -   -  --- ---  -   -  --- ---  -   -  ATT TRF  0   0  ATT TRF  1   0  --- ---  -   - 
- 1   0  WPTL 0   0  PKAT   3  4  -  -  -  -   -  -  -
---- ---  -   -  WSD TRF  0   0  --- ---  -   -  ATT TRF  0   0  ATT TRF  1   0  --- ---  -   - 
- 1   0  WPTL 0   0  PKAT   3  4  1  -  -  -   -  -  -
---- ---  -   -  ATT TRF  0   0  --- ---  -   -  ATT TRF  0   0  ATT TRF  1   0  --- ---  -   - 
- 1   3  WPTL 0   0  PKAT   3  4  1  -  -  -   3  -  -
-WSD TRF  2   0  ATT TRF  0   0  --- ---  -   -  ATT TRF  0   0  ATT TRF  1   0  --- ---  -   - 
- 1   3  WPTL 0   0  PKAT   3  4  1  -  -  -   3  -  -
-WSD TRF  2   0  ATT TRF  0   0  --- ---  -   -  TRT TRF  0   0  ATT TRF  1   0  --- ---  -   - 
- 1   5  WPTL 0   0  PKAT   3  4  1  -  -  -   3  4  -
-WSD TRF  2   0  ATT TRF  0   0  --- ---  -   -  TRT TRF  0   0  ATT TRF  1   0  WSD TRF  2   0 
- 1   5  WPTL 0   0  PKAT   3  4  1  -  -  -   3  4  -
-WSD TRF  2   0  ATT TRF  0   0  --- ---  -   -  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   6  WPTL 0   0  PKAT   3  1  -  -  -  -   3  4  1
-WSD TRF  2   0  ATT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   6  WPTL 0   0  PKAT   3  1  -  -  -  -   3  4  1
-WSD TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   6  APLH 0   0  PKAT   3  1  -  0  -  -   3  4  1
-WSD TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   6  APLH 0   0  PKAT   3  1  -  0  -  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   5  ASTR 0   1  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   5  APLH 0   1  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   4  ASTR 0   2  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   4  APLH 0   2  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   3  ASTR 0   3  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   3  APLH 0   3  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   2  ASTR 0   4  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   2  APLH 0   4  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   1  ASTR 0   5  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   1  APLH 0   5  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   0  ASTR 0   6  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   0  APLH 0   6  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  WSD TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   0  APLH 0   6  PKAT   3  1  -  0  2  -   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  ATT TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   0  WPTL 0   0  PKAT   3  1  -  0  2  5   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  ATT TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  WSD TRF  2   0 
- 1   0  WPTL 0   0  PKAT   3  1  -  0  2  5   3  4  1
-ATT TRF  2   0  TRT TRF  0   0  ATT TRF  2   0  TRT TRF  0   0  TRT TRF  1   0  ATT TRF  2   0 
+--- ---  -   -  --- ---  -   -  WSD TRF  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   - 
+ 1   0  WPTL 0   0  DRFW   -  -  -  -  -  -   -  -  -
+--- ---  -   -  --- ---  -   -  WSD TRF  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   - 
+ 1   0  WPTL 0   0  DRFW   -  -  -  -  -  -   -  -  -
+--- ---  -   -  --- ---  -   -  WSD TRF  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   - 
+ 1   3  WPTL 0   0  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  --- ---  -   -  WSD TRF  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   - 
+ 1   4  WPTL 0   0  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  --- ---  -   -  WSD TRF  0   0  --- ---  -   -  WSD TRF  2   0  --- ---  -   - 
+ 1   4  WPTL 0   0  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  --- ---  -   -  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  --- ---  -   - 
+ 1   5  WPTL 0   0  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  --- ---  -   -  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   5  WPTL 0   0  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   5  APLH 0   0  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   4  ASTR 0   1  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   4  APLH 0   1  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   3  ASTR 0   2  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   3  APLH 0   2  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   2  ASTR 0   3  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   2  APLH 0   3  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   1  ASTR 0   4  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   1  APLH 0   4  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   0  ASTR 0   5  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   0  APLH 0   5  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   0  WPTL 0   0  DRFW   -  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   0  WPTL 0   0  PKDT   1  -  -  -  -  -   -  -  -
+WSD TRF  2   0  WSD TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   0  WPTL 0   0  PKDT   1  -  -  -  -  -   -  -  -
+WSD TRF  2   0  ATT TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   0  WPTL 0   0  DRBW   1  -  -  -  -  -   -  -  -
+WSD TRF  2   0  ATT TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  WSD TRF  2   0 
+ 1   0  WPTL 0   0  DRBW   1  5  -  -  -  -   -  -  -
+WSD TRF  2   0  ATT TRF  2   0  WSD TRF  0   0  WSD TRF  2   0  WSD TRF  2   0  ATT TRF  2   0 
+ 1   0  WPTL 0   0  DRBW   1  5  3  -  -  -   -  -  -
+WSD TRF  2   0  ATT TRF  2   0  WSD TRF  0   0  ATT TRF  2   0  WSD TRF  2   0  ATT TRF  2   0 
+ 1   0  WPTL 0   0  DRBW   1  5  3  4  -  -   -  -  -
+WSD TRF  2   0  ATT TRF  2   0  WSD TRF  0   0  ATT TRF  2   0  ATT TRF  2   0  ATT TRF  2   0 
+ 1   0  WPTL 0   0  DRBW   1  5  3  4  0  -   -  -  -
+ATT TRF  2   0  ATT TRF  2   0  WSD TRF  0   0  ATT TRF  2   0  ATT TRF  2   0  ATT TRF  2   0 
+ 1   0  WPTL 0   0  DRBW   1  5  3  4  0  2   -  -  -
+ATT TRF  2   0  ATT TRF  2   0  ATT TRF  0   0  ATT TRF  2   0  ATT TRF  2   0  ATT TRF  2   0 
+ 1   0  WPTL 0   0  PKAT   1  3  4  0  2  -   -  -  -
+ATT TRF  2   0  ATT TRF  2   0  ATT TRF  0   0  ATT TRF  2   0  ATT TRF  2   0  ATT TRF  2   0 
