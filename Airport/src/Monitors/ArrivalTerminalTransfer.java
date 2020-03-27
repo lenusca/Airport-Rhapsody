@@ -29,15 +29,14 @@ public class ArrivalTerminalTransfer extends Thread{
         this.busCapacity=busCapacity;
         this.gr = gr;
     }
-
-    public Queue<Integer> getPassengersBus() {
-        return passengersBus;
-    }
     
-    /*---------------------PASSENGER METHODS-------------------------*/
+    /******************************PASSENGER METHODS****************************/
     
-    /*No enunciado diz que o driver é acordado com o takeABus */
-    /**/
+    /**
+     * 
+     * <p>Os passageiros aguardam pela hora para entrar no autocarro, se a fila atingir a capacidade do autocarro acorda o busDriver.</p>
+     * @param threadID threadID do passageiro 
+     */
     public synchronized void takeABus(int threadID) {
         gr.idPassengers.add(index, String.valueOf(threadID));
         gr.setPassengerState("ATT", threadID);
@@ -65,11 +64,15 @@ public class ArrivalTerminalTransfer extends Thread{
             }catch(InterruptedException e){ }
         }
         
-        enteringPassengers.add(passengersBus.remove());
+        enteringPassengers.add(removePassenger());
             
     }
     
-    /*passageiros entram no autocarro*/
+    /**
+     * 
+     * <p>Os passageiros entram para o autocarro, o ultimo acorda o busDriver, e dormem enquanto não chegam ao destino</p>
+     * @param threadID threadID do passageiro
+     */
     public synchronized void enterTheBus(int threadID) {
         gr.idPassengers.remove(threadID);
         gr.s[count] = String.valueOf(threadID);
@@ -79,7 +82,7 @@ public class ArrivalTerminalTransfer extends Thread{
         dtt.addPassenger(enteringPassengers.remove());
             
         if(passengersBus.size() == 0){
-            notifyAll();
+            notifyAll();        //Acorda o busDriver
         }        
         while(!dtt.getBusArrived()){ //enquanto o passageiro nao chega ao departure
             try{
@@ -90,12 +93,14 @@ public class ArrivalTerminalTransfer extends Thread{
         count = 0;
     }
     
-    /*---------------------BUSDRIVER METHODS-------------------------*/
+    /****************************BUSDRIVER METHODS*******************************/
     
-    /*o dia de trabalho do motorista terminou
-        @return <li> true, o seu dia terminou
-                <li> false, o seu dia ainda não terminou
-    */
+    /**
+     * 
+     * <p>Verifica se o DusDriver já terminou o seu trabalho ou ainda tem passageiros para efetuar a viagem</p>
+     * @return <p>true, terminou o dia de trabalho, terminaram os voos, o seu ciclo de vida chegou ao fim</p>
+     *         <p>false, ainda não terminou o seu dia de trabalho, ainda tem passageiros para serem reencaminhados</p>
+     */
     public boolean hasDaysWorkEnded() {
         System.out.println("FLIGHT: "+nFlight);
        
@@ -127,10 +132,10 @@ public class ArrivalTerminalTransfer extends Thread{
         return false;       //retorna false para começar a viagem
     }
     
-    /*anucia que os passageiros podem entrar no autocarro (invocada pelo busDriver)
-        @return <li> true, chegou a hora de partir ou o numero de passageiros é suficiente para encher o autocarro
-                <li> false, ainda nao chegou a hora ainda não há passageiros suficientes
-    */
+    /**
+     * 
+     * <p>Notifica os passageiros que podem entrar no autocarro, ou seja, acorda-os e espera que eles entrem</p>
+     */
     public synchronized void announcingBusBoarding() {
         notifyAll(); //notifica os passageiros para entrar
         while(!enteringPassengers.isEmpty()){
@@ -140,7 +145,10 @@ public class ArrivalTerminalTransfer extends Thread{
         }
     }
     
-    /*vai para o departure terminal transfer*/
+    /**
+     * 
+     * <p>O busDriver parte para o Departure Terminal Transfer</p>
+     */
     public synchronized void goToDepartureTerminal() {
         gr.setBusDriverState("DRFW");
         try{
@@ -148,7 +156,10 @@ public class ArrivalTerminalTransfer extends Thread{
         }catch(InterruptedException e){}
     }
     
-    /*O busdriver adormece*/
+    /**
+     * 
+     * <p>O busDriver estaciona o autocarro</p>
+     */
     public synchronized void parkTheBus() {
         gr.setBusDriverState("PKAT");
         dtt.setBusArrived(false);
@@ -158,8 +169,12 @@ public class ArrivalTerminalTransfer extends Thread{
     } 
     
     
-    /*---------------------AUXILIAR METHODS-------------------------*/
-    // method to add a passenger in the linkedList
+    /******************************AUXILIAR METHODS******************************/
+    /**
+     * 
+     * <p>Adiciona os passageiros à fila de espera</p>
+     * @param threadID threadID do passageiro
+     */
     public void addPassenger(int threadID){ 
         synchronized (passengersBus) {
         // add an element and notify all that an element exists 
@@ -170,8 +185,11 @@ public class ArrivalTerminalTransfer extends Thread{
       }
     }
     
-    // method used to remove a passenger from the queue
-    public void removePassenger(int threadID) {
+    /**
+     * 
+     * <p>Remove os passageiros da fila de espera</p>
+     */
+    public int removePassenger() {
         synchronized (passengersBus) {
             while (passengersBus.isEmpty()) {
                 try{
@@ -179,11 +197,16 @@ public class ArrivalTerminalTransfer extends Thread{
                 }
                 catch(InterruptedException e){}
             }
-            passengersBus.remove();
+            int id = passengersBus.remove();
+            return id;
         }
     }
     
-    //number passengers do voo
+    /**
+     * 
+     * <p>Conta o número de passageiros em trânsito, que vão apanhar o autocarro</p>
+     * @param idVoo id do Voo
+     */
     public synchronized void nPassengers(int idVoo){
         this.nPassengersFlight[idVoo] +=1;
         nFlight = idVoo;

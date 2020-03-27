@@ -9,7 +9,7 @@ import Monitors.ArrivalTerminalTransfer;
 import Monitors.DepartureTerminalTransfer;
 
 /**
- * Quem leva os passageiros em trânsito entre a chegada e
+ * Quem leva os passageiros em trânsito, ou seja, não terminaram a viagem neste aeroporto, entre a chegada e
  * os terminais de partida
  * @author lenin
  */
@@ -27,18 +27,20 @@ public class BusDriver implements Runnable{
         this.dtt = dtt;
     }
     
-    // vai acontecer no Terminal Transfer QUAY
+    /**
+     * <p> Ciclo de vida do BusDriver, enquanto não chegam passageiros ele encontrasse adormecido. Quando a fila de espera para entrar no autocarro for igual ao número de lugares do autocarro ou
+     * chegou a hora de partida, o busDriver dá ordem para os passageiros entrarem, partindo para o Departure Terminal Transfer, quando chega ao local deixa os passageiros e retorna ao Arrival Terminal Transfer.
+     * Se ainda houver passageiros na fila de espera volta a fazer a viagem, senão adormece até chegar passageiros de outros voos.</p>  
+     * <p> O busDriver termina o seu dia de trabalho quando já não houver mais voos ou passageiros</p>
+     */
       @Override
     public void run() {
         while(!att.hasDaysWorkEnded()){ //espera que a viagem começa 
-            att.announcingBusBoarding();
-            /*Se o autocarro estiver cheio ou for a hora de ir embora*/
-            /*Vai para Departure Terminal*/
-            att.goToDepartureTerminal();
+            att.announcingBusBoarding(); /*Se o autocarro estiver cheio ou for a hora de ir embora*/
+            att.goToDepartureTerminal(); /*Vai para Departure Terminal*/
             dtt.parkTheBusAndLetPassOff();
             dtt.goToArrivalTerminal();
             att.parkTheBus();
-            System.out.println("terminou a viagem do busDriver ");
         }
         System.out.println("O busDrive "+this.id+" terminou o serviço");
         
