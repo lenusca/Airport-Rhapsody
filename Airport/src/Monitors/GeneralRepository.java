@@ -52,7 +52,7 @@ public class GeneralRepository {
     private int cntFDT = 0;
     private int cntTRF = 0;
     // BusDriver info
-    public static String[] idPassengers = new String[6];
+    public static List idPassengers = Collections.synchronizedList(new LinkedList<String>());
     public static String[] s = new String[3]; 
     
     public static int numFlight = 1;
@@ -92,7 +92,7 @@ public class GeneralRepository {
         Arrays.fill(na, "-");
         Arrays.fill(si, "---");
         Arrays.fill(nr, "-");
-        Arrays.fill(idPassengers, "-");
+        for(int i=0; i<6; i++){idPassengers.add("-");}
         Arrays.fill(s, "-");
     }
    
@@ -104,7 +104,7 @@ public class GeneralRepository {
              GenericIO.writelnString("Failed to create the file!");
              System.exit(1);
         } 
-        msg = String.format("%2d  %2d  "+porter_state+ "%2d  %2d  "+busdriver_state+"   "+idPassengers[0]+"  "+idPassengers[1]+"  "+idPassengers[2]+"  "+idPassengers[3]+"  "+idPassengers[4]+"  "+idPassengers[5]+"   "+ s[0] 
+        msg = String.format("%2d  %2d  "+porter_state+ "%2d  %2d  "+busdriver_state+"   "+idPassengers.get(0)+"  "+idPassengers.get(1)+"  "+idPassengers.get(2)+"  "+idPassengers.get(3)+"  "+idPassengers.get(4)+"  "+idPassengers.get(5)+"   "+ s[0] 
                 +"  "+ s[1] +"  "+ s[2] +"\n"+passenger_state[0]+ " "+si[0]+"  "+nr[0]+"   "+na[0]+"  "+passenger_state[1]+ " "+si[1]+"  "+nr[1]+"   "+na[1]+"  "+passenger_state[2]+ " "+si[2]+"  "+nr[2]+"   "+na[2]+"  " 
                 +passenger_state[3]+ " "+si[3]+"  "+nr[3]+"   "+na[3]+"  "+passenger_state[4]+ " "+si[4]+"  "+nr[4]+"   "+na[4]+"  "+passenger_state[5]+ " "+si[5]+"  "+nr[5]+"   "+na[5]+" ", numFlight, numOfBags, numOfBagsConveyor, numOfBagsStoreroom);
         log.writelnString(msg);
@@ -197,7 +197,7 @@ public class GeneralRepository {
         Arrays.fill(na, "-");
         Arrays.fill(si, "---");
         Arrays.fill(nr, "-");
-        Arrays.fill(idPassengers, "-");
+        for(int i=0; i<6; i++){idPassengers.add("-");}
         Arrays.fill(s, "-");
         numOfBagsConveyor = 0;
         numOfBags = 0;

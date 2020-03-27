@@ -212,6 +212,7 @@ public class Passenger implements Runnable{
             gr.numFDT();
         }
         else{
+            att.nPassengers(idflight);
             dte.nPassengers(idflight);
             gr.numTRF();
         }

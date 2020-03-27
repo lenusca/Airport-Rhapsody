@@ -30,17 +30,15 @@ public class BusDriver implements Runnable{
     // vai acontecer no Terminal Transfer QUAY
       @Override
     public void run() {
-      
-        while(!att.hasDaysWorkEnded(++flight)){
-           while(att.announcingBusBoarding()){
+        while(!att.hasDaysWorkEnded()){ //espera que a viagem começa 
+            att.announcingBusBoarding();
             /*Se o autocarro estiver cheio ou for a hora de ir embora*/
             /*Vai para Departure Terminal*/
             att.goToDepartureTerminal();
             dtt.parkTheBusAndLetPassOff();
             dtt.goToArrivalTerminal();
             att.parkTheBus();
-        
-           }
+            System.out.println("terminou a viagem do busDriver ");
         }
         System.out.println("O busDrive "+this.id+" terminou o serviço");
         

@@ -15,36 +15,49 @@ import java.util.Queue;
  */
 public class DepartureTerminalTransfer extends Thread{
     /*Fila de passageiros dentro do autocarro*/
-    public static Queue<Integer> passengersBus = new LinkedList();
+    public static Queue<Integer> passengersBus = new LinkedList<>();
     public GeneralRepository gr;
+    private static boolean busArrived = false;
+    private static int count = 0;
     
     public DepartureTerminalTransfer(GeneralRepository gr){
         this.gr = gr;
     }
     
-    /*o busDriver acorda os passageiros, chegaram ao destino do autocarro*/
-    public synchronized void parkTheBusAndLetPassOff() {
-        gr.setBusDriverState("PKDT");
-        notifyAll();
-    }
-
+    /*---------------------PASSENGER METHODS-------------------------*/
 
     /*os passageiros saem e o ultimo acorda o busDriver*/
     public synchronized void leaveTheBus(int threadID) {
+        gr.s[count] = "-";
         gr.setPassengerState("DTT", threadID);
-        passengersBus.remove();
+        count += 1;
+        removePassenger();
         if(passengersBus.isEmpty()){
+            count = 0;
             notifyAll();
         }  
+    }
+    
+    /*o busDriver acorda os passageiros, chegaram ao destino do autocarro*/
+    public synchronized void parkTheBusAndLetPassOff() {
+        gr.setBusDriverState("PKDT");
+        setBusArrived(true);
+       
+        notifyAll();    //acordar os passageiros para sair  
+        
+        while(!passengersBus.isEmpty()){
+            try{
+                wait();      //espera que os passageiros saiam do bus
+            }catch(InterruptedException e){}
+        }
     }
     
     /*volta do Departure Terminal Transfer para Arrival Terminal Transfer*/
     public void goToArrivalTerminal() {
         gr.setBusDriverState("DRBW");
         try{
-            sleep((long) (1+100*Math.random()));
+            sleep(300);
         }catch(InterruptedException e){}
-        System.out.println("END TRIP");
     }
     
     /*---------------------AUXILIAR METHODS-------------------------*/
@@ -60,7 +73,7 @@ public class DepartureTerminalTransfer extends Thread{
     }
     
     // method used to remove a passenger from the queue
-    public void removePassenger(int threadID) {
+    public void removePassenger() {
         synchronized (passengersBus) {
             while (passengersBus.isEmpty()) {
                 try{
@@ -71,5 +84,12 @@ public class DepartureTerminalTransfer extends Thread{
             passengersBus.remove();
         }
     }
+    //verefica se o bus ja chegou
+    public synchronized void setBusArrived(boolean busArrived){
+        this.busArrived = busArrived;
+    }
     
+    public synchronized boolean getBusArrived(){
+        return busArrived;
+    }
 }
