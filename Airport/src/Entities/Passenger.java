@@ -205,7 +205,7 @@ public class Passenger implements Runnable{
         String[] status = {"TRF", "FDT"};
         this.numberOfBags = rand.nextInt(3);
         int index = rand.nextInt(2);
-        this.status = status[index];
+        this.status = status[0];
         
         if(this.status == "FDT"){
             ate.nPassengers(idflight);

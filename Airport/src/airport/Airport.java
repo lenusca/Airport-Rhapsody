@@ -48,8 +48,8 @@ public class Airport {
         BaggageCollection bc = new BaggageCollection(gr);
         TemporaryStorageArea tsa = new TemporaryStorageArea(gr);
         BaggageReclaimOffice bro = new BaggageReclaimOffice(gr);
-        ArrivalTerminalTransfer att = new ArrivalTerminalTransfer(nSeatingPlaces, nFlight, gr);
         DepartureTerminalTransfer dtt = new DepartureTerminalTransfer(gr);
+        ArrivalTerminalTransfer att = new ArrivalTerminalTransfer(nSeatingPlaces, nFlight, gr, dtt);
         DepartureTerminalEntrance dte = new DepartureTerminalEntrance(gr);
         ArrivalTerminalExit ate = new ArrivalTerminalExit(gr, dte);
         dte.setArrivalTerminalExit(ate);

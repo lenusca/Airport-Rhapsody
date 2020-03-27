@@ -15,10 +15,10 @@ import java.util.Queue;
  */
 public class DepartureTerminalTransfer extends Thread{
     /*Fila de passageiros dentro do autocarro*/
-    public static Queue<Integer> passengersBus = new LinkedList<>();
-    public GeneralRepository gr;
-    private static boolean busArrived = false;
-    private static int count = 0;
+    private Queue<Integer> passengersBus = new LinkedList<>();
+    private final GeneralRepository gr;
+    private boolean busArrived = false;
+    private int count = 0;
     
     public DepartureTerminalTransfer(GeneralRepository gr){
         this.gr = gr;
@@ -38,6 +38,7 @@ public class DepartureTerminalTransfer extends Thread{
         count += 1;
         System.out.println("DTT->"+passengersBus);
         passengersBus.remove();
+        
         if(passengersBus.isEmpty()){
             count = 0;
             notifyAll();
@@ -65,11 +66,11 @@ public class DepartureTerminalTransfer extends Thread{
      * 
      * <p>O busDriver volta para o Arrival Terminal Transfer</p>
      */
-    public void goToArrivalTerminal() {
+    public synchronized void goToArrivalTerminal() {
         gr.setBusDriverState("DRBW");
-        try{
-            sleep(300);
-        }catch(InterruptedException e){}
+        //try{
+        //    sleep(300);
+        //}catch(InterruptedException e){}
     }
     
     /****************************AUXILIAR METHODS********************************/
@@ -78,30 +79,8 @@ public class DepartureTerminalTransfer extends Thread{
      * <p>Adiciona os passageiros que vão no autocarro</p>
      * @param threadID threadID do passageiro
      */
-    public void addPassenger(int threadID){ 
-        synchronized (passengersBus) {
-        // add an element and notify all that an element exists 
-       passengersBus.add(threadID);
-       passengersBus.notifyAll();
-        
-      }
-    }
-    
-    /**
-     * 
-     * <p>Remove os passageiros do autocarro</p>
-     * @return <p>id, retorna o thearID do passageiro que foi removido</p>
-     */
-    public void removePassenger() {
-        synchronized (passengersBus) {
-            while (passengersBus.isEmpty()) {
-                try{
-                    passengersBus.wait();
-                }
-                catch(InterruptedException e){}
-            }
-            passengersBus.remove();
-        }
+    public synchronized void addPassenger(int threadID){ 
+       passengersBus.add(threadID); 
     }
     
     /**
@@ -120,6 +99,6 @@ public class DepartureTerminalTransfer extends Thread{
      *         <p> false, o busDriver ainda não se encontra no Departure Terminal Transfer</p>
      */
     public synchronized boolean getBusArrived(){
-        return busArrived;
+        return this.busArrived;
     }
 }
