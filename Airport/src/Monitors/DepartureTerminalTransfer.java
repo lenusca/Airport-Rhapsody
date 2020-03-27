@@ -32,10 +32,12 @@ public class DepartureTerminalTransfer extends Thread{
      * @param threadID threadID do passageiro
      */
     public synchronized void leaveTheBus(int threadID) {
+        System.out.println("COUNT "+ count);
         gr.s[count] = "-";
         gr.setPassengerState("DTT", threadID);
         count += 1;
-        removePassenger();
+        System.out.println("DTT->"+passengersBus);
+        passengersBus.remove();
         if(passengersBus.isEmpty()){
             count = 0;
             notifyAll();
