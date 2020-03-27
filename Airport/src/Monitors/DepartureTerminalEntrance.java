@@ -12,7 +12,7 @@ package Monitors;
 public class DepartureTerminalEntrance {
     private GeneralRepository gr;
     private ArrivalTerminalExit ate;
-    private int []pTRF = new int[5];
+    private int []pTRF = {0, 0, 0, 0, 0};
     private int []count = new int[5];
     
     public DepartureTerminalEntrance(GeneralRepository gr){
@@ -33,8 +33,8 @@ public class DepartureTerminalEntrance {
     public synchronized void prepareNextLeg(int threadID, int idVoo) {
         gr.setPassengerState("EDT", threadID);
         this.count[idVoo] += 1; 
-  
-        while(!allPassengers(idVoo)){
+        System.out.println(ate.allPassengers(idVoo));
+        while(!allPassengers(idVoo) || !ate.allPassengers(idVoo)){
             try{
                wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
             }catch(InterruptedException e){}

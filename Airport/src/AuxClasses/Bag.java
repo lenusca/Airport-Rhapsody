@@ -26,7 +26,7 @@ public class Bag {
     *    
     */
     public String getStatus() {
-        if(passenger.status == "TRF"){
+        if(passenger.getStatus() == "TRF"){
             return "TRF";
         }
         else{

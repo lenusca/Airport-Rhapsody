@@ -44,7 +44,7 @@ public class ArrivalLounge {
     */
     public synchronized boolean whatShouldIDo(String status, int threadID, int nr, int nflight) {
         this.flight = nflight;
-        gr.numFlight = flight;
+        gr.numFlight(nflight);
         gr.setPassengerSetup("WSD", threadID, status, nr);
         countPassenger++;
         

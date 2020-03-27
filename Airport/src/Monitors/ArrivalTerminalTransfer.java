@@ -114,7 +114,7 @@ public class ArrivalTerminalTransfer extends Thread{
      * @return <p>true, terminou o dia de trabalho, terminaram os voos, o seu ciclo de vida chegou ao fim</p>
      *         <p>false, ainda não terminou o seu dia de trabalho, ainda tem passageiros para serem reencaminhados</p>
      */
-    public boolean hasDaysWorkEnded() {
+    public synchronized boolean hasDaysWorkEnded() {
 
         
         if((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1)){ //nflight begin:0 numFLight begin: 1

@@ -38,7 +38,7 @@ public class Passenger implements Runnable{
     private DepartureTerminalTransfer dtt;
     private ArrivalTerminalExit ate;
     private DepartureTerminalEntrance dte;
-    public static String status;
+    private String status;
     
     //construtor
     public Passenger(int threadID, ArrivalLounge al, BaggageCollection bc, GeneralRepository gr, TemporaryStorageArea tsa, BaggageReclaimOffice bro, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt, ArrivalTerminalExit ate, DepartureTerminalEntrance dte  ){
@@ -204,8 +204,8 @@ public class Passenger implements Runnable{
         Random rand = new Random();
         String[] status = {"TRF", "FDT"};
         this.numberOfBags = rand.nextInt(3);
-        
-        this.status = status[0];
+        int index = rand.nextInt(2);
+        this.status = status[index];
         
         if(this.status == "FDT"){
             ate.nPassengers(idflight);

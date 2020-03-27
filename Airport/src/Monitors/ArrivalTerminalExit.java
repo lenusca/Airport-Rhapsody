@@ -10,11 +10,11 @@ package Monitors;
  * @author lenin
  */
 public class ArrivalTerminalExit {
-    private GeneralRepository gr;
-    private DepartureTerminalEntrance dte;
-    private int []pFDT = new int[5];
-    private int []count = new int[5];
-    private int sair = 0;
+    private final GeneralRepository gr;
+    private final DepartureTerminalEntrance dte;
+    private final int []pFDT = {0, 0, 0, 0, 0};
+    private final int []count = new int[5];
+    private final int sair = 0;
     
     public ArrivalTerminalExit(GeneralRepository gr, DepartureTerminalEntrance dte){
         this.gr = gr;
@@ -32,8 +32,8 @@ public class ArrivalTerminalExit {
         gr.setPassengerState("EAT", threadID);
        
         this.count[idVoo] += 1; 
-  
-        while(!allPassengers(idVoo)){
+        System.out.println("AQUI"+dte.allPassengers(idVoo));
+        while(!allPassengers(idVoo) || !dte.allPassengers(idVoo)){
             try{
                wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
             }catch(InterruptedException e){}

@@ -55,7 +55,7 @@ public class GeneralRepository {
     public static List idPassengers = Collections.synchronizedList(new LinkedList<String>());
     public static String[] s = new String[3]; 
     
-    public static int numFlight = 1;
+    private int numFlight = 1;
     private int numOfBags = 0;
     private int totalBags = 0;
     private int totalLostBags = 0;
@@ -244,6 +244,10 @@ public class GeneralRepository {
     */
     public synchronized void numTRF(){
        this.cntTRF += 1;
+    }
+    
+    public synchronized void numFlight(int numFlight){
+       this.numFlight = numFlight;
     }
     
     
