@@ -80,7 +80,6 @@ public class DepartureTerminalTransfer extends Thread{
         synchronized (passengersBus) {
         // add an element and notify all that an element exists 
        passengersBus.add(threadID);
-       System.out.println("Passageiro adicionado: "+threadID);
        passengersBus.notifyAll();
         
       }

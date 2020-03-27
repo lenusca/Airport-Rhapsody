@@ -66,13 +66,13 @@ public class Airport {
                 threads[threadcount] = new Thread(passenger_runnable);
                 threads[threadcount].start();
             }
-            /*Porter threadID = 6 */
+            /*Porter threadID = 9 */
             else if (threadcount < nPassengers + 1){
                 Runnable porter_runnable = new Porter(threadcount, bc, tsa, al, gr);
                 threads[threadcount] = new Thread(porter_runnable);
                 threads[threadcount].start();
             }
-            /*BusDriver threadID = 7*/
+            /*BusDriver threadID = 10*/
             else{
                 Runnable busdriver_runnable = new BusDriver(threadcount, att, dtt);
                 threads[threadcount] = new Thread(busdriver_runnable);
@@ -80,7 +80,7 @@ public class Airport {
             }
         }
  
-        System.out.println("Antes do join...Airport"+threads.length);
+        //System.out.println("Antes do join...Airport"+threads.length);
         /*Aguardar o fim da simulação*/
         for(int i = 0; i < threads.length; i++){
             try{

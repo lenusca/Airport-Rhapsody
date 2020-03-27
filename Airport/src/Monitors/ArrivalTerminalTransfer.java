@@ -13,10 +13,14 @@ import java.util.*;
 public class ArrivalTerminalTransfer extends Thread{
 
     private Queue<Integer> passengersBus = new LinkedList<>();
-    private int[] nPassengersFlight = new int[5];
-    private Queue<Integer> enteringPassengers = new LinkedList<>(); //passageiros que vão entrar
+    private Queue<Integer> passengersBus2 = new LinkedList<>();
+    private int[] nPassengersFlight = new int[5]; 
+    private boolean[] enteringPassengers = new boolean[6]; //passageiros que vão entrar
+    
     private int idPassenger=0;
     private int index=0;
+    
+    private static int numPassengersBus = 0;
     private static int count = 0;
     private static int nFlight;
     private int busCapacity; //capaciadade do bus
@@ -28,6 +32,7 @@ public class ArrivalTerminalTransfer extends Thread{
     public ArrivalTerminalTransfer(int busCapacity, int numFlight, GeneralRepository gr) {
         this.busCapacity=busCapacity;
         this.gr = gr;
+        Arrays.fill(enteringPassengers, false);
     }
     
     /******************************PASSENGER METHODS****************************/
@@ -41,31 +46,22 @@ public class ArrivalTerminalTransfer extends Thread{
         gr.idPassengers.add(index, String.valueOf(threadID));
         gr.setPassengerState("ATT", threadID);
         index=index+1;
-      
-        addPassenger(threadID);
-        idPassenger=idPassenger+1;
         
-        while(passengersBus.size() > busCapacity){ //se o id for maior que 3, de certeza que o bus já se encontra cheio
+        addPassenger(threadID); //adicionado o passageiro à fila de espera
+        System.out.println(passengersBus);
+        if(passengersBus.size() == busCapacity){
+            notifyAll();
+        } //notifica o bus que a fila atingiu a capacidade do bus
+        
+        while(enteringPassengers[threadID]==false){
             try{
-                wait();          //passageiros aguardam o anuncio para entrar no bus, encontrando-se em andamento
+                wait();    //passageiros aguardam o anuncio para entrar no bus
             }catch(InterruptedException e){ }
-        }
-        
-        if(idPassenger == busCapacity){ //chegou o 3º ou 6º passageiro à fila de espera
-            System.out.println("notificou o bus");
-            notifyAll();    //notifica o bus que a fila atingiu a capacidade do bus
-            idPassenger = 0;
-        }
- 
-        if(idPassenger<=busCapacity){ //numero passageiros inferior à capacidade do bus, aguardam para entrar
-            System.out.println("Aguarda: "+threadID);
-            try{
-                wait();          //passageiros aguardam o anuncio para entrar no bus
-            }catch(InterruptedException e){ }
-        }
-        
-        enteringPassengers.add(removePassenger());
-            
+            if (numPassengersBus++<=busCapacity){
+                enteringPassengers[removePassenger()] = true;
+            }
+        }  
+        enteringPassengers[threadID] = false;
     }
     
     /**
@@ -78,12 +74,13 @@ public class ArrivalTerminalTransfer extends Thread{
         gr.s[count] = String.valueOf(threadID);
         gr.setPassengerState("TRT", threadID);
         count += 1;
-       
-        dtt.addPassenger(enteringPassengers.remove());
+        
+        dtt.addPassenger(threadID);
             
-        if(passengersBus.size() == 0){
-            notifyAll();        //Acorda o busDriver
-        }        
+        if(count == numPassengersBus){
+            notifyAll();   //Acorda o busDriver, já entraram todos no bus
+        }
+ 
         while(!dtt.getBusArrived()){ //enquanto o passageiro nao chega ao departure
             try{
                 wait();    //passageiros esperam para chegar ao destino
@@ -91,26 +88,29 @@ public class ArrivalTerminalTransfer extends Thread{
         }
         nPassengersFlight[nFlight] -= 1; //decrementa o numero de passageiros no Arrival Terminal, necessário para matar a thread do busDriver
         count = 0;
+        numPassengersBus = 0;
     }
     
     /****************************BUSDRIVER METHODS*******************************/
     
     /**
      * 
-     * <p>Verifica se o DusDriver já terminou o seu trabalho ou ainda tem passageiros para efetuar a viagem</p>
+     * <p>Verifica se já chegaram todos os voos, para terminar o dia de trabalho do busDriver.
+     * Se não tiver passageiros dorme, se tiver passageiros na fila dá ordem para começar a viagem, isto é, se houver passageiros para a capacidade do autocarro na fila de espera, os passageiros acordam-no
+     * e procede ao embarque, caso contrário aguarda pela hora de partida</p>
      * @return <p>true, terminou o dia de trabalho, terminaram os voos, o seu ciclo de vida chegou ao fim</p>
      *         <p>false, ainda não terminou o seu dia de trabalho, ainda tem passageiros para serem reencaminhados</p>
      */
     public boolean hasDaysWorkEnded() {
         System.out.println("FLIGHT: "+nFlight);
-       
+        
         if((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1)){ //nflight begin:0 numFLight begin: 1
             return true; //é o ultimo voo e não há mais passageiros, bus work ended your day
         }
         
-        while(nPassengersFlight[nFlight] == 0){
+        while(nPassengersFlight[nFlight]==0 && (nFlight!=numFlight-1)){
             try{
-                wait();        //não há passageiros para serem servidos
+                wait();       //não há passageiros para serem servidos
             }catch(InterruptedException e){}
         }
         
@@ -123,7 +123,7 @@ public class ArrivalTerminalTransfer extends Thread{
             }
             if((nPassengersFlight[nFlight] < busCapacity) && (nPassengersFlight[nFlight] > 0)){ //numero passageiros inferior ao bus capacity mas há passageiros
                 try{
-                   wait(1000);      //dá um compasso de espera para chegar a hora do bus
+                   wait(500);      //dá um compasso de espera para chegar a hora do bus
                 }catch(InterruptedException e){}
                 return false;
             }    
@@ -138,7 +138,8 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void announcingBusBoarding() {
         notifyAll(); //notifica os passageiros para entrar
-        while(!enteringPassengers.isEmpty()){
+        
+        while(!passengersBus.isEmpty()){
             try{
                 wait();      //espera que os passageiros entrem no bus
             }catch(InterruptedException e){}
@@ -179,7 +180,6 @@ public class ArrivalTerminalTransfer extends Thread{
         synchronized (passengersBus) {
         // add an element and notify all that an element exists 
        passengersBus.add(threadID);
-       System.out.println("Passageiro adicionado: "+threadID);
        passengersBus.notifyAll();
         
       }
