@@ -54,15 +54,18 @@ public class ArrivalTerminalTransfer extends Thread{
             notifyAll();
         } //notifica o bus que a fila atingiu a capacidade do bus
 
-        while(enteringPassengers[threadID]==false){
+        while(this.enteringPassengers[threadID]==false){
             try{
                 wait();    //passageiros aguardam o anuncio para entrar no bus
-            }catch(InterruptedException e){ }
-           
+            }catch(InterruptedException e){
+                Thread.currentThread().interrupt();
+            }
+       
             if (numPassengersBus++ < busCapacity){
                 idPassenger+=1;
                 System.out.println("numPassengersBus "+numPassengersBus);
-                enteringPassengers[passengersBus.remove()] = true;
+                notifyAll();
+                this.enteringPassengers[passengersBus.remove()] = true;
                 index -= 1; //para o proximo passageiro que entrar aparecer no log atras do ultimo da fila
             }
         } 
@@ -86,7 +89,7 @@ public class ArrivalTerminalTransfer extends Thread{
         if(count == idPassenger){
             notifyAll();   //Acorda o busDriver, já entraram todos no bus    
         }
-        //nPassengersFlight[nFlight] -= 1; //decrementa o numero de passageiros no Arrival Terminal, necessário para matar a thread do busDriver  
+        nPassengersFlight[nFlight] -= 1; //decrementa o numero de passageiros no Arrival Terminal, necessário para matar a thread do busDriver  
     
     }
     
@@ -130,7 +133,7 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void announcingBusBoarding() {
         notifyAll(); //notifica os passageiros para entrar
-        while(idPassenger!=3){
+        while(!((idPassenger == nPassengersFlight.length) || (3 < nPassengersFlight.length && idPassenger == 3))){
             System.out.println("ACorda");
             try{
                 wait();      //espera que os passageiros entrem no bus
@@ -159,6 +162,7 @@ public class ArrivalTerminalTransfer extends Thread{
      * <p>O busDriver estaciona o autocarro</p>
      */
     public synchronized void parkTheBus() {
+        notifyAll();
         gr.setBusDriverState("PKAT");
         numPassengersBus = 0;
         //try{
