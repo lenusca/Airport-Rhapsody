@@ -114,11 +114,11 @@ public class GeneralRepository {
             System.exit(1);
         }
         
-        if(this.numFlight == 5 && passenger_state[0] == "EAT" && passenger_state[1] == "EAT" && passenger_state[2] == "EAT" && passenger_state[3] == "EAT" && passenger_state[4] == "EAT" && passenger_state[5] =="EAT" && porter_state == "WPTL"){
+        if(this.numFlight == 5 && (passenger_state[0] == "EAT" || passenger_state[0] == "EDT") && (passenger_state[1] == "EAT" || passenger_state[1] == "EDT") && (passenger_state[2] == "EAT" || passenger_state[2] == "EDT") && (passenger_state[3] == "EAT" || passenger_state[3] == "EDT") && (passenger_state[4] == "EAT" || passenger_state[4] == "EDT") && (passenger_state[5] =="EAT"|| passenger_state[5] == "EDT") && porter_state == "WPTL" && busdriver_state == "PKAT" ){
             finalReport();
         }
         
-        else if(passenger_state[0] == "EAT" && passenger_state[1] == "EAT" && passenger_state[2] == "EAT" && passenger_state[3] == "EAT" && passenger_state[4] == "EAT" && passenger_state[5] =="EAT" && porter_state == "WPTL"){
+        else if((passenger_state[0] == "EAT" || passenger_state[0] == "EDT") && (passenger_state[1] == "EAT" || passenger_state[1] == "EDT") && (passenger_state[2] == "EAT" || passenger_state[2] == "EDT") && (passenger_state[3] == "EAT" || passenger_state[3] == "EDT") && (passenger_state[4] == "EAT" || passenger_state[4] == "EDT") && (passenger_state[5] =="EAT"|| passenger_state[5] == "EDT") && porter_state == "WPTL" && busdriver_state == "PKAT" ){
            resetValues(); 
         } 
    }
