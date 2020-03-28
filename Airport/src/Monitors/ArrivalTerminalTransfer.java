@@ -59,16 +59,14 @@ public class ArrivalTerminalTransfer extends Thread{
                 wait();    //passageiros aguardam o anuncio para entrar no bus
             }catch(InterruptedException e){ }
            
-            if (numPassengersBus++< busCapacity){
+            if (numPassengersBus++ < busCapacity){
                 idPassenger+=1;
-                System.out.println(passengersBus.size());
+                System.out.println("numPassengersBus "+numPassengersBus);
                 enteringPassengers[passengersBus.remove()] = true;
                 index -= 1; //para o proximo passageiro que entrar aparecer no log atras do ultimo da fila
             }
-            System.out.println("AQYUUUUU"+enteringPassengers[threadID]);
-
         } 
-        System.out.println("numPassengersBus"+numPassengersBus);
+        //System.out.println("numPassengersBus"+numPassengersBus);
         enteringPassengers[threadID] = false;
         
     }
@@ -84,7 +82,7 @@ public class ArrivalTerminalTransfer extends Thread{
         count += 1;
         
         dtt.addPassenger(threadID);
-        System.out.println("Count Passengers: "+idPassenger);    
+          
         if(count == idPassenger){
             notifyAll();   //Acorda o busDriver, já entraram todos no bus    
         }
@@ -104,13 +102,16 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized boolean hasDaysWorkEnded() {
 
-        
+        System.out.println("Flight: "+nFlight);
         if((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1)){ //nflight begin:0 numFLight begin: 1
             return true; //é o ultimo voo e não há mais passageiros, bus work ended your day
         }
         
         if(nPassengersFlight[nFlight] >= busCapacity){
-          return false; 
+            try{
+                wait();
+            }catch(InterruptedException e){}
+            return false; 
         }
         
         while(nPassengersFlight[nFlight] < busCapacity){
@@ -129,12 +130,13 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void announcingBusBoarding() {
         notifyAll(); //notifica os passageiros para entrar
-        System.out.println("PASSENGERS BUS: "+ passengersBus);
-        while(!((idPassenger == nPassengersFlight.length) || (3 < nPassengersFlight.length && idPassenger == 3))){
+        while(idPassenger!=3){
+            System.out.println("ACorda");
             try{
                 wait();      //espera que os passageiros entrem no bus
             }catch(InterruptedException e){}
         }
+        
     }
     
     /**
