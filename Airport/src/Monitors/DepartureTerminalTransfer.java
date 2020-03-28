@@ -15,7 +15,7 @@ import java.util.Queue;
  */
 public class DepartureTerminalTransfer extends Thread{
     /*Fila de passageiros dentro do autocarro*/
-    private Queue<Integer> passengersBus = new LinkedList<>();
+    public Queue<Integer> passengersBus = new LinkedList<>();
     private final GeneralRepository gr;
     private boolean busArrived = false;
     private int count = 0;
@@ -64,6 +64,7 @@ public class DepartureTerminalTransfer extends Thread{
                 wait();      //espera que os passageiros saiam do bus
             }catch(InterruptedException e){}
         }
+        busArrived = false;
     }
     
     /**
@@ -72,7 +73,7 @@ public class DepartureTerminalTransfer extends Thread{
      */
     public synchronized void goToArrivalTerminal() {
         gr.setBusDriverState("DRBW");
-        busArrived = false;
+        
         //try{
         //    sleep(300);
         //}catch(InterruptedException e){}
