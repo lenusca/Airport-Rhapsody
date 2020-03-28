@@ -32,17 +32,21 @@ public class DepartureTerminalTransfer extends Thread{
      * @param threadID threadID do passageiro
      */
     public synchronized void leaveTheBus(int threadID) {
-        System.out.println("COUNT "+ count);
+        while(busArrived==false){ //enquanto o passageiro nao chega ao departure
+            try{
+                wait();    //passageiros esperam para chegar ao destino
+            }catch(InterruptedException e){}
+        }
+        passengersBus.remove(threadID);
         gr.s[count] = "-";
         gr.setPassengerState("DTT", threadID);
         count += 1;
-        System.out.println("DTT->"+passengersBus);
-        passengersBus.remove();
         
         if(passengersBus.isEmpty()){
             count = 0;
             notifyAll();
         }  
+        System.out.println("leavethebus() -> "+threadID);
     }
     
     /**
@@ -51,7 +55,7 @@ public class DepartureTerminalTransfer extends Thread{
      */
     public synchronized void parkTheBusAndLetPassOff() {
         gr.setBusDriverState("PKDT");
-        setBusArrived(true);
+        busArrived = true;
        
         notifyAll();    //acordar os passageiros para sair  
         
@@ -68,6 +72,7 @@ public class DepartureTerminalTransfer extends Thread{
      */
     public synchronized void goToArrivalTerminal() {
         gr.setBusDriverState("DRBW");
+        busArrived = false;
         //try{
         //    sleep(300);
         //}catch(InterruptedException e){}

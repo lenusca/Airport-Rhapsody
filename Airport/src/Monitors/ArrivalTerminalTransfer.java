@@ -13,7 +13,7 @@ import java.util.*;
 public class ArrivalTerminalTransfer extends Thread{
 
     private Queue<Integer> passengersBus = new LinkedList<>();
-    private Queue<Integer> passengersBus2 = new LinkedList<>();
+    private Queue<Integer> passengersInsideTheBus = new LinkedList<>();
     private int[] nPassengersFlight = new int[5]; 
     private boolean[] enteringPassengers = new boolean[6]; //passageiros que vão entrar
     
@@ -48,15 +48,13 @@ public class ArrivalTerminalTransfer extends Thread{
         gr.idPassengers.add(index, String.valueOf(threadID));
         gr.setPassengerState("ATT", threadID);
         index=index+1;
-        passengersBus.add(threadID);
-  //adicionado o passageiro à fila de espera
+        passengersBus.add(threadID); //adicionado o passageiro à fila de espera
         System.out.println(passengersBus);
         if(passengersBus.size() == busCapacity){
             notifyAll();
         } //notifica o bus que a fila atingiu a capacidade do bus
 
         while(enteringPassengers[threadID]==false){
-            
             try{
                 wait();    //passageiros aguardam o anuncio para entrar no bus
             }catch(InterruptedException e){ }
@@ -65,13 +63,13 @@ public class ArrivalTerminalTransfer extends Thread{
                 idPassenger+=1;
                 System.out.println(passengersBus.size());
                 enteringPassengers[passengersBus.remove()] = true;
+                index -= 1; //para o proximo passageiro que entrar aparecer no log atras do ultimo da fila
             }
             System.out.println("AQYUUUUU"+enteringPassengers[threadID]);
 
         } 
         System.out.println("numPassengersBus"+numPassengersBus);
         enteringPassengers[threadID] = false;
-        index -= 1; //para o proximo passageiro que entrar aparecer no log atras do ultimo da fila
         
     }
     
@@ -82,29 +80,16 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void enterTheBus(int threadID) {
         gr.s[count] = String.valueOf(gr.idPassengers.pollFirst());
-        System.out.println(enteringPassengers[threadID]);
-        gr.s[count] = String.valueOf(threadID);
         gr.setPassengerState("TRT", threadID);
         count += 1;
         
         dtt.addPassenger(threadID);
         System.out.println("Count Passengers: "+idPassenger);    
         if(count == idPassenger){
-            System.out.println("ACORDEII");
-            notifyAll();   //Acorda o busDriver, já entraram todos no bus
-            
+            notifyAll();   //Acorda o busDriver, já entraram todos no bus    
         }
-
-        while(!dtt.getBusArrived()){ //enquanto o passageiro nao chega ao departure
-            try{
-                wait();    //passageiros esperam para chegar ao destino
-            }catch(InterruptedException e){}
-        }
-        nPassengersFlight[nFlight] -= 1; //decrementa o numero de passageiros no Arrival Terminal, necessário para matar a thread do busDriver
-        count = 0;
-        idPassenger = 0;
-        index = 0;
-   
+        //nPassengersFlight[nFlight] -= 1; //decrementa o numero de passageiros no Arrival Terminal, necessário para matar a thread do busDriver  
+    
     }
     
     /****************************BUSDRIVER METHODS*******************************/
@@ -157,10 +142,14 @@ public class ArrivalTerminalTransfer extends Thread{
      * <p>O busDriver parte para o Departure Terminal Transfer</p>
      */
     public synchronized void goToDepartureTerminal() {
+        System.out.println("PArtiu");
         gr.setBusDriverState("DRFW");
         //try{
         //   sleep(300);             //simulação de viagem para o o dtt
         //}catch(InterruptedException e){}
+        count = 0;
+        idPassenger = 0;
+        index = 0;
     }
     
     /**
@@ -169,7 +158,6 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void parkTheBus() {
         gr.setBusDriverState("PKAT");
-        dtt.setBusArrived(false);
         numPassengersBus = 0;
         //try{
         //   sleep(50);             //simulação de park the bus
