@@ -51,7 +51,7 @@ public class ArrivalTerminalTransfer extends Thread{
         this.passengersBus.add(threadID); //adicionado o passageiro à fila de espera
         System.out.println("takeABusInicio: "+passengersBus.size()+" "+nPassengersFlight[nFlight]+" "+allPassengers);
         if(passengersBus.size() == nPassengersFlight[nFlight]){
-            //System.out.println("NOTIFICAAAAAA");
+            System.out.println("NOTIFICAAAAAA");
             //flag para verificar se tem todos
             allPassengers = true;
             notifyAll();
@@ -77,8 +77,8 @@ public class ArrivalTerminalTransfer extends Thread{
      * @param threadID threadID do passageiro
      */
     public synchronized void enterTheBus(int threadID) {
-        gr.s[count] = String.valueOf(threadID);
         gr.idPassengers.remove(threadID);
+        gr.s[count] = String.valueOf(threadID); 
         gr.setPassengerState("TRT", threadID);
         count += 1;
         
@@ -104,10 +104,9 @@ public class ArrivalTerminalTransfer extends Thread{
     public synchronized boolean hasDaysWorkEnded() {
         busCapacity = 3;
         System.out.println("Flight: "+nFlight);
-        
-        System.out.println("VERIFICAR:"+nPassengersFlight[nFlight]+"  "+passengersBus.size()+"   "+busCapacity);
-        while(((passengersBus.size() < busCapacity && passengersBus.size() < 0 )|| (passengersBus.size() < busCapacity))  && (!allPassengers) && !((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1))){
-            System.out.println("Entrouuuuu");
+        System.out.println("VERIFICAR:"+nPassengersFlight[nFlight]+"  "+passengersBus.size()+"   "+busCapacity);  
+        while(((((((passengersBus.size() < busCapacity) && (passengersBus.size() <= 0 )) || (passengersBus.size() < busCapacity))  && (passengersBus.size()!=nPassengersFlight[nFlight])) ||(nPassengersFlight[nFlight] == 0)) && !((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1)))){
+            //System.out.println("Entrouuuuu");
             try{
                 wait(10);    //passageiros esperam para chegar ao destino
             }catch(InterruptedException e){}
@@ -116,7 +115,7 @@ public class ArrivalTerminalTransfer extends Thread{
             return true; //é o ultimo voo e não há mais passageiros, bus work ended your day
         }
         // colocar aqui o valor que deve entrar numero de passageiros
-        System.out.println("todos "+allPassengers);
+        //System.out.println("todos "+allPassengers);
         //System.out.println("busCapacity: "+busCapacity);
         if(passengersBus.size() >= busCapacity){
             this.busCapacity = 3;
@@ -124,6 +123,7 @@ public class ArrivalTerminalTransfer extends Thread{
         else if(passengersBus.size() < busCapacity){  
             this.busCapacity = passengersBus.size(); 
         }
+        System.out.println("VERIFICAR:"+nPassengersFlight[nFlight]+"  "+passengersBus.size()+"   "+busCapacity);
         return false;         
     }
     

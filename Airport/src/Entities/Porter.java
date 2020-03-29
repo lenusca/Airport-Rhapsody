@@ -52,7 +52,6 @@ public class Porter implements Runnable{
                 /* Se for um passageiro já no destino deixa BAGGAGE COLLECTION POINT*/
                 bc.allBags(al.BagsEmpty());
                 if(bag.getStatus() == "TRF"){
-                    System.out.println("AQUI");
                     tsa.curryItToAppropriateStore(bag);
                 }
                 else{
