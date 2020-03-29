@@ -15,16 +15,22 @@ public class ArrivalTerminalExit {
     private int []pFDT = {0, 0, 0, 0, 0};
     private int []count = new int[5];
     private int []count2 = new int[5];
-    public boolean sair = false;
     
     public ArrivalTerminalExit(GeneralRepository gr, DepartureTerminalEntrance dte){
         this.gr = gr;
         this.dte = dte;
     }
     
+    /**
+    *
+    * <p> Instanciar a zona Departure Terminal, pois ambas vão ter os passageiros a saídas, têm de estar sincronizados. </p>
+    *    @param dte outra saída
+    *    @see DepartureTerminalEntrance
+    */
     public synchronized void setDepartureTerminalEntrance (DepartureTerminalEntrance dte){
         this.dte = dte;
     }
+    
     /**
     *
     * <p> Passageiro que o destino é este aeroporto, têm como ponto saida o Arrival Terminal Exit. Quando um passageiro chega ao Arrival Terminal Exit fica a espera que cheguem todos os passageiros às saidas Arrival Terminal Exit e Departure Terminal Entrance. Quando chegam são todos acordados e vão para um novo voo ou terminam</p>
@@ -44,19 +50,12 @@ public class ArrivalTerminalExit {
             }
             notifyAll();
         }
-        
-        
       
-        //acorda os outros passageiros
-        
+        //o último deste lado acorda os outros passageiros
         count2[idVoo] += 1;
         if(count2[idVoo] == pFDT[idVoo]){
             dte.wakeUpAll();
-        }
-        
-        
-        
-             
+        }         
     }
     
     /**
@@ -76,24 +75,16 @@ public class ArrivalTerminalExit {
     *            <p> false, se não chegaram todos os passageiros </p>
     */
     public synchronized boolean allPassengers(int idVoo){
-        if(count[idVoo] == pFDT[idVoo]){
-            this.sair = true;
-            return true;
-        }
-        
-        else{
-            this.sair = false;
-            return false;
-        }
+        return count[idVoo] == pFDT[idVoo];
     }
     
+    /**
+    *
+    * <p> Acorda os outros passageiros que se encontram a espera na outra saída </p>
+    * 
+    */
     public synchronized void wakeUpAll(){
         notifyAll();
     }
-    
-    public boolean getSair(){
-        return sair;
-    }
-    
-
+   
 }

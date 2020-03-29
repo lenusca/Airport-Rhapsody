@@ -41,7 +41,7 @@ public class Passenger implements Runnable{
     private String status;
     
     //construtor
-    public Passenger(int threadID, ArrivalLounge al, BaggageCollection bc, GeneralRepository gr, TemporaryStorageArea tsa, BaggageReclaimOffice bro, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt, ArrivalTerminalExit ate, DepartureTerminalEntrance dte  ){
+    public Passenger(int threadID, ArrivalLounge al, BaggageCollection bc, GeneralRepository gr, TemporaryStorageArea tsa, BaggageReclaimOffice bro, ArrivalTerminalTransfer att, DepartureTerminalTransfer dtt, ArrivalTerminalExit ate, DepartureTerminalEntrance dte, String status  ){
         this.id = threadID;
         this.al = al;
         this.bc = bc;
@@ -52,6 +52,7 @@ public class Passenger implements Runnable{
         this.dtt = dtt;
         this.ate = ate;
         this.dte = dte;
+        this.status = status;
         
     }
     
@@ -103,7 +104,7 @@ public class Passenger implements Runnable{
     *                         
     */
     public String getStatus() {
-        return status;
+        return this.status;
     }
     
     /**
@@ -185,7 +186,7 @@ public class Passenger implements Runnable{
     *    
     */
     public Passenger getPassenger(){
-       return new Passenger(this.id, this.al, this.bc, this.gr, this.tsa, this.bro, this.att, this.dtt, this.ate, this.dte);
+       return new Passenger(this.id, this.al, this.bc, this.gr, this.tsa, this.bro, this.att, this.dtt, this.ate, this.dte, this.status);
     }
     
     /**
@@ -208,6 +209,7 @@ public class Passenger implements Runnable{
         this.status = status[index];
         System.out.println(index);
         att.setIdVoo(idflight);
+        
         if(this.status == "FDT"){
             ate.nPassengers(idflight);
             gr.numFDT();
@@ -273,7 +275,6 @@ public class Passenger implements Runnable{
                         }
                     }
                     if(!success){
-                        System.out.println("P "+id);
                         bro.reportMissingBags(id);
                     }
 

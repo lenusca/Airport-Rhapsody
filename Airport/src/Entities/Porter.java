@@ -50,15 +50,18 @@ public class Porter implements Runnable{
                 /* Decidir em qual dos sitios se armazena a mala*/
                 /* Se for um passageiro em transito(T)deixa TEMPORARY STORAGE AREA */
                 /* Se for um passageiro já no destino deixa BAGGAGE COLLECTION POINT*/
+                bc.allBags(al.BagsEmpty());
                 if(bag.getStatus() == "TRF"){
+                    System.out.println("AQUI");
                     tsa.curryItToAppropriateStore(bag);
                 }
                 else{
                     if(al.BagsEmpty()){
-                        bc.curryItToAppropriateStore(bag, true);
+                        
+                        bc.curryItToAppropriateStore(bag);
                     }
                     else{
-                        bc.curryItToAppropriateStore(bag, false);
+                        bc.curryItToAppropriateStore(bag);
                     }
                 }
          
@@ -66,8 +69,7 @@ public class Porter implements Runnable{
 
             /*Já não há mais malas*/
             al.noMoreBagstoCollect();
-            gr.numOfBagsStoreroom = 0;
-            gr.numOfBagsConveyor = 0;
+            gr.resetBagsValue();
             
         }
         System.out.println("O porter "+this.id+" terminou o serviço");

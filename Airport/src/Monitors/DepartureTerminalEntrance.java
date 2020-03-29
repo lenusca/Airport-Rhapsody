@@ -15,12 +15,18 @@ public class DepartureTerminalEntrance {
     private int []pTRF = {0, 0, 0, 0, 0};
     private int []count = new int[5];
     private int []count2 = new int[5];
-    public boolean sair = false;
+
     
     public DepartureTerminalEntrance(GeneralRepository gr){
         this.gr = gr;
     }
     
+    /**
+    *
+    * <p> Instanciar a zona Departure Terminal, pois ambas vão ter os passageiros a saídas, têm de estar sincronizados. </p>
+    *    @param ate outra saída
+    *    @see ArrivalTerminalExit
+    */
     public synchronized void setArrivalTerminalExit (ArrivalTerminalExit ate){
         this.ate = ate;
     }
@@ -46,18 +52,12 @@ public class DepartureTerminalEntrance {
             }
             notifyAll();
         }
-        
-        
- 
+         
+        //o último deste lado acorda os outros passageiros
         count2[idVoo] += 1;
         if(count2[idVoo] == pTRF[idVoo]){
             ate.wakeUpAll();
         }
-        
-        
-            //gr.resetValues();
-        
-        
     }
     
     /**
@@ -77,22 +77,17 @@ public class DepartureTerminalEntrance {
     *            <p> false, se não chegaram todos os passageiros </p>
     */
     public synchronized boolean allPassengers(int idVoo){
-        if(count[idVoo] == pTRF[idVoo]){
-            this.sair = true;
-            return true;
-        }
-        else{
-            this.sair = false;
-            return false;
-        }
+        return count[idVoo] == pTRF[idVoo];
     }
     
+    /**
+    *
+    * <p> Acorda os outros passageiros que se encontram a espera na outra saída </p>
+    * 
+    */
     public synchronized void wakeUpAll(){
         notifyAll();
     }
     
-    public boolean getSair(){
-        return sair;
-    }
     
 }

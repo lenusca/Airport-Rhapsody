@@ -62,7 +62,7 @@ public class Airport {
         for(int threadcount = 0; threadcount < nPassengers + 1 + 1; threadcount++){
             
             if(threadcount < nPassengers){
-                Runnable passenger_runnable = new Passenger(threadcount, al, bc, gr, tsa, bro, att, dtt, ate, dte);
+                Runnable passenger_runnable = new Passenger(threadcount, al, bc, gr, tsa, bro, att, dtt, ate, dte, "FDT");
                 
                 threads[threadcount] = new Thread(passenger_runnable);
                 threads[threadcount].start();

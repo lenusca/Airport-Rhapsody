@@ -28,8 +28,8 @@ public class BaggageCollection {
     *    @param bag mala que vem do Arrival Lounge
     *    @param finish já acabou a recolha de todas as malas
     */
-    public synchronized void curryItToAppropriateStore(Bag bag, boolean finish) {
-        this.allBagsAtColletionPoint = finish;
+    public synchronized void curryItToAppropriateStore(Bag bag) {
+
         bags.add(bag);
         gr.numOfBagsConveyor = gr.numOfBagsConveyor + 1;
         gr.setPorterState("ALCB");
@@ -48,7 +48,7 @@ public class BaggageCollection {
         boolean notfindBag = true;
         while((bags.isEmpty() || (notfindBag = doesNotContainBag(threadID))) && !allBagsAtColletionPoint ){      //passageiro espera enquanto não há malas
             try{ 
-                wait();
+                wait(10);
             }
             catch (InterruptedException e) {
                Thread.currentThread().interrupt();
@@ -73,7 +73,7 @@ public class BaggageCollection {
                 bags.remove(i);
                 gr.numOfBagsConveyor = gr.numOfBagsConveyor - 1;
                 gr.na[passengerID] = String.valueOf(Integer.parseInt(gr.na[passengerID]) + 1);
-               
+                notifyAll();
                 return false;
             }
         }
@@ -87,5 +87,9 @@ public class BaggageCollection {
     */
     public synchronized void resetValues(){
         this.allBagsAtColletionPoint = false;
+    }
+    
+    public synchronized void allBags(boolean finish){
+        this.allBagsAtColletionPoint = finish;
     }
 }

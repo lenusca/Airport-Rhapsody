@@ -51,9 +51,7 @@ public class ArrivalLounge {
         if(countPassenger == numPassenger){
             System.out.println("WhatShouldIDo() --> WAKEN UP THE PORTER");
             notifyAll();      //Acorda o Porter
-            if(this.flight ==this.numFlight ){
-                this.allDone = true;
-            }
+            
         }
         
         if(status =="FDT"){
@@ -87,8 +85,12 @@ public class ArrivalLounge {
     public synchronized void noMoreBagstoCollect() {
         if(bags.isEmpty()){
             countPassenger = 0;
-            notifyAll();            
+            notifyAll();
+            if(this.flight == this.numFlight){
+                this.allDone = true;
+            }
         }
+        
     }
     
     
@@ -104,7 +106,7 @@ public class ArrivalLounge {
             Aguardar para ser acordado pelo 6º passageiros, 
             e se os passageiros não tiverem mala vai a mesma trabalhar
         */
-        if((this.flight <= this.numFlight) && (this.countPassenger < this.numPassenger && !allDone)){ 
+        if((this.flight <= this.numFlight) && (!allDone) || !allDone){ 
             try{
                 wait();
             }catch(InterruptedException e){

@@ -28,7 +28,7 @@ public class TemporaryStorageArea {
     */
     public synchronized void curryItToAppropriateStore(Bag bag) {
         bags.add(bag);
-        gr.numOfBagsStoreroom = gr.numOfBagsStoreroom + 1;
+        gr.addBagsStoreroom();
         gr.setPorterState("ASTR");   
     }
     

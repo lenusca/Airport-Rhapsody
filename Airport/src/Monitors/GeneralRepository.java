@@ -60,7 +60,7 @@ public class GeneralRepository {
     private int totalBags = 0;
     private int totalLostBags = 0;
     public static int numOfBagsConveyor = 0;
-    public static int numOfBagsStoreroom = 0;
+    private int numOfBagsStoreroom = 0;
     
     //File
     String filename = "logFile.txt";
@@ -199,9 +199,7 @@ public class GeneralRepository {
         Arrays.fill(nr, "-");
         for(int i=0; i<6; i++){idPassengers.add("-");}
         Arrays.fill(s, "-");
-        numOfBagsConveyor = 0;
-        numOfBags = 0;
-        numOfBagsStoreroom = 0;   
+       
     }
     
     /**
@@ -248,6 +246,16 @@ public class GeneralRepository {
     
     public synchronized void numFlight(int numFlight){
        this.numFlight = numFlight;
+    }
+    
+    public synchronized void addBagsStoreroom(){
+        this.numOfBagsStoreroom += 1;
+    }
+    
+    public synchronized void resetBagsValue(){
+        this.numOfBagsConveyor = 0;
+        this.numOfBags = 0;
+        this.numOfBagsStoreroom = 0;   
     }
     
     
