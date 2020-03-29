@@ -15,7 +15,7 @@ public class DepartureTerminalEntrance {
     private int []pTRF = {0, 0, 0, 0, 0};
     private int []count = new int[5];
     private int []count2 = new int[5];
-    private boolean sair = false;
+    public boolean sair = false;
     
     public DepartureTerminalEntrance(GeneralRepository gr){
         this.gr = gr;
@@ -32,20 +32,22 @@ public class DepartureTerminalEntrance {
     *    @param idVoo id do voo
     *    @see ArrivalTerminalExit
     */
-    public synchronized void prepareNextLeg(int threadID, int idVoo) {
+    public void prepareNextLeg(int threadID, int idVoo) {
         gr.setPassengerState("EDT", threadID);
         this.count[idVoo] += 1; 
         
-        while(!allPassengers(idVoo) || !ate.allPassengers(idVoo)){
-            try{
-               wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
-            }catch(InterruptedException e){}
-        }
 
         //acorda os outros passageiros
+        synchronized(this){
+            while(!ate.allPassengers(idVoo) || !allPassengers(idVoo)){
+                try{
+                   wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
+                }catch(InterruptedException e){}
+            }
+            notifyAll();
+        }
         
         
-        wakeUpAll();
  
         count2[idVoo] += 1;
         if(count2[idVoo] == pTRF[idVoo]){
@@ -76,18 +78,21 @@ public class DepartureTerminalEntrance {
     */
     public synchronized boolean allPassengers(int idVoo){
         if(count[idVoo] == pTRF[idVoo]){
-            
+            this.sair = true;
             return true;
         }
         else{
+            this.sair = false;
             return false;
         }
     }
     
     public synchronized void wakeUpAll(){
-        notify();
+        notifyAll();
     }
     
-   
+    public boolean getSair(){
+        return sair;
+    }
     
 }
