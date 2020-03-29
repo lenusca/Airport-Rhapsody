@@ -224,6 +224,7 @@ public class Passenger implements Runnable{
         if(this.numberOfBags == 1){
             if(!probLostBag()){
                 al.addBag(b);
+               
             }
             else{
                 gr.lostBagTotal();

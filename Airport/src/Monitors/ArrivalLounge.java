@@ -21,6 +21,7 @@ public class ArrivalLounge {
     private int numPassenger;
     private int numFlight;
     private boolean allDone = false;
+    private boolean wakePorter = false;
     private LinkedList<Bag> bags = new LinkedList<>();
     // Repository
     GeneralRepository gr;
@@ -50,6 +51,7 @@ public class ArrivalLounge {
         
         if(countPassenger == numPassenger){
             System.out.println("WhatShouldIDo() --> WAKEN UP THE PORTER");
+            wakePorter = true;
             notifyAll();      //Acorda o Porter
             
         }
@@ -106,16 +108,27 @@ public class ArrivalLounge {
             Aguardar para ser acordado pelo 6º passageiros, 
             e se os passageiros não tiverem mala vai a mesma trabalhar
         */
-        if((this.flight <= this.numFlight) && (!allDone) || !allDone){ 
+        
+        
+        
+        while((!wakePorter) && !allDone ){ 
             try{
                 wait();
             }catch(InterruptedException e){
                 Thread.currentThread().interrupt();
             }
-            return false;  
+            
         }
         
-        return true;
+        wakePorter = false;
+        
+        if(allDone){
+            return true;
+        }
+        
+        else{
+            return false;
+        }
     }
     
     /***************************************** FUNÇÕES AUXILIARES**********************************************/
@@ -134,7 +147,6 @@ public class ArrivalLounge {
     /** 
     * 
     * <p>Verifica se existem malas no Arrival Lounge </p>
-    * 
     *    @return <p> true, se não há malas </p>
     *            <p> false, se houver malas </p>
     *

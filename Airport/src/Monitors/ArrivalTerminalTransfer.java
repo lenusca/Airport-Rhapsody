@@ -50,6 +50,8 @@ public class ArrivalTerminalTransfer extends Thread{
         index=index+1;
         this.passengersBus.add(threadID); //adicionado o passageiro à fila de espera
         System.out.println("takeABusInicio: "+passengersBus.size()+" "+nPassengersFlight[nFlight]+" "+allPassengers);
+        if((nPassengersFlight[nFlight]<busCapacity) && (nPassengersFlight[nFlight]==passengersBus.size())){allPassengers = true;}
+        System.out.println("busCapacity: "+busCapacity);
         if(passengersBus.size() == nPassengersFlight[nFlight]){
             System.out.println("NOTIFICAAAAAA");
             //flag para verificar se tem todos
@@ -104,8 +106,8 @@ public class ArrivalTerminalTransfer extends Thread{
     public synchronized boolean hasDaysWorkEnded() {
         busCapacity = 3;
         System.out.println("Flight: "+nFlight);
-        System.out.println("VERIFICAR:"+nPassengersFlight[nFlight]+"  "+passengersBus.size()+"   "+busCapacity);  
-        while(((((((passengersBus.size() < busCapacity) && (passengersBus.size() <= 0 )) || (passengersBus.size() < busCapacity))  && (passengersBus.size()!=nPassengersFlight[nFlight])) ||(nPassengersFlight[nFlight] == 0)) && !((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1)))){
+        System.out.println("VERIFICAR:"+nPassengersFlight[nFlight]+"  "+passengersBus.size()+"   "+busCapacity+"    "+allPassengers);  
+        while((((!allPassengers) && passengersBus.size()<busCapacity) || (nPassengersFlight[nFlight] == 0)) && !((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1))){
             //System.out.println("Entrouuuuu");
             try{
                 wait(10);    //passageiros esperam para chegar ao destino
@@ -123,7 +125,7 @@ public class ArrivalTerminalTransfer extends Thread{
         else if(passengersBus.size() < busCapacity){  
             this.busCapacity = passengersBus.size(); 
         }
-        System.out.println("VERIFICAR:"+nPassengersFlight[nFlight]+"  "+passengersBus.size()+"   "+busCapacity);
+        System.out.println("VERIFICAR:"+nPassengersFlight[nFlight]+"  "+passengersBus.size()+"   "+busCapacity+"    "+allPassengers);
         return false;         
     }
     

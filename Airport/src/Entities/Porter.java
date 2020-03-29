@@ -50,24 +50,29 @@ public class Porter implements Runnable{
                 /* Decidir em qual dos sitios se armazena a mala*/
                 /* Se for um passageiro em transito(T)deixa TEMPORARY STORAGE AREA */
                 /* Se for um passageiro já no destino deixa BAGGAGE COLLECTION POINT*/
-                bc.allBags(al.BagsEmpty());
+                
+              
                 if(bag.getStatus() == "TRF"){
                     tsa.curryItToAppropriateStore(bag);
+                    bc.allBags(al.BagsEmpty());
                 }
                 else{
                     if(al.BagsEmpty()){
                         
                         bc.curryItToAppropriateStore(bag);
+                        bc.allBags(al.BagsEmpty());
                     }
                     else{
                         bc.curryItToAppropriateStore(bag);
+                        bc.allBags(al.BagsEmpty());
                     }
                 }
          
             }
-
+            
             /*Já não há mais malas*/
             al.noMoreBagstoCollect();
+            bc.allBags(al.BagsEmpty());
             gr.resetBagsValue();
             
         }

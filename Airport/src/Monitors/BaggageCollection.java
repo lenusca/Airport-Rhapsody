@@ -26,12 +26,11 @@ public class BaggageCollection {
     *
     * <p> Porter traz para Baggage Collection as malas dos passageiros que têm como destino este aeroporto </p>
     *    @param bag mala que vem do Arrival Lounge
-    *    @param finish já acabou a recolha de todas as malas
+    *   
     */
     public synchronized void curryItToAppropriateStore(Bag bag) {
-
         bags.add(bag);
-        gr.numOfBagsConveyor = gr.numOfBagsConveyor + 1;
+        gr.addBagsCoveyor();
         gr.setPorterState("ALCB");
         notifyAll();            //chegou malas ao tapete de recolha
     }
@@ -48,7 +47,7 @@ public class BaggageCollection {
         boolean notfindBag = true;
         while((bags.isEmpty() || (notfindBag = doesNotContainBag(threadID))) && !allBagsAtColletionPoint ){      //passageiro espera enquanto não há malas
             try{ 
-                wait(10);
+                wait(100);
             }
             catch (InterruptedException e) {
                Thread.currentThread().interrupt();
@@ -71,9 +70,8 @@ public class BaggageCollection {
         for(int i=0; i < bags.size(); i++){
             if(bags.get(i).passenger.getId() == passengerID){
                 bags.remove(i);
-                gr.numOfBagsConveyor = gr.numOfBagsConveyor - 1;
+                gr.removeBagsCoveyor();
                 gr.na[passengerID] = String.valueOf(Integer.parseInt(gr.na[passengerID]) + 1);
-                notifyAll();
                 return false;
             }
         }
@@ -89,6 +87,13 @@ public class BaggageCollection {
         this.allBagsAtColletionPoint = false;
     }
     
+    /**
+    *
+    * <p> Se já foram recolhidas todas as malas </p>
+    * @param finish <p> true, todas as malas recolhidas </p>
+    *               <p> false, nem todas as malas foram recolhidas </p>
+    *    
+    */
     public synchronized void allBags(boolean finish){
         this.allBagsAtColletionPoint = finish;
     }

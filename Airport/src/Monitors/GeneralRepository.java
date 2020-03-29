@@ -59,7 +59,7 @@ public class GeneralRepository {
     private int numOfBags = 0;
     private int totalBags = 0;
     private int totalLostBags = 0;
-    public static int numOfBagsConveyor = 0;
+    private int numOfBagsConveyor = 0;
     private int numOfBagsStoreroom = 0;
     
     //File
@@ -244,14 +244,44 @@ public class GeneralRepository {
        this.cntTRF += 1;
     }
     
+    /**
+    * <p> Calcular número total de passageiros que não tenham destino este aeroporto nos 5 vôos </p>
+    * @param numFlight número de vôo
+    */
     public synchronized void numFlight(int numFlight){
        this.numFlight = numFlight;
     }
     
+    /**
+    * <p> Atualiza o número de malas no Temporary Storage Area </p>
+    * @see TemporaryStorageArea
+    * 
+    */
     public synchronized void addBagsStoreroom(){
         this.numOfBagsStoreroom += 1;
     }
     
+    /**
+    * <p> Atualiza o número de malas no Baggage Collection Point </p>
+    * @see BaggageCollection
+    * 
+    */
+    public synchronized void addBagsCoveyor(){
+        this.numOfBagsConveyor += 1;
+    }
+    
+    /**
+    * <p>  Atualiza o número de malas no Baggage Collection Point </p>
+    * @see BaggageCollection
+    */
+    public synchronized void removeBagsCoveyor(){
+        this.numOfBagsConveyor -= 1;
+    }
+    
+    /**
+    * <p>  Coloca os valores todos a 0 </p>
+    * 
+    */
     public synchronized void resetBagsValue(){
         this.numOfBagsConveyor = 0;
         this.numOfBags = 0;
