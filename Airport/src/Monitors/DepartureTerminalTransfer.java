@@ -46,7 +46,6 @@ public class DepartureTerminalTransfer extends Thread{
             count = 0;
             notifyAll();
         }  
-        System.out.println("leavethebus() -> "+threadID);
     }
     
     /**
@@ -73,10 +72,9 @@ public class DepartureTerminalTransfer extends Thread{
      */
     public synchronized void goToArrivalTerminal() {
         gr.setBusDriverState("DRBW");
-        
-        //try{
-        //    sleep(300);
-        //}catch(InterruptedException e){}
+        try{
+            sleep(50);
+        }catch(InterruptedException e){}
     }
     
     /****************************AUXILIAR METHODS********************************/
@@ -87,24 +85,5 @@ public class DepartureTerminalTransfer extends Thread{
      */
     public synchronized void addPassenger(int threadID){ 
        passengersBus.add(threadID); 
-    }
-    
-    /**
-     * 
-     * <p>Atualiza se o busDriver chegou ao destino</p>
-     * @param busArrived busDriver chegou ao destino
-     */
-    public synchronized void setBusArrived(boolean busArrived){
-        this.busArrived = busArrived;
-    }
-    
-    /**
-     * 
-     * <p>Retorna se o busDriver está no destino</p>
-     * @return <p> true, o busDriver chegou ao Departure Terminal Transfer</p>
-     *         <p> false, o busDriver ainda não se encontra no Departure Terminal Transfer</p>
-     */
-    public synchronized boolean getBusArrived(){
-        return this.busArrived;
     }
 }

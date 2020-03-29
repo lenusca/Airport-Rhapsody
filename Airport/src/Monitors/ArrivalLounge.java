@@ -50,10 +50,8 @@ public class ArrivalLounge {
         countPassenger++;
         
         if(countPassenger == numPassenger){
-            System.out.println("WhatShouldIDo() --> WAKEN UP THE PORTER");
             wakePorter = true;
-            notifyAll();      //Acorda o Porter
-            
+            notifyAll();      //Acorda o Porter     
         }
         
         if(status =="FDT"){
@@ -108,24 +106,18 @@ public class ArrivalLounge {
             Aguardar para ser acordado pelo 6º passageiros, 
             e se os passageiros não tiverem mala vai a mesma trabalhar
         */
-        
-        
-        
         while((!wakePorter) && !allDone ){ 
             try{
                 wait();
             }catch(InterruptedException e){
                 Thread.currentThread().interrupt();
-            }
-            
+            }   
         }
-        
         wakePorter = false;
         
         if(allDone){
             return true;
         }
-        
         else{
             return false;
         }

@@ -42,7 +42,6 @@ public class DepartureTerminalEntrance {
         gr.setPassengerState("EDT", threadID);
         this.count[idVoo] += 1; 
         
-
         //acorda os outros passageiros
         synchronized(this){
             while(!ate.allPassengers(idVoo) || !allPassengers(idVoo)){
