@@ -38,7 +38,7 @@ public class Airport {
         System.out.println("START");
         /*variables*/
         int nFlight = 5;
-        int nPassengers = 6;
+        int nPassengers = 5;
         int nBags = 2;
         int nSeatingPlaces = 3;
         

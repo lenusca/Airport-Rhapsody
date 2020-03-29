@@ -33,7 +33,7 @@ public class DepartureTerminalEntrance {
     public synchronized void prepareNextLeg(int threadID, int idVoo) {
         gr.setPassengerState("EDT", threadID);
         this.count[idVoo] += 1; 
-        System.out.println(ate.allPassengers(idVoo));
+        
         while(!allPassengers(idVoo) || !ate.allPassengers(idVoo)){
             try{
                wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
@@ -44,7 +44,8 @@ public class DepartureTerminalEntrance {
         if(allPassengers(idVoo) && ate.allPassengers(idVoo)){
              notifyAll();
             //gr.resetValues();
-        }  
+        }
+        System.out.println(ate.allPassengers(idVoo));
     }
     
     /**

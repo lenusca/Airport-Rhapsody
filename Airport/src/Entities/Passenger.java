@@ -206,7 +206,7 @@ public class Passenger implements Runnable{
         this.numberOfBags = rand.nextInt(3);
         int index = rand.nextInt(2);
         this.status = status[0];
-        
+        att.setIdVoo(idflight);
         if(this.status == "FDT"){
             ate.nPassengers(idflight);
             gr.numFDT();
@@ -216,8 +216,7 @@ public class Passenger implements Runnable{
             dte.nPassengers(idflight);
             gr.numTRF();
         }
-       
-        
+
         Bag b = new Bag(this.getPassenger());
         if(this.numberOfBags == 1){
             if(!probLostBag()){

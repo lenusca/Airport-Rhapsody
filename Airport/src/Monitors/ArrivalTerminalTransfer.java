@@ -49,8 +49,9 @@ public class ArrivalTerminalTransfer extends Thread{
         gr.setPassengerState("ATT", threadID);
         index=index+1;
         this.passengersBus.add(threadID); //adicionado o passageiro à fila de espera
-        System.out.println(passengersBus);
+        System.out.println("takeABusInicio: "+passengersBus.size()+" "+nPassengersFlight[nFlight]+" "+allPassengers);
         if(passengersBus.size() == nPassengersFlight[nFlight]){
+            //System.out.println("NOTIFICAAAAAA");
             //flag para verificar se tem todos
             allPassengers = true;
             notifyAll();
@@ -63,8 +64,10 @@ public class ArrivalTerminalTransfer extends Thread{
                 Thread.currentThread().interrupt();
             }
         } 
-        //System.out.println("numPassengersBus"+numPassengersBus);
+        
         enteringPassengers[threadID] = false;
+        //System.out.println("takeABusFim: "+passengersBus.size()+" "+nPassengersFlight[nFlight]+" "+allPassengers);
+        
         
     }
     
@@ -74,7 +77,8 @@ public class ArrivalTerminalTransfer extends Thread{
      * @param threadID threadID do passageiro
      */
     public synchronized void enterTheBus(int threadID) {
-        gr.s[count] = String.valueOf(gr.idPassengers.pollFirst());
+        gr.s[count] = String.valueOf(threadID);
+        gr.idPassengers.remove(threadID);
         gr.setPassengerState("TRT", threadID);
         count += 1;
         
@@ -85,7 +89,6 @@ public class ArrivalTerminalTransfer extends Thread{
             notifyAll();   //Acorda o busDriver, já entraram todos no bus
         }
         nPassengersFlight[nFlight] -= 1; //decrementa o numero de passageiros no Arrival Terminal, necessário para matar a thread do busDriver  
-    
     }
     
     /****************************BUSDRIVER METHODS*******************************/
@@ -99,29 +102,29 @@ public class ArrivalTerminalTransfer extends Thread{
      *         <p>false, ainda não terminou o seu dia de trabalho, ainda tem passageiros para serem reencaminhados</p>
      */
     public synchronized boolean hasDaysWorkEnded() {
-
+        busCapacity = 3;
         System.out.println("Flight: "+nFlight);
-        if((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1)){ //nflight begin:0 numFLight begin: 1
-            return true; //é o ultimo voo e não há mais passageiros, bus work ended your day
-        }
         
-        while(((passengersBus.size() < busCapacity && passengersBus.size() <= 0 )|| (passengersBus.size() < busCapacity))  && (!allPassengers)){
+        System.out.println("VERIFICAR:"+nPassengersFlight[nFlight]+"  "+passengersBus.size()+"   "+busCapacity);
+        while(((passengersBus.size() < busCapacity && passengersBus.size() < 0 )|| (passengersBus.size() < busCapacity))  && (!allPassengers) && !((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1))){
+            System.out.println("Entrouuuuu");
             try{
                 wait(10);    //passageiros esperam para chegar ao destino
             }catch(InterruptedException e){}
         }
-        allPassengers = false;
+        if((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1)){ //nflight begin:0 numFLight begin: 1
+            return true; //é o ultimo voo e não há mais passageiros, bus work ended your day
+        }
         // colocar aqui o valor que deve entrar numero de passageiros
+        System.out.println("todos "+allPassengers);
+        //System.out.println("busCapacity: "+busCapacity);
         if(passengersBus.size() >= busCapacity){
             this.busCapacity = 3;
         }
-        else if(passengersBus.size() < busCapacity){
-           
+        else if(passengersBus.size() < busCapacity){  
             this.busCapacity = passengersBus.size(); 
         }
-        System.out.println("VERIFICAR:"+nPassengersFlight[nFlight]+"  "+passengersBus.size()+"   "+busCapacity);
-        return false;
-             
+        return false;         
     }
     
     /**
@@ -130,15 +133,16 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void announcingBusBoarding() {
         // Colocar os passageiros a true aqui, os que devem entrar
-        System.out.println("ANNOUNCING"+passengersBus.size());
+        //System.out.println("ANNOUNCING "+passengersBus.size());
         for(int i = 0; i < busCapacity; i++){
             enteringPassengers[passengersBus.remove()] = true;
         }
-        
+        System.out.println("passengersBus.size() "+passengersBus.size());
+        if(passengersBus.size()==0){allPassengers = false;}
         notifyAll(); //notifica os passageiros para entrar
-        
+        //System.out.println("announcingBusBoarding: "+allIn);
         while(!allIn){
-            System.out.println("ACorda");
+            //System.out.println("ACorda");
             try{
                 wait();      //espera que os passageiros entrem no bus
             }catch(InterruptedException e){}
@@ -196,8 +200,11 @@ public class ArrivalTerminalTransfer extends Thread{
      * @param idVoo id do Voo
      */
     public synchronized void nPassengers(int idVoo){
-        this.nPassengersFlight[idVoo] +=1;
+        this.nPassengersFlight[idVoo] +=1;    
+    }
+    
+    public synchronized void setIdVoo(int idVoo){
         nFlight = idVoo;
-    } 
+    }
 
 }
