@@ -38,7 +38,7 @@ public class Airport {
         System.out.println("START");
         /*variables*/
         int nFlight = 5;
-        int nPassengers = 5;
+        int nPassengers = 6;
         int nBags = 2;
         int nSeatingPlaces = 3;
         
@@ -53,6 +53,7 @@ public class Airport {
         DepartureTerminalEntrance dte = new DepartureTerminalEntrance(gr);
         ArrivalTerminalExit ate = new ArrivalTerminalExit(gr, dte);
         dte.setArrivalTerminalExit(ate);
+        ate.setDepartureTerminalEntrance(dte);
         
         
         /*tamanho do array = numero de passageiros + numero de porters + numero de bus driver*/

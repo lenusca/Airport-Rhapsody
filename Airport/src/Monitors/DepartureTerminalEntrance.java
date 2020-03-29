@@ -14,6 +14,8 @@ public class DepartureTerminalEntrance {
     private ArrivalTerminalExit ate;
     private int []pTRF = {0, 0, 0, 0, 0};
     private int []count = new int[5];
+    private int []count2 = new int[5];
+    private boolean sair = false;
     
     public DepartureTerminalEntrance(GeneralRepository gr){
         this.gr = gr;
@@ -41,11 +43,19 @@ public class DepartureTerminalEntrance {
         }
 
         //acorda os outros passageiros
-        if(allPassengers(idVoo) && ate.allPassengers(idVoo)){
-             notifyAll();
-            //gr.resetValues();
+        
+        
+        wakeUpAll();
+ 
+        count2[idVoo] += 1;
+        if(count2[idVoo] == pTRF[idVoo]){
+            ate.wakeUpAll();
         }
-        System.out.println(ate.allPassengers(idVoo));
+        
+        
+            //gr.resetValues();
+        
+        
     }
     
     /**
@@ -66,11 +76,18 @@ public class DepartureTerminalEntrance {
     */
     public synchronized boolean allPassengers(int idVoo){
         if(count[idVoo] == pTRF[idVoo]){
+            
             return true;
         }
         else{
             return false;
         }
     }
+    
+    public synchronized void wakeUpAll(){
+        notify();
+    }
+    
+   
     
 }

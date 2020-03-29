@@ -56,7 +56,7 @@ public class ArrivalLounge {
             }
         }
         
-        if(status.equals("FDT")){
+        if(status =="FDT"){
             return true;            
         }
         else{

@@ -10,17 +10,21 @@ package Monitors;
  * @author lenin
  */
 public class ArrivalTerminalExit {
-    private final GeneralRepository gr;
-    private final DepartureTerminalEntrance dte;
-    private final int []pFDT = {0, 0, 0, 0, 0};
-    private final int []count = new int[5];
-    private final int sair = 0;
+    private GeneralRepository gr;
+    private DepartureTerminalEntrance dte;
+    private int []pFDT = {0, 0, 0, 0, 0};
+    private int []count = new int[5];
+    private int []count2 = new int[5];
+    private boolean sair = false;
     
     public ArrivalTerminalExit(GeneralRepository gr, DepartureTerminalEntrance dte){
         this.gr = gr;
         this.dte = dte;
     }
     
+    public synchronized void setDepartureTerminalEntrance (DepartureTerminalEntrance dte){
+        this.dte = dte;
+    }
     /**
     *
     * <p> Passageiro que o destino é este aeroporto, têm como ponto saida o Arrival Terminal Exit. Quando um passageiro chega ao Arrival Terminal Exit fica a espera que cheguem todos os passageiros às saidas Arrival Terminal Exit e Departure Terminal Entrance. Quando chegam são todos acordados e vão para um novo voo ou terminam</p>
@@ -32,16 +36,25 @@ public class ArrivalTerminalExit {
         gr.setPassengerState("EAT", threadID);
        
         this.count[idVoo] += 1; 
-        System.out.println("AQUI"+dte.allPassengers(idVoo));
+ 
         while(!allPassengers(idVoo) || !dte.allPassengers(idVoo)){
             try{
                wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
             }catch(InterruptedException e){}
         }
         //acorda os outros passageiros
-        if(allPassengers(idVoo) && dte.allPassengers(idVoo)){
-             notifyAll();
-        }     
+        
+   
+        
+        wakeUpAll();
+        count2[idVoo] += 1;
+        if(count2[idVoo] == pFDT[idVoo]){
+            dte.wakeUpAll();
+        }
+        
+        
+        
+             
     }
     
     /**
@@ -69,5 +82,10 @@ public class ArrivalTerminalExit {
             return false;
         }
     }
+    
+    public synchronized void wakeUpAll(){
+        notify();
+    }
+    
 
 }
