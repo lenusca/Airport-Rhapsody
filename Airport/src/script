@@ -4,10 +4,10 @@ rm -f src/AuxClasses/*.class src/Monitors/*.class src/Entities/*.class  src/airp
 cd src/ 
 rm -r runs 
 mkdir runs
-for i in $(seq 1 200)
+for i in $(seq 1 1000)
 do
     echo -e "\nRun n.o: " $i
     java -cp ".:genclass.jar" airport.Airport 
-    cp logFile.txt runs/$i.txt
+    
 done
 

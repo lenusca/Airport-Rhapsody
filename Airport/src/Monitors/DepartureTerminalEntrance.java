@@ -43,15 +43,26 @@ public class DepartureTerminalEntrance {
     public void prepareNextLeg(int threadID, int idVoo) {
         gr.setPassengerState("EDT", threadID);
         this.count[idVoo] += 1; 
+        
 
-        //acorda os outros passageiros
-        synchronized(this){
-           
-            while(this.cond(idVoo)){
+        while(this.ate.pFDT(idVoo)+this.pTRF(idVoo) < 6 || !this.ate.allPassengers(idVoo) || !this.allPassengers(idVoo)){
+                //acorda os outros passageiros
+            synchronized(this){
+                try {    // new code
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }    // end new
+              
                 try{
-                   wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
+                    wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
                 }catch(InterruptedException e){}
-            }
+                
+            } 
+        }
+
+        synchronized(this){
             notifyAll();
         }  
         //o último deste lado acorda os outros passageiros
