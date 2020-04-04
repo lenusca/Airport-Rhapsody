@@ -1,10 +1,10 @@
-cd..
+cd ..
 rm -f src/AuxClasses/*.class src/Monitors/*.class src/Entities/*.class  src/airport/Airport.class 
- javac -cp ".:genclass.jar" src/AuxClasses/*.java src/Monitors/*.java src/Entities/*.java  src/airport/Airport.java 
+ javac -Xlint -cp ".:genclass.jar" src/AuxClasses/*.java src/Monitors/*.java src/Entities/*.java  src/airport/Airport.java 
 cd src/ 
 rm -r runs 
 mkdir runs
-for i in $(seq 1 100)
+for i in $(seq 1 200)
 do
     echo -e "\nRun n.o: " $i
     java -cp ".:genclass.jar" airport.Airport 

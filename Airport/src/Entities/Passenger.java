@@ -209,7 +209,7 @@ public class Passenger implements Runnable{
         this.status = status[index];
 
         att.setIdVoo(idflight);
-        if (idflight == 0) {
+        if (idflight == 2) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
