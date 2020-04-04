@@ -99,7 +99,7 @@ public class GeneralRepository {
    /**
     * <p> Guardar os dados todos num ficheiro durante a ocorrência da simulação </p>
     */
-   public void generateLog(){
+   public synchronized void generateLog(){
         if(!log.openForAppending(".", filename)){
              GenericIO.writelnString("Failed to create the file!");
              System.exit(1);
@@ -118,7 +118,7 @@ public class GeneralRepository {
             finalReport();
         }
         
-        else if((passenger_state[0] == "EAT" || passenger_state[0] == "EDT") && (passenger_state[1] == "EAT" || passenger_state[1] == "EDT") && (passenger_state[2] == "EAT" || passenger_state[2] == "EDT") && (passenger_state[3] == "EAT" || passenger_state[3] == "EDT") && (passenger_state[4] == "EAT" || passenger_state[4] == "EDT") && (passenger_state[5] =="EAT"|| passenger_state[5] == "EDT") && porter_state == "WPTL" && busdriver_state == "PKAT" ){
+        else if(this.numFlight != 5 &&(passenger_state[0] == "EAT" || passenger_state[0] == "EDT") && (passenger_state[1] == "EAT" || passenger_state[1] == "EDT") && (passenger_state[2] == "EAT" || passenger_state[2] == "EDT") && (passenger_state[3] == "EAT" || passenger_state[3] == "EDT") && (passenger_state[4] == "EAT" || passenger_state[4] == "EDT") && (passenger_state[5] =="EAT"|| passenger_state[5] == "EDT") && porter_state == "WPTL" ){
            resetValues(); 
         } 
    }
@@ -126,7 +126,7 @@ public class GeneralRepository {
    /**
     * <p> Imprimir a parte final do logger, depois de ocorrer os 5 vôos </p>
     */
-   public void finalReport(){
+   public synchronized void finalReport(){
       
        if(!log.openForAppending(".", filename)){
              GenericIO.writelnString("Failed to create the file!");

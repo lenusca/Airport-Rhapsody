@@ -12,13 +12,15 @@ package Monitors;
 public class ArrivalTerminalExit {
     private GeneralRepository gr;
     private DepartureTerminalEntrance dte;
+    private ArrivalTerminalTransfer att;
     private int []pFDT = {0, 0, 0, 0, 0};
     private int []count = new int[5];
     private int []count2 = new int[5];
     
-    public ArrivalTerminalExit(GeneralRepository gr, DepartureTerminalEntrance dte){
+    public ArrivalTerminalExit(GeneralRepository gr, DepartureTerminalEntrance dte, ArrivalTerminalTransfer att){
         this.gr = gr;
         this.dte = dte;
+        this.att = att;
     }
     
     /**
@@ -40,10 +42,10 @@ public class ArrivalTerminalExit {
     */
     public void goHome(int threadID, int idVoo) {
         gr.setPassengerState("EAT", threadID);
-       
         this.count[idVoo] += 1; 
         synchronized(this){
-            while(!dte.allPassengers(idVoo) || !allPassengers(idVoo)){
+            // System.out.println("pFDT "+pFDT[idVoo]+" voo "+idVoo+" dte.allPassengers "+dte.allPassengers(idVoo)+" allPassengers "+allPassengers(idVoo)+" threadID "+threadID);
+            while(!this.dte.allPassengers(idVoo) || !this.allPassengers(idVoo)){
                 try{
                    wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
                 }catch(InterruptedException e){}
@@ -55,7 +57,9 @@ public class ArrivalTerminalExit {
         count2[idVoo] += 1;
         if(count2[idVoo] == pFDT[idVoo]){
             dte.wakeUpAll();
-        }         
+            if(idVoo == 5-1) {att.wakeUpAll();} //ultimo acorda o bus o dia terminou
+        } 
+        //System.out.println("saiu goHome "+threadID+" voo "+idVoo+" pFDT "+pFDT[idVoo]);
     }
     
     /**

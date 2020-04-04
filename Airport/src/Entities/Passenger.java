@@ -209,6 +209,14 @@ public class Passenger implements Runnable{
         this.status = status[index];
 
         att.setIdVoo(idflight);
+        if (idflight == 0) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
         
         if(this.status == "FDT"){
             ate.nPassengers(idflight);
@@ -258,8 +266,10 @@ public class Passenger implements Runnable{
         
         for(int flight = 0; flight<5; flight++){        
             bc.resetValues();
-            setupPassanger(flight);
-            isFinalDst = al.whatShouldIDo(this.status, this.id, this.numberOfBags, flight+1);
+           // if(flight ==2) { setupPassanger2(flight);}
+           // else {setupPassanger(flight);}
+           setupPassanger(flight); 
+           isFinalDst = al.whatShouldIDo(this.status, this.id, this.numberOfBags, flight+1);
             /*DESTINO*/
             if(isFinalDst){
 

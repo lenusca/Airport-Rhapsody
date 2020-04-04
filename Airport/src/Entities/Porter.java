@@ -54,18 +54,12 @@ public class Porter implements Runnable{
               
                 if(bag.getStatus() == "TRF"){
                     tsa.curryItToAppropriateStore(bag);
-                    bc.allBags(al.BagsEmpty());
+                    // bc.allBags(al.BagsEmpty());
                 }
-                else{
-                    if(al.BagsEmpty()){
-                        
-                        bc.curryItToAppropriateStore(bag);
-                        bc.allBags(al.BagsEmpty());
-                    }
-                    else{
-                        bc.curryItToAppropriateStore(bag);
-                        bc.allBags(al.BagsEmpty());
-                    }
+                else{     
+                    bc.curryItToAppropriateStore(bag);
+                    // bc.allBags(al.BagsEmpty());
+                    
                 }
          
             }

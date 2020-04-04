@@ -12,13 +12,15 @@ package Monitors;
 public class DepartureTerminalEntrance {
     private GeneralRepository gr;
     private ArrivalTerminalExit ate;
+    private ArrivalTerminalTransfer att;
     private int []pTRF = {0, 0, 0, 0, 0};
     private int []count = new int[5];
     private int []count2 = new int[5];
 
     
-    public DepartureTerminalEntrance(GeneralRepository gr){
+    public DepartureTerminalEntrance(GeneralRepository gr, ArrivalTerminalTransfer att){
         this.gr = gr;
+        this.att = att;
     }
     
     /**
@@ -41,22 +43,23 @@ public class DepartureTerminalEntrance {
     public void prepareNextLeg(int threadID, int idVoo) {
         gr.setPassengerState("EDT", threadID);
         this.count[idVoo] += 1; 
-        
         //acorda os outros passageiros
         synchronized(this){
-            while(!ate.allPassengers(idVoo) || !allPassengers(idVoo)){
+            // System.out.println("pTRF "+pTRF[idVoo]+" voo "+idVoo+" ate.allPassengers "+ate.allPassengers(idVoo)+" allPassengers "+allPassengers(idVoo)+" threadID "+threadID);
+            while(!this.ate.allPassengers(idVoo) || !this.allPassengers(idVoo)){
                 try{
                    wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
                 }catch(InterruptedException e){}
             }
             notifyAll();
-        }
-         
+        }  
         //o último deste lado acorda os outros passageiros
         count2[idVoo] += 1;
         if(count2[idVoo] == pTRF[idVoo]){
             ate.wakeUpAll();
+            if(idVoo == 5-1) {att.wakeUpAll();}  //ultimo acorda o bus o dia terminou
         }
+        //System.out.println("saiu prepareNextLeg "+threadID+" voo "+idVoo+" pTRF "+pTRF[idVoo]);
     }
     
     /**

@@ -18,12 +18,15 @@ public class ArrivalTerminalTransfer extends Thread{
     
     private int index=0;
     private boolean allIn = false, allPassengers=false;
+    private boolean doneWork = false, haveMorePassengers=false;
     private int count = 0;
     private int nFlight;
     private int busCapacity; //capaciadade do bus
     private int numFlight; //numero de voos para terminar o dia
     private GeneralRepository gr;
     private DepartureTerminalTransfer dtt;
+    private ArrivalTerminalExit ate;
+    private DepartureTerminalEntrance dte;
     
     
     public ArrivalTerminalTransfer(int busCapacity, int numFlight, GeneralRepository gr, DepartureTerminalTransfer dtt) {
@@ -31,6 +34,8 @@ public class ArrivalTerminalTransfer extends Thread{
         this.gr = gr;
         this.numFlight = numFlight;
         this.dtt = dtt;
+        //this.ate = ate;
+        //this.dte = dte;
         Arrays.fill(enteringPassengers, false);
     }
     
@@ -85,7 +90,11 @@ public class ArrivalTerminalTransfer extends Thread{
             notifyAll();   //Acorda o busDriver, já entraram todos no bus
         }
         nPassengersFlight[nFlight] -= 1; //decrementa o numero de passageiros no Arrival Terminal, necessário para matar a thread do busDriver  
-        if(nPassengersFlight[nFlight] == 0) {allPassengers = false;}
+        if(passengersBus.size() == busCapacity) { 
+            haveMorePassengers = true;} //há mais 3 passageiros 
+        if(nPassengersFlight[nFlight] == 0) { //reset flags
+            haveMorePassengers = false;
+            allPassengers = false;}
     }
     
     /****************************BUSDRIVER METHODS*******************************/
@@ -100,13 +109,14 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized boolean hasDaysWorkEnded() {
         busCapacity = 3;
-   
-        while((((!allPassengers) && (passengersBus.size()<busCapacity)) || (nPassengersFlight[nFlight] == 0)) && !((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1))){
+        System.out.println("allPassengers "+allPassengers+" pSize() "+passengersBus.size()+" busCapacity "+busCapacity+" npflight: "+nPassengersFlight[nFlight]+" flight: "+nFlight);
+        while((((!allPassengers) && (passengersBus.size()<busCapacity) && !haveMorePassengers) || (nPassengersFlight[nFlight] == 0)) && !(doneWork)){
 
             try{
                 wait(10);    //passageiros esperam para chegar ao destino
             }catch(InterruptedException e){}
         }
+        doneWork = false;
         if((nPassengersFlight[nFlight] == 0) && (nFlight==numFlight-1)){
             return true; //é o ultimo voo e não há mais passageiros, bus work ended your day
         }
@@ -149,7 +159,7 @@ public class ArrivalTerminalTransfer extends Thread{
     public synchronized void goToDepartureTerminal() {
         gr.setBusDriverState("DRFW");
         try{
-           sleep(50);             //simulação de viagem para o o dtt
+           sleep(10);             //simulação de viagem para o o dtt
         }catch(InterruptedException e){}
         count = 0;
         index = 0;
@@ -181,6 +191,17 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void setIdVoo(int idVoo){
         nFlight = idVoo;
+    }
+    
+    /**
+    *
+    * <p> Acorda o busDriver no final do dia de trabalho </p>
+    * 
+    */
+    public synchronized void wakeUpAll(){
+        doneWork = true;
+        notifyAll();
+        //System.out.println("Acorda o bus no fim!!!! "+doneWork);
     }
 
 }

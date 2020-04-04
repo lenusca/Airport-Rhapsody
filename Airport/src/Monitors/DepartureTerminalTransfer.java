@@ -73,7 +73,7 @@ public class DepartureTerminalTransfer extends Thread{
     public synchronized void goToArrivalTerminal() {
         gr.setBusDriverState("DRBW");
         try{
-            sleep(50);
+            sleep(10);
         }catch(InterruptedException e){}
     }
     

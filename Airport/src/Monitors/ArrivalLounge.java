@@ -83,14 +83,12 @@ public class ArrivalLounge {
     *    
     */
     public synchronized void noMoreBagstoCollect() {
-        if(bags.isEmpty()){
-            countPassenger = 0;
-            notifyAll();
-            if(this.flight == this.numFlight){
-                this.allDone = true;
-            }
-        }
         
+        countPassenger = 0;
+        notifyAll();
+        if(this.flight == this.numFlight){
+            this.allDone = true;
+        }
     }
     
     
