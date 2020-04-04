@@ -46,7 +46,7 @@ public class DepartureTerminalEntrance {
         //acorda os outros passageiros
         synchronized(this){
             // System.out.println("pTRF "+pTRF[idVoo]+" voo "+idVoo+" ate.allPassengers "+ate.allPassengers(idVoo)+" allPassengers "+allPassengers(idVoo)+" threadID "+threadID);
-            while(!this.ate.allPassengers(idVoo) || !this.allPassengers(idVoo)){
+            while(!this.ate.allPassengers(idVoo) || !this.allPassengers(idVoo) || this.ate.pFDT(idVoo) + pTRF(idVoo) < 6 ){
                 try{
                    wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
                 }catch(InterruptedException e){}
@@ -89,6 +89,10 @@ public class DepartureTerminalEntrance {
     */
     public synchronized void wakeUpAll(){
         notifyAll();
+    }
+
+    public synchronized int pTRF(int idVoo){
+        return pTRF[idVoo];
     }
     
     

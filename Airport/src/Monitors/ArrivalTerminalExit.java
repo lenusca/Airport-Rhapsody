@@ -45,7 +45,7 @@ public class ArrivalTerminalExit {
         this.count[idVoo] += 1; 
         synchronized(this){
             // System.out.println("pFDT "+pFDT[idVoo]+" voo "+idVoo+" dte.allPassengers "+dte.allPassengers(idVoo)+" allPassengers "+allPassengers(idVoo)+" threadID "+threadID);
-            while(!this.dte.allPassengers(idVoo) || !this.allPassengers(idVoo)){
+            while(!this.dte.allPassengers(idVoo) || !this.allPassengers(idVoo) || pFDT(idVoo) + this.dte.pTRF(idVoo) < 6){
                 try{
                    wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
                 }catch(InterruptedException e){}
@@ -89,6 +89,10 @@ public class ArrivalTerminalExit {
     */
     public synchronized void wakeUpAll(){
         notifyAll();
+    }
+
+    public synchronized int pFDT(int idVoo){
+        return pFDT[idVoo];
     }
    
 }
