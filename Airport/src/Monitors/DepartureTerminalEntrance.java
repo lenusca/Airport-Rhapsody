@@ -43,10 +43,11 @@ public class DepartureTerminalEntrance {
     public void prepareNextLeg(int threadID, int idVoo) {
         gr.setPassengerState("EDT", threadID);
         this.count[idVoo] += 1; 
+
         //acorda os outros passageiros
         synchronized(this){
-            System.out.println("pTRF "+pTRF[idVoo]+" voo "+idVoo+" threadID "+threadID+" pFDT "+this.ate.pFDT(idVoo));
-            while(!this.ate.allPassengers(idVoo) || !this.allPassengers(idVoo) || this.ate.pFDT(idVoo)+pTRF(idVoo) < 6 ){
+           
+            while(this.cond(idVoo)){
                 try{
                    wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
                 }catch(InterruptedException e){}
@@ -93,6 +94,10 @@ public class DepartureTerminalEntrance {
     
     public synchronized int pTRF(int idVoo){
         return pTRF[idVoo];
+    }
+
+    public synchronized boolean cond(int idVoo){
+        return !ate.allPassengers(idVoo) || !this.allPassengers(idVoo) || this.ate.pFDT(idVoo)+this.pTRF(idVoo) < 6; 
     }
     
     

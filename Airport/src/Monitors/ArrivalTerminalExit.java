@@ -42,10 +42,12 @@ public class ArrivalTerminalExit {
     */
     public void goHome(int threadID, int idVoo) {
         gr.setPassengerState("EAT", threadID);
-        this.count[idVoo] += 1; 
+        this.count[idVoo] += 1;
+    
+
         synchronized(this){
-            System.out.println("pFDT "+pFDT[idVoo]+" voo "+idVoo+" threadID "+threadID+" pTRF "+this.dte.pTRF(idVoo));
-            while(!this.dte.allPassengers(idVoo) || !this.allPassengers(idVoo) || this.dte.pTRF(idVoo)+pFDT(idVoo) < 6){
+           
+            while(cond(idVoo)){
                 try{
                    wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
                 }catch(InterruptedException e){}
@@ -93,6 +95,10 @@ public class ArrivalTerminalExit {
     
     public synchronized int pFDT(int idVoo){
         return pFDT[idVoo];
+    }
+
+    public synchronized boolean cond(int idVoo){
+        return !dte.allPassengers(idVoo) || !this.allPassengers(idVoo) || this.dte.pTRF(idVoo)+this.pFDT(idVoo) < 6; 
     }
    
 }
