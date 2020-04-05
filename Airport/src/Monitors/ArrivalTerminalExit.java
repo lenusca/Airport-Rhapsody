@@ -49,12 +49,12 @@ public class ArrivalTerminalExit {
         while(this.pFDT(idVoo)+this.dte.pTRF(idVoo) < 6 || !this.dte.allPassengers(idVoo) || !this.allPassengers(idVoo)){
             //acorda os outros passageiros
             synchronized(this){
-                try {    // new code
+              /*  try {    // new code
                     Thread.sleep(1000);
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-                }    // end new
+                }   */ // end new
                 
                 try{
                     wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro

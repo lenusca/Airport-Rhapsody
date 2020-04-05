@@ -21,7 +21,7 @@ public class BaggageReclaimOffice {
     * <p> É no Baggage Reclaim Office que os que os passageiros que perderam a mala, vão reclamar </p>
     *    @param threadID threadID do passageiro
     */
-    public void reportMissingBags(int threadID) {
+    public synchronized void reportMissingBags(int threadID) {
         gr.setPassengerState("BRO", threadID);
     }
     

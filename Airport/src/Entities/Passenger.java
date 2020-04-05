@@ -266,8 +266,6 @@ public class Passenger implements Runnable{
         
         for(int flight = 0; flight<5; flight++){        
             bc.resetValues();
-           // if(flight ==2) { setupPassanger2(flight);}
-           // else {setupPassanger(flight);}
            setupPassanger(flight); 
            isFinalDst = al.whatShouldIDo(this.status, this.id, this.numberOfBags, flight+1);
             /*DESTINO*/

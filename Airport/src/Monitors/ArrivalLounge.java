@@ -48,10 +48,17 @@ public class ArrivalLounge {
         gr.numFlight(nflight);
         gr.setPassengerSetup("WSD", threadID, status, nr);
         countPassenger++;
-        
+       
         if(countPassenger == numPassenger){
             wakePorter = true;
-            notifyAll();      //Acorda o Porter     
+            notifyAll();      //Acorda o Porter
+            try {    // new code
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } 
+            
         }
         
         if(status =="FDT"){
