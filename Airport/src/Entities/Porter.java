@@ -64,8 +64,9 @@ public class Porter implements Runnable{
             
             /*Já não há mais malas, acordar os passageiros que estão a espera que a sua mala chegue*/
             al.noMoreBagstoCollect();
-            bc.allBags(true);
             gr.resetBagsValue();
+            bc.allBags(true);
+            
             
         }
         System.out.println("O porter "+this.id+" terminou o serviço");
