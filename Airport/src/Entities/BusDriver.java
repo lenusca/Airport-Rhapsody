@@ -33,7 +33,7 @@ public class BusDriver implements Runnable{
      * Se ainda houver passageiros na fila de espera volta a fazer a viagem, senão adormece até chegar passageiros de outros voos.</p>  
      * <p> O busDriver termina o seu dia de trabalho quando já não houver mais voos ou passageiros</p>
      */
-      @Override
+    @Override
     public void run() {
         while(!att.hasDaysWorkEnded()){ //espera que a viagem começa 
             att.announcingBusBoarding(); /*Se o autocarro estiver cheio ou for a hora de ir embora*/

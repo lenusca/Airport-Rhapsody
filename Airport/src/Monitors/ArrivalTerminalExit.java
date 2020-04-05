@@ -106,12 +106,14 @@ public class ArrivalTerminalExit {
         notifyAll();
     }
     
+    /**
+    *
+    * <p> Retorna o número total de passageiros de cada vôo que vêem para esta saida </p>
+    *    @param idVoo id do voo
+    *    @return número de passageiros
+    */
     public synchronized int pFDT(int idVoo){
         return pFDT[idVoo];
-    }
-
-    public synchronized boolean cond(int idVoo){
-        return !dte.allPassengers(idVoo) || !this.allPassengers(idVoo) || this.dte.pTRF(idVoo)+this.pFDT(idVoo) < 6; 
     }
    
 }

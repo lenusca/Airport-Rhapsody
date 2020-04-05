@@ -103,13 +103,14 @@ public class DepartureTerminalEntrance {
         notifyAll();
     }
     
+    /**
+    *
+    * <p> Retorna o número total de passageiros de cada vôo que vêem para esta saida </p>
+    *    @param idVoo id do voo
+    *    @return número de passageiros
+    */
     public synchronized int pTRF(int idVoo){
         return pTRF[idVoo];
-    }
-
-    public synchronized boolean cond(int idVoo){
-        return !ate.allPassengers(idVoo) || !this.allPassengers(idVoo) || this.ate.pFDT(idVoo)+this.pTRF(idVoo) < 6; 
-    }
-    
+    }    
     
 }

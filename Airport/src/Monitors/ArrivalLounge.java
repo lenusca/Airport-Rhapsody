@@ -50,7 +50,7 @@ public class ArrivalLounge {
         countPassenger++;
        
         if(countPassenger == numPassenger){
-            wakePorter = true;
+            this.wakePorter = true;
             notifyAll();      //Acorda o Porter
             try {    // new code
                     Thread.sleep(1000);
@@ -118,7 +118,7 @@ public class ArrivalLounge {
                 Thread.currentThread().interrupt();
             }   
         }
-        wakePorter = false;
+        this.wakePorter = false;
         
         if(allDone){
             return true;
