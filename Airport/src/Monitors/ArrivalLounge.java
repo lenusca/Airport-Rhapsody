@@ -50,14 +50,15 @@ public class ArrivalLounge {
         countPassenger++;
        
         if(countPassenger == numPassenger){
+            countPassenger = 0;
             this.wakePorter = true;
             notifyAll();      //Acorda o Porter
-            try {    // new code
+           /* try {    // new code
                     Thread.sleep(1000);
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-                } 
+                } */
             
         }
         
@@ -91,9 +92,8 @@ public class ArrivalLounge {
     */
     public synchronized void noMoreBagstoCollect() {
         
-        countPassenger = 0;
         notifyAll();
-        if(this.flight == this.numFlight){
+        if(this.flight == this.numFlight && bags.isEmpty()){
             this.allDone = true;
         }
     }

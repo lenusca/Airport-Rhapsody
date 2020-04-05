@@ -85,7 +85,7 @@ public class ArrivalTerminalTransfer extends Thread{
         count += 1;
         
         dtt.addPassenger(threadID);
-        System.out.println("enterTheBUs busCapacity "+busCapacity+" count "+count);
+       
         if(count == busCapacity){
             allIn = true;
             notifyAll();   //Acorda o busDriver, já entraram todos no bus
@@ -140,7 +140,7 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void announcingBusBoarding() {
         // Colocar os passageiros a true
-        System.out.println(" busCapacity "+busCapacity);
+        //System.out.println(" busCapacity "+busCapacity);
         for(int i = 0; i < busCapacity; i++){
             enteringPassengers[passengersBus.remove()] = true;
         }
