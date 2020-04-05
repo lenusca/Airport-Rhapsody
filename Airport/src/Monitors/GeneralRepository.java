@@ -262,30 +262,23 @@ public class GeneralRepository {
     }
     
     /**
-    * <p> Atualiza o número de malas no Baggage Collection Point </p>
-    * @see BaggageCollection
-    * 
-    */
-    public synchronized void addBagsCoveyor(){
-        this.numOfBagsConveyor += 1;
-    }
-    
-    /**
-    * <p>  Atualiza o número de malas no Baggage Collection Point </p>
-    * @see BaggageCollection
-    */
-    public synchronized void removeBagsCoveyor(){
-        this.numOfBagsConveyor -= 1;
-    }
-    
-    /**
     * <p>  Coloca os valores todos a 0 </p>
     * 
     */
     public synchronized void resetBagsValue(){
         this.numOfBagsConveyor = 0;
         this.numOfBags = 0;
-        this.numOfBagsStoreroom = 0;   
+          
+    }
+
+    /**
+    * <p> Atualiza o número de malas no Baggage Collection Point </p>
+    * @param numBags número de malas 
+    * @see BaggageCollection
+    * 
+    */
+    public synchronized void setBagsCoveyor(int numBags){
+        this.numOfBagsConveyor = numBags;
     }
     
     

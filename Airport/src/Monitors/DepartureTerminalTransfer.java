@@ -57,7 +57,7 @@ public class DepartureTerminalTransfer extends Thread{
         busArrived = true;
        
         notifyAll();    //acordar os passageiros para sair  
-        
+     
         while(!passengersBus.isEmpty()){
             try{
                 wait();      //espera que os passageiros saiam do bus

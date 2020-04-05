@@ -15,7 +15,6 @@ public class ArrivalTerminalTransfer extends Thread{
     private Queue<Integer> passengersBus = new LinkedList<>();
     private int[] nPassengersFlight = new int[5]; 
     private boolean[] enteringPassengers = new boolean[6]; //passageiros que vão entrar
-    
     private int index=0;
     private boolean allIn = false, allPassengers=false;
     private boolean doneWork = false, haveMorePassengers=false;
@@ -25,8 +24,6 @@ public class ArrivalTerminalTransfer extends Thread{
     private int numFlight; //numero de voos para terminar o dia
     private GeneralRepository gr;
     private DepartureTerminalTransfer dtt;
-    private ArrivalTerminalExit ate;
-    private DepartureTerminalEntrance dte;
     
     
     public ArrivalTerminalTransfer(int busCapacity, int numFlight, GeneralRepository gr, DepartureTerminalTransfer dtt) {
@@ -34,8 +31,6 @@ public class ArrivalTerminalTransfer extends Thread{
         this.gr = gr;
         this.numFlight = numFlight;
         this.dtt = dtt;
-        //this.ate = ate;
-        //this.dte = dte;
         Arrays.fill(enteringPassengers, false);
     }
     
@@ -110,8 +105,7 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized boolean hasDaysWorkEnded() {
         busCapacity = 3;
-        System.out.println("allPassengers "+allPassengers+" pSize() "+passengersBus.size()+" busCapacity "+busCapacity+" npflight: "+nPassengersFlight[nFlight]+" flight: "+nFlight+" haveMorePassengers "+haveMorePassengers);
-        
+
         while((((!allPassengers) && (passengersBus.size()<busCapacity) && !haveMorePassengers) || (nPassengersFlight[nFlight] == 0)) && !(doneWork)){
             
             try{
@@ -140,7 +134,6 @@ public class ArrivalTerminalTransfer extends Thread{
      */
     public synchronized void announcingBusBoarding() {
         // Colocar os passageiros a true
-        //System.out.println(" busCapacity "+busCapacity);
         for(int i = 0; i < busCapacity; i++){
             enteringPassengers[passengersBus.remove()] = true;
         }
@@ -205,7 +198,6 @@ public class ArrivalTerminalTransfer extends Thread{
     public synchronized void wakeUpAll(){
         doneWork = true;
         notifyAll();
-        //System.out.println("Acorda o bus no fim!!!! "+doneWork);
     }
 
 }

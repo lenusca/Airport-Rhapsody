@@ -15,8 +15,6 @@ public class DepartureTerminalEntrance {
     private ArrivalTerminalTransfer att;
     private int []pTRF = {0, 0, 0, 0, 0};
     private int []count = new int[5];
-    private int []count2 = new int[5];
-
     
     public DepartureTerminalEntrance(GeneralRepository gr, ArrivalTerminalTransfer att){
         this.gr = gr;
@@ -48,37 +46,18 @@ public class DepartureTerminalEntrance {
         while(this.ate.pFDT(idVoo)+this.pTRF(idVoo) < 6 || !this.ate.allPassengers(idVoo) || !this.allPassengers(idVoo)){
                 //acorda os outros passageiros
             synchronized(this){
-              /*  try {    // new code
-                    Thread.sleep(1000);
-                } catch (InterruptedException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } */   // end new
-              
                 try{
                     wait();             //Os passageiros ficam aguardar pelo sinal do ultimo passageiro
-                }catch(InterruptedException e){}
-                
+                }catch(InterruptedException e){}  
             } 
         }
 
         synchronized(this){
             notifyAll();
-            //o último deste lado acorda os outros passageiros
-            
         }  
-       
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         
         ate.wakeUpAll();
         if(idVoo == 5-1) {att.wakeUpAll();} //ultimo acorda o bus o dia terminou
-        
-        //System.out.println("saiu prepareNextLeg "+threadID+" voo "+idVoo+" pTRF "+pTRF[idVoo]);
     }
     
     /**

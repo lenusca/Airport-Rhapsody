@@ -30,7 +30,7 @@ public class BaggageCollection {
     */
     public synchronized void curryItToAppropriateStore(Bag bag) {
         bags.add(bag);
-        gr.addBagsCoveyor();
+        gr.setBagsCoveyor(bags.size());
         gr.setPorterState("ALCB");
         notifyAll();            //chegou malas ao tapete de recolha
     }
@@ -70,7 +70,7 @@ public class BaggageCollection {
         for(int i=0; i < bags.size(); i++){
             if(bags.get(i).passenger.getId() == passengerID){
                 bags.remove(i);
-                gr.removeBagsCoveyor();
+                gr.setBagsCoveyor(bags.size());
                 gr.na[passengerID] = String.valueOf(Integer.parseInt(gr.na[passengerID]) + 1);
                 return false;
             }

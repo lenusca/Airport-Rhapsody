@@ -53,12 +53,6 @@ public class ArrivalLounge {
             countPassenger = 0;
             this.wakePorter = true;
             notifyAll();      //Acorda o Porter
-           /* try {    // new code
-                    Thread.sleep(1000);
-                } catch (InterruptedException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } */
             
         }
         
