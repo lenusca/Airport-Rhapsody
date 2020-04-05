@@ -64,13 +64,20 @@ public class DepartureTerminalEntrance {
 
         synchronized(this){
             notifyAll();
+            //o último deste lado acorda os outros passageiros
+            
         }  
-        //o último deste lado acorda os outros passageiros
-        count2[idVoo] += 1;
-        if(count2[idVoo] == pTRF[idVoo]){
-            ate.wakeUpAll();
-            if(idVoo == 5-1) {att.wakeUpAll();}  //ultimo acorda o bus o dia terminou
+       
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+        
+        ate.wakeUpAll();
+        if(idVoo == 5-1) {att.wakeUpAll();} //ultimo acorda o bus o dia terminou
+        
         //System.out.println("saiu prepareNextLeg "+threadID+" voo "+idVoo+" pTRF "+pTRF[idVoo]);
     }
     

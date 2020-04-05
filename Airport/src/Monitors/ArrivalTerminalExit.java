@@ -66,14 +66,21 @@ public class ArrivalTerminalExit {
 
         synchronized(this){
             notifyAll();
+            //o último deste lado acorda os outros passageiros
+            
         }
-      
-        //o último deste lado acorda os outros passageiros
-        count2[idVoo] += 1;
-        if(count2[idVoo] == pFDT[idVoo]){
-            dte.wakeUpAll();
-            if(idVoo == 5-1) {att.wakeUpAll();} //ultimo acorda o bus o dia terminou
-        } 
+        //this.count2[idVoo] += 1;
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        dte.wakeUpAll();
+        if(idVoo == 5-1) {att.wakeUpAll();} //ultimo acorda o bus o dia terminou
+       
+        
         //System.out.println("saiu goHome "+threadID+" voo "+idVoo+" pFDT "+pFDT[idVoo]);
     }
     
