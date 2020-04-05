@@ -5,26 +5,40 @@ FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3
                                                         PASSENGERS
 St1 Si1 NR1 NA1 St2 Si2 NR2 NA2 St3 Si3 NR3 NA3 St4 Si4 NR4 NA4 St5 Si5 NR5 NA5 St6 Si6 NR6 NA6
  1   0  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
---- ---  -   -  --- ---  -   -  WSD FDT  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   - 
- 1   0  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
---- ---  -   -  --- ---  -   -  EAT FDT  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   - 
- 1   0  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
---- ---  -   -  --- ---  -   -  EAT FDT  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   - 
- 1   1  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
-WSD FDT  1   0  --- ---  -   -  EAT FDT  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   - 
- 1   2  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
-WSD FDT  1   0  --- ---  -   -  EAT FDT  0   0  --- ---  -   -  --- ---  -   -  WSD FDT  1   0 
- 1   2  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
-LCP FDT  1   0  --- ---  -   -  EAT FDT  0   0  --- ---  -   -  --- ---  -   -  WSD FDT  1   0 
- 1   2  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
-LCP FDT  1   0  --- ---  -   -  EAT FDT  0   0  --- ---  -   -  --- ---  -   -  LCP FDT  1   0 
- 1   2  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
-LCP FDT  1   0  --- ---  -   -  EAT FDT  0   0  --- ---  -   -  WSD FDT  0   0  LCP FDT  1   0 
- 1   2  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
-LCP FDT  1   0  --- ---  -   -  EAT FDT  0   0  --- ---  -   -  EAT FDT  0   0  LCP FDT  1   0 
+WSD TRF  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   -  --- ---  -   -  --- ---  -   - 
+ 1   0  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+WSD TRF  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   -  --- ---  -   -  --- ---  -   - 
+ 1   0  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   -  --- ---  -   -  --- ---  -   - 
+ 1   0  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  --- ---  -   -  --- ---  -   -  --- ---  -   -  WSD FDT  0   0  --- ---  -   - 
+ 1   0  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  WSD FDT  0   0  --- ---  -   -  --- ---  -   -  WSD FDT  0   0  --- ---  -   - 
+ 1   0  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  WSD FDT  0   0  --- ---  -   -  --- ---  -   -  EAT FDT  0   0  --- ---  -   - 
+ 1   0  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  EAT FDT  0   0  --- ---  -   -  --- ---  -   -  EAT FDT  0   0  --- ---  -   - 
+ 1   0  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  EAT FDT  0   0  --- ---  -   -  --- ---  -   -  EAT FDT  0   0  WSD FDT  0   0 
+ 1   0  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  EAT FDT  0   0  --- ---  -   -  --- ---  -   -  EAT FDT  0   0  EAT FDT  0   0 
+ 1   1  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  EAT FDT  0   0  WSD FDT  1   0  --- ---  -   -  EAT FDT  0   0  EAT FDT  0   0 
+ 1   2  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  EAT FDT  0   0  LCP FDT  1   0  --- ---  -   -  EAT FDT  0   0  EAT FDT  0   0 
+ 1   3  WPTL 0   0  PKAT   0  -  -  -  -  -   -  -  -
+ATT TRF  0   0  EAT FDT  0   0  LCP FDT  1   0  WSD FDT  2   0  EAT FDT  0   0  EAT FDT  0   0 
+ 1   3  WPTL 0   0  PKAT   -  -  -  -  -  -   0  -  -
+TRT TRF  0   0  EAT FDT  0   0  LCP FDT  1   0  WSD FDT  2   0  EAT FDT  0   0  EAT FDT  0   0 
+ 1   3  WPTL 0   0  DRFW   -  -  -  -  -  -   0  -  -
+TRT TRF  0   0  EAT FDT  0   0  LCP FDT  1   0  WSD FDT  2   0  EAT FDT  0   0  EAT FDT  0   0 
+ 1   3  WPTL 0   0  PKDT   -  -  -  -  -  -   0  -  -
+TRT TRF  0   0  EAT FDT  0   0  LCP FDT  1   0  WSD FDT  2   0  EAT FDT  0   0  EAT FDT  0   0 
+ 1   3  WPTL 0   0  PKDT   -  -  -  -  -  -   -  -  -
+DTT TRF  0   0  EAT FDT  0   0  LCP FDT  1   0  WSD FDT  2   0  EAT FDT  0   0  EAT FDT  0   0 
+ 1   3  WPTL 0   0  PKDT   -  -  -  -  -  -   -  -  -
+EDT TRF  0   0  EAT FDT  0   0  LCP FDT  1   0  WSD FDT  2   0  EAT FDT  0   0  EAT FDT  0   0 
+ 1   3  WPTL 0   0  DRBW   -  -  -  -  -  -   -  -  -
+EDT TRF  0   0  EAT FDT  0   0  LCP FDT  1   0  WSD FDT  2   0  EAT FDT  0   0  EAT FDT  0   0 
  1   3  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
-LCP FDT  1   0  --- ---  -   -  EAT FDT  0   0  WSD FDT  1   0  EAT FDT  0   0  LCP FDT  1   0 
- 1   3  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
-LCP FDT  1   0  --- ---  -   -  EAT FDT  0   0  LCP FDT  1   0  EAT FDT  0   0  LCP FDT  1   0 
- 1   3  WPTL 0   0  PKAT   -  -  -  -  -  -   -  -  -
-LCP FDT  1   0  WSD FDT  1   0  EAT FDT  0   0  LCP FDT  1   0  EAT FDT  0   0  LCP FDT  1   0 
+EDT TRF  0   0  EAT FDT  0   0  LCP FDT  1   0  WSD FDT  2   0  EAT FDT  0   0  EAT FDT  0   0 

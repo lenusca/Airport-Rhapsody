@@ -64,7 +64,7 @@ public class Porter implements Runnable{
             
             /*Já não há mais malas, acordar os passageiros que estão a espera que a sua mala chegue*/
             al.noMoreBagstoCollect();
-            bc.allBags(al.BagsEmpty());
+            bc.allBags(true);
             gr.resetBagsValue();
             
         }

@@ -47,7 +47,7 @@ public class BaggageCollection {
         boolean notfindBag = true;
         while((bags.isEmpty() || (notfindBag = doesNotContainBag(threadID))) && !allBagsAtColletionPoint ){      //passageiro espera enquanto não há malas
             try{ 
-                wait(100);
+                wait();
             }
             catch (InterruptedException e) {
                Thread.currentThread().interrupt();
@@ -96,5 +96,6 @@ public class BaggageCollection {
     */
     public synchronized void allBags(boolean finish){
         this.allBagsAtColletionPoint = finish;
+        notifyAll();
     }
 }
