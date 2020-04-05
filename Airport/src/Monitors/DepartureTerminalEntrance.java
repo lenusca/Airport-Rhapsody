@@ -40,8 +40,8 @@ public class DepartureTerminalEntrance {
     */
     public void prepareNextLeg(int threadID, int idVoo) {
         gr.setPassengerState("EDT", threadID);
-        this.count[idVoo] += 1; 
-        
+      
+        count(idVoo);
 
         while(this.ate.pFDT(idVoo)+this.pTRF(idVoo) < 6 || !this.ate.allPassengers(idVoo) || !this.allPassengers(idVoo)){
                 //acorda os outros passageiros
@@ -97,6 +97,10 @@ public class DepartureTerminalEntrance {
     */
     public synchronized int pTRF(int idVoo){
         return pTRF[idVoo];
-    }    
+    }
+    
+    public synchronized void count(int idVoo){
+        this.count[idVoo] += 1; 
+    }
     
 }
